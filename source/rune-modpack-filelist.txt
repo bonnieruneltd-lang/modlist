@@ -1,0 +1,403 @@
+==============================================================================
+ RUNE MODPACK - COMPLETE FILE LIST
+ Target: Minecraft 1.20.1  |  Loader: Forge 47.4.10
+ Generated: 2026-10-08 01:43 UTC
+==============================================================================
+
+Four ready-to-publish Modrinth modpacks (.mrpack), split by shader tier.
+All files are client-installable (env.client = required).
+
+TIER OVERVIEW
+------------------------------------------------------------------------------
+TIER                FILE                                     MODS
+NO SHADERS          RUNE-no-shaders-1.0.0.mrpack               27
+LOW-END SHADERS     RUNE-low-shaders-1.0.0.mrpack              28
+MID-TIER SHADERS    RUNE-mid-shaders-1.0.0.mrpack              28
+HIGH-END SHADERS    RUNE-high-shaders-1.0.0.mrpack             28
+
+CORE MODS  (identical in all four tiers)
+------------------------------------------------------------------------------
+
+[CONTENT & GAMEPLAY]
+   1. Banners
+      version : 1.0.1
+      file    : banners-1.20.1-1.0.1.jar
+      env     : client=required, server=required
+   2. Epic Knights: Shields Armor and Weapons
+      version : 10.15
+      file    : epic-knights-1.20.1-forge-10.15.jar
+      env     : client=required, server=required
+   3. Siege Weapons
+      version : 0.2.5
+      file    : siegeweapons-1.20.1-0.2.5.jar
+      env     : client=required, server=required
+   4. Simple Voice Chat
+      version : forge-1.20.1-2.6.24
+      file    : voicechat-forge-1.20.1-2.6.24.jar
+      env     : client=required, server=optional
+   5. Small Ships
+      version : 2.0.0
+      file    : smallships-2.0.0-forge-1.20.1.jar
+      env     : client=required, server=required
+   6. Villager Recruits
+      version : 1.15.2
+      file    : recruits-1.20.1-1.15.2.jar
+      env     : client=required, server=required
+   7. Villager Workers
+      version : 2.0.3
+      file    : workers-1.20.1-2.0.3.jar
+      env     : client=required, server=required
+
+[WORLD GENERATION]
+   8. Tectonic
+      version : 3.0.17
+      file    : tectonic-3.0.17-forge-1.20.1.jar
+      env     : client=required, server=required
+
+[UTILITIES & QOL]
+   9. AppleSkin
+      version : 2.5.1+mc1.20.1
+      file    : appleskin-forge-mc1.20.1-2.5.1.jar
+      env     : client=required, server=optional
+  10. Architectury API
+      version : 9.2.14+forge
+      file    : architectury-9.2.14-forge.jar
+      env     : client=required, server=required
+  11. Balm
+      version : 7.3.44+forge-1.20.1
+      file    : balm-forge-1.20.1-7.3.44.jar
+      env     : client=required, server=optional
+  12. ChainVein
+      version : 4.4.0
+      file    : ChainVein-4.4.0.jar
+      env     : client=required, server=required
+  13. Cloth Config API
+      version : 11.1.136+forge
+      file    : cloth-config-11.1.136-forge.jar
+      env     : client=required, server=optional
+  14. Jade 🔍
+      version : 11.13.3+forge
+      file    : Jade-1.20.1-Forge-11.13.3.jar
+      env     : client=required, server=optional
+  15. Just Enough Items (JEI)
+      version : 15.62.0.219
+      file    : jei-1.20.1-forge-15.62.0.219.jar
+      env     : client=required, server=optional
+  16. Lithostitched
+      version : 1.4.11
+      file    : lithostitched-forge-1.20.1-1.4.11.jar
+      env     : client=required, server=required
+  17. MezzConfig
+      version : 0.6.8
+      file    : mezz_config-1.20.1-forge-0.6.8.jar
+      env     : client=required, server=optional
+  18. Waystones
+      version : 14.1.21+forge-1.20.1
+      file    : waystones-forge-1.20.1-14.1.21.jar
+      env     : client=required, server=required
+
+[PERFORMANCE STACK]
+  19. BadOptimizations
+      version : 2.4.1
+      file    : BadOptimizations-2.4.1-1.20.1.jar
+      env     : client=required, server=unsupported
+  20. Dynamic FPS
+      version : 3.11.4
+      file    : dynamic-fps-3.11.4+minecraft-1.20.0-forge.jar
+      env     : client=required, server=unsupported
+  21. Embeddium
+      version : 0.3.31+mc1.20.1
+      file    : embeddium-0.3.31+mc1.20.1.jar
+      env     : client=required, server=unsupported
+  22. Entity Culling
+      version : 1.11.2
+      file    : entityculling-forge-1.11.2-mc1.20.1.jar
+      env     : client=required, server=unsupported
+  23. FerriteCore
+      version : 6.0.1
+      file    : ferritecore-6.0.1-forge.jar
+      env     : client=required, server=optional
+  24. ImmediatelyFast
+      version : 1.5.5+1.20.4-forge
+      file    : ImmediatelyFast-Forge-1.5.5+1.20.4.jar
+      env     : client=required, server=unsupported
+  25. Memory Leak Fix
+      version : v1.1.5
+      file    : memoryleakfix-forge-1.17+-1.1.5.jar
+      env     : client=required, server=optional
+  26. ModernFix
+      version : 5.27.85+mc1.20.1
+      file    : modernfix-forge-5.27.85+mc1.20.1.jar
+      env     : client=required, server=optional
+  27. Starlight (Forge)
+      version : 1.1.2+1.20
+      file    : starlight-1.1.2+forge.1cda73c.jar
+      env     : client=required, server=optional
+
+  -> 27 core mods (no Oculus, no shaders)
+
+SHADER TIERS
+------------------------------------------------------------------------------
+
+[NO SHADERS]
+  No shader engine, no shader packs (maximum FPS).
+
+[LOW-END SHADERS]
+  + Oculus (shader engine)  v1.20.1-1.8.0
+      file : oculus-mc1.20.1-1.8.0.jar
+  + Sildur's Vibrant Shaders (Lite)  v2.02
+      file : Sildur's Vibrant Shaders v2.02 Lite.zip
+
+[MID-TIER SHADERS]
+  + Oculus (shader engine)  v1.20.1-1.8.0
+      file : oculus-mc1.20.1-1.8.0.jar
+  + Complementary Shaders - Reimagined  r5.9.3
+      file : ComplementaryReimagined_r5.9.3.zip
+
+[HIGH-END SHADERS]
+  + Oculus (shader engine)  v1.20.1-1.8.0
+      file : oculus-mc1.20.1-1.8.0.jar
+  + BSL Shaders  10.1.8
+      file : BSL_v10.1.8.zip
+
+RESOURCE PACK  (all four tiers)
+------------------------------------------------------------------------------
+  Anti Cords Leaker  (auto-enabled in options.txt)
+      file : Anti Cords Leaker.zip
+      env  : client=required, server=unsupported
+
+OVERRIDES  (config files copied into the instance)
+------------------------------------------------------------------------------
+  NO SHADERS:
+      overrides/options.txt
+  LOW-END SHADERS:
+      overrides/options.txt
+      overrides/config/oculus.properties
+      overrides/config/iris.properties
+  MID-TIER SHADERS:
+      overrides/options.txt
+      overrides/config/oculus.properties
+      overrides/config/iris.properties
+  HIGH-END SHADERS:
+      overrides/options.txt
+      overrides/config/oculus.properties
+      overrides/config/iris.properties
+
+FULL TECHNICAL DETAIL  (per file: source URL + hashes + size)
+------------------------------------------------------------------------------
+
+### NO SHADERS  (RUNE-no-shaders-1.0.0.mrpack)
+  mods/recruits-1.20.1-1.15.2.jar
+      url    : https://cdn.modrinth.com/data/WOg9lm4u/versions/2zXpVxK4/recruits-1.20.1-1.15.2.jar
+      sha1   : 8d2ed3f0ab18c67a1d9394526bcae47b3ec162ab
+      sha512 : 4e96966eca175cc362d5b675c3c08a70ad8ae15b058b445d93b1db95ff87e2cac8ffa37e7e9218d46df52ad704389642d7bda1d4cfa9581ac2d62553d708f61f
+      size   : 2811101 bytes
+      env    : client=required, server=required
+  mods/workers-1.20.1-2.0.3.jar
+      url    : https://cdn.modrinth.com/data/Pqlv7VM3/versions/49csRXJc/workers-1.20.1-2.0.3.jar
+      sha1   : 1f68527132995485145433b07cd459fb4b602d06
+      sha512 : 6638b58232ba8f60aecbe4fcae7884f91ec281a6e1f254d6a9b97b95b00c6e8a6f66c368e6539c84afe58b55f4dafee2bedca572c70cd6655f58850a9d4670fd
+      size   : 1316715 bytes
+      env    : client=required, server=required
+  mods/smallships-2.0.0-forge-1.20.1.jar
+      url    : https://cdn.modrinth.com/data/rGWEHQrP/versions/qVEfzT3p/smallships-2.0.0-forge-1.20.1.jar
+      sha1   : 5d8170937099ecf7a897f19af38300a67dbb4dbc
+      sha512 : bc46c8a1dd82fd05a575ecc50a84c7ff6f79381d1963abf4a4be781b321510f76b728bc9137baa688ae13c19f7a18503908edb93466b07ae55b99a631cfd04c2
+      size   : 2697198 bytes
+      env    : client=required, server=required
+  mods/siegeweapons-1.20.1-0.2.5.jar
+      url    : https://cdn.modrinth.com/data/d4elsJgD/versions/wtETPu9o/siegeweapons-1.20.1-0.2.5.jar
+      sha1   : 78aa6435c7190f219cd0736fec4eae277617bcef
+      sha512 : e2b782b39e5209d831ea5074348120ac0ebe31b94e583fcd97e26030d2fb2c234ac8a1ad2c313c7d0738b80a3908da4ad7c21ce3214fa3da941082e19fdc111d
+      size   : 1040867 bytes
+      env    : client=required, server=required
+  mods/epic-knights-1.20.1-forge-10.15.jar
+      url    : https://cdn.modrinth.com/data/L6jvzao4/versions/gJ59URg4/epic-knights-1.20.1-forge-10.15.jar
+      sha1   : 8f6019735436fb5a0056916e25f62b363baddafa
+      sha512 : 7ee5bb4a9ec80a2dd443846ed330b3c38b251e2a43c090900ac25aee3103672d0e11dd488b058d4b68e4177fec25e91373bf62b48c24648659b3fcd48c78fe5e
+      size   : 2904252 bytes
+      env    : client=required, server=required
+  mods/banners-1.20.1-1.0.1.jar
+      url    : https://cdn.modrinth.com/data/jp6Yu6Es/versions/riW0DguC/banners-1.20.1-1.0.1.jar
+      sha1   : 549f79acfd27d4a133d737c6ddc301cb87542284
+      sha512 : d62cb946a12ce5c3d1fb43d9e5ab7c8801955d59e887cc534e9bf4da97629a99627ea716fd028c2027e124a1871494779d8e62eef6190c96c666f7b95f76de8c
+      size   : 376244 bytes
+      env    : client=required, server=required
+  mods/voicechat-forge-1.20.1-2.6.24.jar
+      url    : https://cdn.modrinth.com/data/9eGKb6K1/versions/lWvbAZ3P/voicechat-forge-1.20.1-2.6.24.jar
+      sha1   : 439106dd91d6c9bd31431c31497332cfde57ab98
+      sha512 : a38c87c5030a6f7a3d4672f3a4d48c29fd7470999493d3204077313ce46f00f32cb4f8657a50763f66fb1cf817a643ccc3b2496b5c67e118fb827569c2acdd69
+      size   : 4939841 bytes
+      env    : client=required, server=optional
+  mods/architectury-9.2.14-forge.jar
+      url    : https://cdn.modrinth.com/data/lhGA9TYQ/versions/1MKTLiiG/architectury-9.2.14-forge.jar
+      sha1   : a52918a500ff421180a1cbd1a0cabee712134ec4
+      sha512 : cf67f2050cafa00f0bee42e6d7bef77fdb808ac4f71742f7b4d6d5c1e6ffb49561a5a252f332d2b78a9767bdb5faa284611790dba303fbdc736ae36d794f61c7
+      size   : 580602 bytes
+      env    : client=required, server=required
+  mods/jei-1.20.1-forge-15.62.0.219.jar
+      url    : https://cdn.modrinth.com/data/u6dRKJwZ/versions/uyTkeINn/jei-1.20.1-forge-15.62.0.219.jar
+      sha1   : e514cd6bc50b816487d9c25cd457de5e0bd5b07f
+      sha512 : 572918aad9d26b3308e99ba83b154644b15818519e1f8206e9a22022ff0888c62b4d8016edf806e96f238e839e41a45a4eaa9868d45ae4514bf8f91164533c68
+      size   : 2232177 bytes
+      env    : client=required, server=optional
+  mods/appleskin-forge-mc1.20.1-2.5.1.jar
+      url    : https://cdn.modrinth.com/data/EsAfCjCV/versions/XdXDExVF/appleskin-forge-mc1.20.1-2.5.1.jar
+      sha1   : 81919356f84eab14258db98924b66c3c38e372b1
+      sha512 : 3176f928fb6c60d27f5edb610ca4ab0236175404eebf32797a1ec6cdd794bb294a260231579578536d03571377e43c6181adc75d8dd2c0733f17fce4f7e636b9
+      size   : 47428 bytes
+      env    : client=required, server=optional
+  mods/waystones-forge-1.20.1-14.1.21.jar
+      url    : https://cdn.modrinth.com/data/LOpKHB2A/versions/Y0IgdaoP/waystones-forge-1.20.1-14.1.21.jar
+      sha1   : 61952fb248a9689fe46d5ffb223fcc41e31fef1a
+      sha512 : 3798eef2f81c2f6066d9dc2dc22bbe9d1c4b62d5aa494c592ffe67ee7f4fb8021361505b3c0b1358d4f9af27e50b1f12d29afb3b4b0b362b5ab227e8be171047
+      size   : 536782 bytes
+      env    : client=required, server=required
+  mods/balm-forge-1.20.1-7.3.44.jar
+      url    : https://cdn.modrinth.com/data/MBAkmtvl/versions/dDN38ae7/balm-forge-1.20.1-7.3.44.jar
+      sha1   : dae7e647fc54609e66e4f910931be65776352b72
+      sha512 : bdabc656c7f60d6476a7d8c3d1f7a3d174854c9c4a466a9ff9b220737b717bc8069229471f7cf7eac574ba15e1263b76da8fef2ed1a5273d53e1c9cbf041ad9b
+      size   : 561741 bytes
+      env    : client=required, server=optional
+  mods/Jade-1.20.1-Forge-11.13.3.jar
+      url    : https://cdn.modrinth.com/data/nvQzSEkH/versions/xJQHCmWJ/Jade-1.20.1-Forge-11.13.3.jar
+      sha1   : d08e64e66521d69e083c8525f1fc507f1c202384
+      sha512 : 72025c4ad6d26522bafe3d5d6ac9d4702c006a868312cb34df8a7a2398a4618205839607b129c167fd176e58cb7655f08e3afbf1993925c80d4fcc559c45a037
+      size   : 553487 bytes
+      env    : client=required, server=optional
+  mods/embeddium-0.3.31+mc1.20.1.jar
+      url    : https://cdn.modrinth.com/data/sk9rgfiA/versions/UTbfe5d1/embeddium-0.3.31%2Bmc1.20.1.jar
+      sha1   : bb2fa8f3e493af16af9160d049f96c614a1faf2f
+      sha512 : ffbf2da4685260a4d5c14c621708bd20722563f084f042d3dfb0a7b87f048e39299648c854a93939129da0d23a15a91ec628560d601e76074b08e275f6e132e9
+      size   : 1320675 bytes
+      env    : client=required, server=unsupported
+  mods/entityculling-forge-1.11.2-mc1.20.1.jar
+      url    : https://cdn.modrinth.com/data/NNAgCjsB/versions/HPDH6g5B/entityculling-forge-1.11.2-mc1.20.1.jar
+      sha1   : 856ef2e3c5bbde87fa5f06515c42fbca8af24a74
+      sha512 : 4c5e6f02a426218ecaf1625d9bf5db1306858c810402ba9269271e0df064e8975c0fdfa3b09bf44152593d216c7f0c1b079cde40e05fa998e8cb5d0cf50ae66b
+      size   : 1515048 bytes
+      env    : client=required, server=unsupported
+  mods/ImmediatelyFast-Forge-1.5.5+1.20.4.jar
+      url    : https://cdn.modrinth.com/data/5ZwdcRci/versions/rvsLEEZU/ImmediatelyFast-Forge-1.5.5%2B1.20.4.jar
+      sha1   : 9eacd407b7dea636d375dc47335d92f616484ea2
+      sha512 : 8fab0605880f6b3875dc6d9d7bc8d69612a3e61a0bfc5adeac3240248715042f04885a09bc4d29383ab809cfc536dff84c6150af56ebd8f08128a1c42909c323
+      size   : 532063 bytes
+      env    : client=required, server=unsupported
+  mods/dynamic-fps-3.11.4+minecraft-1.20.0-forge.jar
+      url    : https://cdn.modrinth.com/data/LQ3K71Q1/versions/EjdIWWqG/dynamic-fps-3.11.4%2Bminecraft-1.20.0-forge.jar
+      sha1   : 43b3e0766a9e7a30651cc01756476657b865b7a2
+      sha512 : a8234d0c1b4c7a75c7b05b280a5a120dc090be2c252bf4235e34f53751aa74ea2c23614913f1fd7b43d4a841e96e178c8fd935a7630634316821139a056b3237
+      size   : 402345 bytes
+      env    : client=required, server=unsupported
+  mods/modernfix-forge-5.27.85+mc1.20.1.jar
+      url    : https://cdn.modrinth.com/data/nmDcB62a/versions/hHwYTQwa/modernfix-forge-5.27.85%2Bmc1.20.1.jar
+      sha1   : ba76615cdaff6de931c2e33c71f0b05deb1dad41
+      sha512 : b4e1ff4cb01c38f6f4a0093fabe56b36d9fcdebccda708379deca0dea33af3e250dc8fddbb98bb6fb0b30ee6fec40ae1679ab91e2bdfcf6971fe16504ce03ad2
+      size   : 1003271 bytes
+      env    : client=required, server=optional
+  mods/ferritecore-6.0.1-forge.jar
+      url    : https://cdn.modrinth.com/data/uXXizFIs/versions/DG5Fn9Sz/ferritecore-6.0.1-forge.jar
+      sha1   : 417fb6ce8f52abf40bd9d0390371790f9576f8ba
+      sha512 : a1960a7c03dc32d4ccaccaf28afdd9b078758bbd62d15a91d4039a83fa9397a098e89b69591f6bd5190254d9ee97e502504154b9aec764adb8c65f000b75ba2c
+      size   : 123034 bytes
+      env    : client=required, server=optional
+  mods/memoryleakfix-forge-1.17+-1.1.5.jar
+      url    : https://cdn.modrinth.com/data/NRjRiSSD/versions/3w0IxNtk/memoryleakfix-forge-1.17%2B-1.1.5.jar
+      sha1   : 9f60142dd94631800386a16a4ad70ad9e84cd78a
+      sha512 : f4d7b0eb70a605ffb81bebd24fd125d8c0bc7917c3e00f27bee64988836323de5a3d205e89a4a5f8ae75741ca874f62996e7c8e5ed489dc3c1824337e93d263f
+      size   : 227925 bytes
+      env    : client=required, server=optional
+  mods/starlight-1.1.2+forge.1cda73c.jar
+      url    : https://cdn.modrinth.com/data/iRfIGC1s/versions/cNa0vkNj/starlight-1.1.2%2Bforge.1cda73c.jar
+      sha1   : a915880c7834a0b0f9f300f0e3053deaa9a3205a
+      sha512 : cc89c6b2dd0db709586028c7732a57a3e6184f19cc2b98b25964c720c3ab434031e62de23e0dab022575d637b5e4a34b5813164d32ec356d56588da400e7d026
+      size   : 110583 bytes
+      env    : client=required, server=optional
+  mods/BadOptimizations-2.4.1-1.20.1.jar
+      url    : https://cdn.modrinth.com/data/g96Z4WVZ/versions/DIugITgU/BadOptimizations-2.4.1-1.20.1.jar
+      sha1   : 304007dcb0fb15ed1a1bc3771736470dafc5be0f
+      sha512 : 5e02d9c5a5bc3dccfccbfac4809cda4eb755c015060063b696e92568e0be3d8354a01f6ac5dae99bd27111b7e20bb680512287119459ad069dcf3e7d17cace0f
+      size   : 460234 bytes
+      env    : client=required, server=unsupported
+  mods/cloth-config-11.1.136-forge.jar
+      url    : https://cdn.modrinth.com/data/9s6osm5g/versions/t8TXrZvZ/cloth-config-11.1.136-forge.jar
+      sha1   : c65d07748acc57ceb45d53b3964368b84f34d54f
+      sha512 : 137c4af99c53d77317cbfb1cc8c49fc2761708b49d1992f51fd846960df41dde3a83519c987e081508d4ed90c603566f3d5a6cb620ad9d85b8f4de59aa9115ef
+      size   : 1181413 bytes
+      env    : client=required, server=optional
+  mods/mezz_config-1.20.1-forge-0.6.8.jar
+      url    : https://cdn.modrinth.com/data/7tEfOcA7/versions/EAG7rQQs/mezz_config-1.20.1-forge-0.6.8.jar
+      sha1   : e0e9f46bbd24b44a7046c45ccf6aff0bc0a7b735
+      sha512 : 6e60ca9410fe80b8a61c2da755c4a540b1623ad4dc79d9372d7cb5ad0ba669ffead6e32a8e2d93fdc8e3a7a0a12fee6abd31b194d8ae902ef0462d730bd2270c
+      size   : 364842 bytes
+      env    : client=required, server=optional
+  mods/ChainVein-4.4.0.jar
+      url    : https://cdn.modrinth.com/data/QAajHeqM/versions/2sCZSG6d/ChainVein-4.4.0.jar
+      sha1   : cd4c1fa4d278f94421dec6c499cdcdcd49796507
+      sha512 : 5c110b7040c6d752047b175cc38e098d83ba58bf588f88f20668bb6fad87b5c8683159bc010da3abd41cd91cb5d0b6740f61abd09519dcb90bf60cd8d9f267cb
+      size   : 25215 bytes
+      env    : client=required, server=required
+  mods/tectonic-3.0.17-forge-1.20.1.jar
+      url    : https://cdn.modrinth.com/data/lWDHr9jE/versions/KLmvRxwh/tectonic-3.0.17-forge-1.20.1.jar
+      sha1   : 07bfe13bc1bd75a6277f3d62bf92a549b33067a9
+      sha512 : 96840393db8e50645d80ee1a04fdecf11b8e9ce5aa807fc1be626429d874fd5b7cb57a6ed8d7d7e2448a3e3f43ef3826f33abeafd430c6d852cb1b1af6c793b2
+      size   : 322575 bytes
+      env    : client=required, server=required
+  mods/lithostitched-forge-1.20.1-1.4.11.jar
+      url    : https://cdn.modrinth.com/data/XaDC71GB/versions/srPoHKt8/lithostitched-forge-1.20.1-1.4.11.jar
+      sha1   : d1a755de84ee5d8910ff1e65e815473056e93ece
+      sha512 : 4e50a0fb4f054b429803cb20fc0820011b12098ebca1f17b1b0634cab832369e08446901d5e97fd35b01e99cf6066d20a16cc673c5b7bc8196568b3db67128c2
+      size   : 476347 bytes
+      env    : client=required, server=required
+  resourcepacks/Anti Cords Leaker.zip
+      url    : https://cdn.modrinth.com/data/EqJJebCO/versions/RK5ygGjQ/Anti%20Cords%20Leaker.zip
+      sha1   : 4d334e1c46cb244c0089603ce79ea16dcb8960e0
+      sha512 : 77f3fc8145c1a6613d63a9e6f0014dc01298bbffcb0429c932a90fa84a299f3a629984741959748b2416d6fef435ab71e41abe3ed79f0c1a772a75e73c21b7d0
+      size   : 14270 bytes
+      env    : client=required, server=unsupported
+### LOW-END SHADERS  (RUNE-low-shaders-1.0.0.mrpack)
+  mods/oculus-mc1.20.1-1.8.0.jar
+      url    : https://cdn.modrinth.com/data/GchcoXML/versions/iQ1SwGc3/oculus-mc1.20.1-1.8.0.jar
+      sha1   : 984f774e71790deaec674c7587bd24e0711871b2
+      sha512 : 1bb4ac77400d6684347988ed298a692c2cb15cf7923693607eb8739b171a20fef7412259e9e157111d9ce21779badab386029956f7d2283a9e611722a373e9d5
+      size   : 2851119 bytes
+      env    : client=required, server=unsupported
+  shaderpacks/Sildur's Vibrant Shaders v2.02 Lite.zip
+      url    : https://cdn.modrinth.com/data/z8EjLYqN/versions/cianYi38/Sildur%27s%20Vibrant%20Shaders%20v2.02%20Lite.zip
+      sha1   : 9d2a2be38fd3f1645887b45a8d94ae653b97a72e
+      sha512 : 6b92c668fce8dcf933b129ad4967cfc32fb88c47961d64b8dfac49fb4e060d46db2322eabe1196bf88e9d3e45cbdd141d79c42f0d0837d48736c0638e5155331
+      size   : 251380 bytes
+      env    : client=required, server=unsupported
+
+### MID-TIER SHADERS  (RUNE-mid-shaders-1.0.0.mrpack)
+  shaderpacks/ComplementaryReimagined_r5.9.3.zip
+      url    : https://cdn.modrinth.com/data/HVnmMxH1/versions/Bqen1mJX/ComplementaryReimagined_r5.9.3.zip
+      sha1   : 838139b54cddb56b2e83cd260d8efd960ac536d6
+      sha512 : 45304b1d7862afdb2177b7e6226fc9c6737911d17a4ad46cc9c519ca4deb935f05072cd337cd8b19a15bb8062b57b54eceec7bdee4cd572d94858e2946d37d85
+      size   : 553397 bytes
+      env    : client=required, server=unsupported
+
+### HIGH-END SHADERS  (RUNE-high-shaders-1.0.0.mrpack)
+  shaderpacks/BSL_v10.1.8.zip
+      url    : https://cdn.modrinth.com/data/Q1vvjJYV/versions/Y68yiql9/BSL_v10.1.8.zip
+      sha1   : e89818c8827d0131c102fb480c3c3446624db0df
+      sha512 : 94a3c25d6820868db624e11347873e6b572e7cd571967d9ac6f4690ca5d37ca302a7645d85eec800e0654541e3825fba14d37b5a25d3996aaf038178552be26f
+      size   : 1134153 bytes
+      env    : client=required, server=unsupported
+
+  Unique files across all tiers: 32
+
+NOTES
+------------------------------------------------------------------------------
+  * FTB Ultimine is CurseForge-only (not on Modrinth), so it is replaced by
+    ChainVein - a standalone, keybind-style veinminer (modId 'chainmining', MIT).
+  * Krypton Reforged and More Culling are CurseForge-only for Forge 1.20.1 and
+    were omitted (no Modrinth Forge 1.20.1 build exists).
+  * Tectonic (worldgen overhaul) is included in all four tiers; it requires
+    the Lithostitched library, which is bundled alongside it.
+  * Oculus is included ONLY in the three shader tiers; the No-Shaders pack has none.
+  * Shader tiers pre-select the shader pack via config/oculus.properties
+    (enableShaders=true, shaderPack=<file>).
+  * Every download URL is on a Modrinth-allowed domain.
+
+==============================================================================

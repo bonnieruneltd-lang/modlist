@@ -1,0 +1,62 @@
+# =============================================================================
+#  RUNE MODPACK  --  CONTENT & GAMEPLAY
+#  Category 1 of 5  |  split by install side: SERVER vs CLIENT
+#  Minecraft 1.20.1 / Forge 47.4.10  |  generated 2026-11-09 (UTC)
+#
+#  Gameplay additions players interact with: troops, ships, siege gear, banners, voice chat, vein mining, teleport hubs.
+#
+#  Format (one record per line, pipe separated):
+#    kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+#
+#    kind    mod | datapack | resourcepack | shader
+#    side    SERVER | CLIENT | BOTH        (rule below)
+#    source  curseforge | modrinth         project host used for the download
+#    slug    project slug / label
+#    mr_id   Modrinth project id (blank = not published on Modrinth,
+#            '?' suffix = cross-link not confirmed by author or API)
+#    cf_id   numeric CurseForge project id (blank = not on CurseForge)
+#    client  required | optional | unsupported   (can the mod run without a client copy)
+#    server  required | optional | unsupported   (can the mod run without a server copy)
+#    version version pinned by the source documents (n/a = not pinned)
+#    packs   S = server mod list, N = no-shaders, L = low, M = mid, H = high
+#
+#  SIDE RULE used to sort every record into exactly one bucket:
+#    BOTH    client=required AND server=required, or usable/recommended on both
+#    SERVER  server=required, client optional or unsupported
+#    CLIENT  client=required, server optional or unsupported
+#
+#  client/server values come from the Modrinth project API (client_side /
+#  server_side) and, for CurseForge-only projects, from the CurseForge project
+#  description. See AUDIT-NOTES.txt for every value that differs from the
+#  env fields printed in the source documents.
+# =============================================================================
+
+
+# ----------------------------- BOTH SIDES  (install on client AND server) ---
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+mod|BOTH|modrinth|talhanations-banners|jp6Yu6Es||required|required|1.0.1|S,N,L,M,H|Banners (Talhanations Banners)
+mod|BOTH|modrinth|chainvein|QAajHeqM||required|required|4.4.0|S,N,L,M,H|ChainVein
+mod|BOTH|curseforge|epic-knights-armor-and-weapons|L6jvzao4|509041|required|required|10.15|S,N,L,M,H|Epic Knights: Armor and Weapons
+mod|BOTH|modrinth|siegeweapons|d4elsJgD||required|required|0.2.5|S,N,L,M,H|Siege Weapons
+mod|BOTH|modrinth|simple-voice-chat|9eGKb6K1||optional|optional|forge-1.20.1-2.6.24|S,N,L,M,H|Simple Voice Chat
+mod|BOTH|modrinth|small-ships|rGWEHQrP||required|required|2.0.0|S,N,L,M,H|Small Ships
+mod|BOTH|curseforge|recruits|WOg9lm4u|523860|required|required|1.15.2|S,N,L,M,H|Villager Recruits
+mod|BOTH|modrinth|villager-workers|Pqlv7VM3||required|required|2.0.3|S,N,L,M,H|Villager Workers
+mod|BOTH|curseforge|waystones|LOpKHB2A|245755|required|required|14.1.21+forge-1.20.1|S,N,L,M,H|Waystones
+
+
+# ----------------------------- SERVER-SIDE  (server install only; client optional or not needed) ---
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+mod|SERVER|curseforge|just-player-heads|YdVBZMNR|303441|unsupported|required|n/a|S|Just Player Heads
+mod|SERVER|modrinth|timber-strike|dLucfkDg||optional|required|n/a|S|Timber Strike
+
+
+# ----------------------------- CLIENT-SIDE  (client install only; do not add to a dedicated server) ---
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+#
+#   (none in this category)
+
+
+# =============================================================================
+#  COUNT: BOTH 9  |  SERVER 2  |  CLIENT 0  |  total 11
+# =============================================================================

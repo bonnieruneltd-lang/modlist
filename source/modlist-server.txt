@@ -1,0 +1,62 @@
+# =============================================================================
+#  Minecraft Server Modpack - Mod List
+#  Format:  kind | source | slug | curseforge_id | display name
+#    kind    = mod | datapack
+#    source  = curseforge | modrinth
+#    slug    = project slug (used for Modrinth API + as a label for CurseForge)
+#    cf_id   = numeric CurseForge project id (blank for Modrinth entries)
+#  Lines starting with '#' and blank lines are ignored.
+# =============================================================================
+
+# --------------------------- Content & Gameplay -----------------------------
+mod|curseforge|recruits|523860|Villager Recruits
+mod|modrinth|villager-workers||Villager Workers
+mod|modrinth|small-ships||Small Ships
+mod|modrinth|siegeweapons||Siege Weapons
+mod|curseforge|epic-knights-armor-and-weapons|509041|Epic Knights: Armor and Weapons
+mod|modrinth|talhanations-banners||Talhanations Banners
+mod|modrinth|simple-voice-chat||Simple Voice Chat
+mod|curseforge|just-player-heads|303441|Just Player Heads
+mod|modrinth|tectonic||Tectonic
+
+# ------------------- Server Management, Utilities & Security ----------------
+mod|modrinth|chainvein||ChainVein
+mod|curseforge|architectury-api|419699|Architectury API
+mod|curseforge|jei|238222|Just Enough Items (JEI)
+mod|curseforge|appleskin|248787|AppleSkin
+mod|curseforge|waystones|245755|Waystones
+mod|curseforge|balm|531761|Balm
+mod|curseforge|jade|324717|Jade
+mod|curseforge|combatlog|665758|Combatlog
+mod|curseforge|creative-guard|1516730|Creative Guard
+datapack|modrinth|ultimateantiseedcracker||UltimateAntiSeedCracker
+mod|curseforge|chunky-pregenerator-forge|485681|Chunky (Pregenerator)
+mod|curseforge|fast-leaf-decay|230976|Fast Leaf Decay
+mod|curseforge|tpa|939167|TPA (by WereF0X)
+mod|modrinth|timber-strike||Timber Strike
+mod|curseforge|beautified-chat-server|514796|Beautified Chat [Server]
+mod|curseforge|collective|342584|Collective
+
+# ----------------------------- Performance Stack ----------------------------
+mod|curseforge|canary|665658|Canary
+mod|modrinth|ferrite-core||FerriteCore
+mod|curseforge|spark|361579|Spark
+mod|modrinth|servercore||ServerCore
+mod|modrinth|ai-improvements||AI Improvements
+mod|modrinth|mobtimizations||Mobtimizations
+mod|curseforge|radium-reforged|570017|Radium Reforged
+mod|modrinth|clumps||Clumps
+mod|modrinth|noisium||Noisium
+mod|modrinth|packet-fixer||Packet Fixer
+mod|modrinth|saturn||Saturn
+mod|curseforge|smooth-chunk-save|582327|Smooth Chunk Save
+mod|curseforge|fast-async-world-save-forge-fabric|951499|Fast Async World Save
+mod|curseforge|chunk-sending-forge-fabric|831663|Chunk Sending
+mod|modrinth|get-it-together-drops||Get It Together Drops
+mod|curseforge|dynamic-view|366140|Dynamic View
+mod|modrinth|modernfix||ModernFix
+mod|curseforge|krypton-reforged|549394|Krypton Reforged
+mod|modrinth|memoryleakfix||Memory Leak Fix
+mod|modrinth|starlight-forge||Starlight (Forge)
+mod|modrinth|badoptimizations||BadOptimizations
+

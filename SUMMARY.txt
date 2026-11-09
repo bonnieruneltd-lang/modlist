@@ -1,0 +1,82 @@
+# =============================================================================
+#  RUNE MODPACK  --  MASTER SUMMARY
+#  Minecraft 1.20.1 / Forge 47.4.10  |  generated 2026-11-09 (UTC)
+#
+#  Source documents (verbatim, in ./source/):
+#    source/modlist-server.txt            server mod list, 46 records
+#    source/rune-modpack-filelist.txt     client .mrpack file list, 4 tiers, 32 files
+#  Unique records after de-duplication: 58
+#
+#  5 categories, each split into BOTH / SERVER / CLIENT sections.
+# =============================================================================
+
+CATEGORY BREAKDOWN
+------------------------------------------------------------------------------
+FILE                                        BOTH SERVER  CLIENT  TOTAL
+01-content-and-gameplay.txt                    9      2       0     11
+02-world-generation.txt                        0      2       0      2
+03-utilities-qol-libraries.txt                 8      1       0      9
+04-performance-rendering-visuals.txt          12      8      10     30
+05-server-management-security.txt              1      5       0      6
+------------------------------------------------------------------------------
+TOTAL                                         30     18      10     58
+
+PACK MEMBERSHIP  (an entry can be in several packs)
+------------------------------------------------------------------------------
+PACK                                 ALL  BOTH SERVER  CLIENT  FILES
+server mod list (Forge server)        46    28     17       1     46
+RUNE no-shaders                       28    20      2       6     28
+RUNE low-end shaders                  30    20      2       8     30
+RUNE mid-tier shaders                 30    20      2       8     30
+RUNE high-end shaders                 30    20      2       8     30
+------------------------------------------------------------------------------
+
+KIND BREAKDOWN
+------------------------------------------------------------------------------
+  mod             53
+  datapack         1
+  resourcepack     1
+  shader           3
+
+SERVER-PACK ONLY  (in source/modlist-server.txt but not in any RUNE tier)
+------------------------------------------------------------------------------
+  AI Improvements                                SERVER  modrinth
+  Beautified Chat [Server]                       SERVER  curseforge
+  Canary                                         BOTH    curseforge
+  Chunk Sending                                  SERVER  curseforge
+  Chunky (Pregenerator)                          BOTH    curseforge
+  Clumps                                         BOTH    modrinth
+  Collective                                     BOTH    curseforge
+  Combatlog                                      SERVER  curseforge
+  Creative Guard                                 SERVER  curseforge
+  Dynamic View and Simulation Distances          SERVER  curseforge
+  Fast Async World Save                          SERVER  curseforge
+  Fast Leaf Decay                                SERVER  curseforge
+  Get It Together, Drops!                        SERVER  modrinth
+  Just Player Heads                              SERVER  curseforge
+  Krypton Reforged                               BOTH    curseforge
+  Mobtimizations                                 BOTH    modrinth
+  Noisium                                        SERVER  modrinth
+  Packet Fixer                                   BOTH    modrinth
+  Radium Reforged                                BOTH    curseforge
+  Saturn                                         BOTH    modrinth
+  ServerCore                                     SERVER  modrinth
+  Smooth Chunk Save                              SERVER  curseforge
+  Spark                                          BOTH    curseforge
+  Timber Strike                                  SERVER  modrinth
+  TPA (by WereF0X)                               SERVER  curseforge
+  UltimateAntiSeedCracker                        SERVER  modrinth
+
+CLIENT-ONLY ENTRIES  (must never be installed on the dedicated server)
+------------------------------------------------------------------------------
+  Anti Cords Leaker                              resourcepack N,L,M,H
+  BadOptimizations                               mod          S,N,L,M,H
+  BSL Shaders                                    shader       H
+  Complementary Shaders - Reimagined             shader       M
+  Dynamic FPS                                    mod          N,L,M,H
+  Embeddium                                      mod          N,L,M,H
+  Entity Culling                                 mod          N,L,M,H
+  ImmediatelyFast                                mod          N,L,M,H
+  Oculus (shader engine)                         mod          L,M,H
+  Sildur's Vibrant Shaders (Lite)                shader       L
+

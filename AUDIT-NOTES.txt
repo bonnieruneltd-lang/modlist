@@ -1,0 +1,189 @@
+===============================================================================
+ AUDIT NOTES  --  RUNE MODPACK MOD LISTS (5 categories, server vs client)
+ Minecraft 1.20.1 / Forge 47.4.10  |  prepared 2026-11-09
+===============================================================================
+
+Everything in this file was checked against the two source documents in ./source/
+and against public project metadata (Modrinth API, CurseForge project records).
+Severity: BLOCKER = pack breaks, HIGH = wrong install side, MEDIUM = wrong
+label/metadata, LOW = cosmetics, INFO = nothing to do.
+
+
+A. AUTOMATED CONSISTENCY CHECKS ON THE FINAL DATA
+---------------------------------------------------------------------------
+  A1  every record with server=required is in the server mod list
+      -> FAILS for 1 record: Lithostitched                (see B1)
+  A2  every record with client=required is in the client tiers
+      -> FAILS for 1 record: Mobtimizations              (see B2)
+  A3  no record with server=unsupported is in the server mod list
+      -> FAILS for 1 record: BadOptimizations            (see B3)
+  A4  no record with client=unsupported is in the client tiers
+      -> FAILS for 1 record: Lithostitched               (see B1)
+  A5  record counts vs the source documents
+      -> server mod list  46 records  / 46 in source      OK
+      -> no-shaders      28 files    / 28 claimed (27 mods + resource pack)
+      -> low/mid/high    30 files    / 28 mods claimed (+ shader pack +
+                                      resource pack = 30 entries)
+      -> unique files across tiers 32 / 32 claimed        OK
+  A6  de-duplication across the two documents
+      -> 46 server records + 12 client-only records = 58 unique records, no
+         duplicates left; the 4 shader tiers differ only in engine/shader pack.
+
+
+B. FINDINGS THAT CHANGE A PACK
+---------------------------------------------------------------------------
+
+  B1  BLOCKER  Lithostitched is missing from the server mod list
+      Tectonic is server=required (Modrinth: client=optional, server=required)
+      and depends on Lithostitched (Modrinth: client=unsupported,
+      server=required). Lithostitched appears only in the four client tiers
+      (packs=N,L,M,H) and not in source/modlist-server.txt, so the dedicated
+      server would load Tectonic without its library.
+      Fix: add `mod|modrinth|lithostitched||Lithostitched` to the server list and
+      set env.client=unsupported for it in the .mrpack manifests.
+
+  B2  HIGH  Mobtimizations is required on the client but only ships on the server
+      Modrinth reports client_side=required, server_side=required. It is in the
+      server list only (packs=S), so RUNE clients connect without a mod the
+      server expects on both sides.
+      Fix: add it to the four client tiers, or drop it server-side.
+
+  B3  HIGH  BadOptimizations is client-only but sits in the server mod list
+      Modrinth: client=required, server=unsupported. Shipping it to the server
+      is at best a dead jar and at worst a mixin crash on a headless server.
+      Fix: remove `mod|modrinth|badoptimizations` from the server list (it is
+      correctly present in all four client tiers).
+
+  B4  HIGH  RUNE NOTES contradict the server list about Krypton Reforged
+      source/rune-modpack-filelist.txt says "Krypton Reforged and More Culling
+      are CurseForge-only for Forge 1.20.1 and were omitted (no Modrinth Forge
+      1.20.1 build exists)", but the server list ships Krypton Reforged
+      (curseforge 549394, Forge 1.20.1). Either the note is stale or the server
+      list is wrong. More Culling is genuinely absent from both lists.
+
+  B5  MEDIUM  Krypton Reforged advertises a required client install
+      CurseForge description: "Krypton optimizes the Minecraft networking stack,
+      meaning it mostly improves server performance with lots of clients, but is
+      also required on the client." Modrinth's Krypton is optional/optional.
+      Filed as BOTH (client=optional, server=optional); if the Forge port really
+      needs the client half, clients will log handshake/channel warnings.
+      Needs a smoke test with a client that does not have Krypton Reforged.
+
+  B6  MEDIUM  env fields in the .mrpack manifests do not match mod capability
+      12 RUNE entries declare client=required where Modrinth reports
+      client=optional: Simple Voice Chat, Tectonic, AppleSkin, Balm, Cloth
+      Config, Jade, JEI, MezzConfig, FerriteCore, Memory Leak Fix, ModernFix,
+      Starlight. Inside a client .mrpack "client=required" is a defensible
+      packaging decision, so those are INFO-level. The two that are actually
+      wrong are Lithostitched (client unsupported) and Tectonic (client
+      optional, i.e. a vanilla client can join a Tectonic server).
+      The claim "All files are client-installable (env.client = required)" in the
+      RUNE header is therefore not true for Lithostitched.
+
+  B7  MEDIUM  Server list omits Cloth Config and MezzConfig
+      Both appear only in the client tiers. Both are client=optional /
+      server=optional, so nothing is broken today, but any server-side mod that
+      binds to them would silently lose its config. Worth a dependency pass
+      together with B1.
+
+  B8  LOW  Simple Voice Chat is server=optional in the RUNE manifest
+      Voice chat does not work unless the mod is on the server, and the server
+      list does ship it, so the server pack is right. Only the manifest flag is
+      misleading (server should be listed as required for this pack).
+
+  B9  LOW  UltimateAntiSeedCracker is a datapack, not a mod
+      Filed as `datapack|SERVER`. It belongs in <world>/datapacks/, not in mods/.
+      `kind` is recorded so the packaging step cannot put it in mods/ by mistake.
+
+
+C. NAMING / CROSS-LINK TRAPS  (metadata only, no pack change)
+---------------------------------------------------------------------------
+  C1  Talhanations Banners (modrinth slug `talhanations-banners`) is titled
+      "Banners" on Modrinth and appears as "Banners" in the RUNE manifest
+      (jp6Yu6Es, banners-1.20.1-1.0.1.jar). One project, three names.
+  C2  Epic Knights: the server list says "Epic Knights: Armor and Weapons", the
+      RUNE manifest says "Epic Knights: Shields Armor and Weapons", Modrinth
+      slug is `epic-knights-shields-armor-and-weapons` (L6jvzao4). One project.
+  C3  Villager Workers is Modrinth `villager-workers` (Pqlv7VM3). The slug
+      `workers` is a DIFFERENT mod ("Hired Workers"). Do not let an automated
+      re-download resolve `workers`.
+  C4  Chunky: the server list label "Chunky (Pregenerator)" is stale - CF 485681
+      is now titled "Chunky (Forge/NeoForge)" by pop4959. The Modrinth mirror is
+      `chunky` (fALzjamp), which is the project the record cross-links to.
+  C5  "Dynamic View" in the server list is CurseForge 366140 = "Dynamic View and
+      Simulation Distances" (someaddon), a SERVER utility that shrinks/grows
+      view+simulation distance from the TPS. Modrinth also hosts an unrelated
+      client-side mod named "Dynamic View" (y0WU2zGY, FPS reducer). The record
+      is deliberately NOT cross-linked to that Modrinth project.
+  C6  Just Player Heads: CF 303441 and Modrinth just-player-heads (YdVBZMNR) are
+      the same Serilum project (identical summary). Server-side only, so it is
+      filed SERVER even though it lives in a "content" section upstream.
+  C7  Combatlog (CF 665758) and Modrinth combatlog (nNnLt4Jb) as well as TPA
+      (CF 939167) and Modrinth tpa (6h6n9XJ9) are marked with a trailing `?`:
+      names and descriptions match, but the author/API link was not confirmed.
+      Their SIDE does not depend on the link - it comes from the CurseForge
+      description ("You only need the mod on the server").
+
+
+D. VERSION / FILE CAVEATS
+---------------------------------------------------------------------------
+  D1  ImmediatelyFast ships immediatelyfast-Forge-1.5.5+1.20.4.jar (a 1.20.4
+      artefact) inside a 1.20.1 pack. Verify the jar actually declares 1.20.1
+      support before release.
+  D2  memoryleakfix-forge-1.17+-1.1.5.jar is the 1.17+ artefact (Modrinth labels
+      the version 1.18.1-1.20.1). Cosmetic, but the filename invites doubt.
+  D3  starlight-1.1.2+forge.1cda73c.jar is the 1.20.0 build; Starlight 1.1.2
+      covers 1.20-1.20.1. Fine, but pin the 1.20.1-specific build if one exists.
+  D4  26 of the 46 server-list records have no pinned version anywhere in the
+      source documents (`version=n/a`). They can only be re-resolved from the
+      project id, so the audit trail stops at "correct project, version
+      undetermined".
+  D5  The four client tiers share 27 core mods on 1.20.1, but 12 of them are
+      marked client=optional by Modrinth (voice chat, Tectonic, AppleSkin, Balm,
+      Cloth Config, Jade, JEI, MezzConfig, FerriteCore, Memory Leak Fix,
+      ModernFix, Starlight) - i.e. the packs are more tightly coupled than
+      necessary. Nothing to fix.
+
+
+E. OPEN DECISIONS FOR THE AUDITOR
+---------------------------------------------------------------------------
+  E1  Keep BadOptimizations on the server (B3) or remove it?
+  E2  Add Mobtimizations to the client tiers (B2) or drop it from the server?
+  E3  Add Lithostitched to the server list (B1) - recommended, Tectonic needs it.
+  E4  Delete or correct the "Krypton Reforged ... were omitted" note (B4).
+  E5  Confirm the ImmediatelyFast 1.20.4 artefact on 1.20.1 (D1).
+  E6  Decide whether Cloth Config / MezzConfig belong on the server (B7).
+
+
+F. WHERE EACH VERDICT CAME FROM
+---------------------------------------------------------------------------
+  Modrinth projects (authoritative client_side/server_side):
+    villager-recruits WOg9lm4u, villager-workers Pqlv7VM3, small-ships rGWEHQrP,
+    siegeweapons d4elsJgD, epic-knights-shields-armor-and-weapons L6jvzao4,
+    talhanations-banners jp6Yu6Es, simple-voice-chat 9eGKb6K1, chainvein
+    QAajHeqM, waystones LOpKHB2A, tectonic lWDHr9jE, lithostitched XaDC71GB,
+    architectury-api lhGA9TYQ, balm MBAkmtvl, cloth-config 9s6osm5g, mezzconfig
+    7tEfOcA7, jei u6dRKJwZ, appleskin EsAfCjCV, jade nvQzSEkH, collective
+    e0M1UDsY, fast-leaf-decay (different project, not cross-linked), timber-strike
+    dLucfkDg, just-player-heads YdVBZMNR, canary qa2H4BS9, ferrite-core uXXizFIs,
+    spark l6YH9Als, servercore 4WWQxlQP, ai-improvements DSVgwcji, mobtimizations
+    Kbz7UydC, clumps Wnxd13zP, noisium KuNKN7d2, packet-fixer c7m1mi73, saturn
+    2eT495vq, get-it-together-drops T0OUgf8P, modernfix nmDcB62a, memoryleakfix
+    NRjRiSSD, starlight-forge iRfIGC1s, badoptimizations g96Z4WVZ, embeddium
+    sk9rgfiA, entity-culling NNAgCjsB, immediatelyfast 5ZwdcRci, dynamic-fps
+    LQ3K71Q1, oculus GchcoXML, sildurs-vibrant-shaders z8EjLYqN,
+    complementary-reimagined HVnmMxH1, bsl-shaders Q1vvjJYV, anti-cords-leaker
+    EqJJebCO, chunky fALzjamp, ultimateantiseedcracker 4PxXKlFu,
+    beautified-chat-server C00Y5Ci9, combatlog nNnLt4Jb, tpa 6h6n9XJ9.
+  CurseForge projects resolved by numeric id (title/summary/description
+  read): 523860 Villager Recruits, 509041 Epic Knights, 303441 Just
+  Player Heads, 245755 Waystones, 419699 Architectury API, 531761 Balm, 342584
+  Collective, 238222 JEI, 248787 AppleSkin, 324717 Jade, 665758 Combatlog,
+  1516730 Creative Guard, 485681 Chunky, 230976 Fast Leaf Decay, 939167 TPA,
+  514796 Beautified Chat [Server], 665658 Canary, 361579 spark, 570017 Radium
+  Reforged, 582327 Smooth Chunk Save, 951499 Fast Async World Save, 831663 Chunk
+  Sending, 366140 Dynamic View and Simulation Distances, 549394 Krypton Reforged.
+  Web-search second opinions were used only for 1516730 ("server sided mod ...
+  No client install required"), 549394, 582327, 951499, 831663 and 366140.
+
+===============================================================================

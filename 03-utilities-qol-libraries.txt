@@ -1,0 +1,60 @@
+# =============================================================================
+#  RUNE MODPACK  --  UTILITIES, QOL & LIBRARIES
+#  Category 3 of 5  |  split by install side: SERVER vs CLIENT
+#  Minecraft 1.20.1 / Forge 47.4.10  |  generated 2026-11-09 (UTC)
+#
+#  Libraries/APIs plus client-facing QOL (recipe viewer, food HUD, tooltips) and server-side QOL tweaks.
+#
+#  Format (one record per line, pipe separated):
+#    kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+#
+#    kind    mod | datapack | resourcepack | shader
+#    side    SERVER | CLIENT | BOTH        (rule below)
+#    source  curseforge | modrinth         project host used for the download
+#    slug    project slug / label
+#    mr_id   Modrinth project id (blank = not published on Modrinth,
+#            '?' suffix = cross-link not confirmed by author or API)
+#    cf_id   numeric CurseForge project id (blank = not on CurseForge)
+#    client  required | optional | unsupported   (can the mod run without a client copy)
+#    server  required | optional | unsupported   (can the mod run without a server copy)
+#    version version pinned by the source documents (n/a = not pinned)
+#    packs   S = server mod list, N = no-shaders, L = low, M = mid, H = high
+#
+#  SIDE RULE used to sort every record into exactly one bucket:
+#    BOTH    client=required AND server=required, or usable/recommended on both
+#    SERVER  server=required, client optional or unsupported
+#    CLIENT  client=required, server optional or unsupported
+#
+#  client/server values come from the Modrinth project API (client_side /
+#  server_side) and, for CurseForge-only projects, from the CurseForge project
+#  description. See AUDIT-NOTES.txt for every value that differs from the
+#  env fields printed in the source documents.
+# =============================================================================
+
+
+# ----------------------------- BOTH SIDES  (install on client AND server) ---
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+mod|BOTH|curseforge|appleskin|EsAfCjCV|248787|optional|optional|2.5.1+mc1.20.1|S,N,L,M,H|AppleSkin
+mod|BOTH|curseforge|architectury-api|lhGA9TYQ|419699|required|required|9.2.14+forge|S,N,L,M,H|Architectury API
+mod|BOTH|curseforge|balm|MBAkmtvl|531761|optional|optional|7.3.44+forge-1.20.1|S,N,L,M,H|Balm
+mod|BOTH|modrinth|cloth-config|9s6osm5g||optional|optional|11.1.136+forge|N,L,M,H|Cloth Config API
+mod|BOTH|curseforge|collective|e0M1UDsY|342584|optional|optional|n/a|S|Collective
+mod|BOTH|curseforge|jade|nvQzSEkH|324717|optional|optional|11.13.3+forge|S,N,L,M,H|Jade
+mod|BOTH|curseforge|jei|u6dRKJwZ|238222|optional|optional|15.62.0.219|S,N,L,M,H|Just Enough Items (JEI)
+mod|BOTH|modrinth|mezzconfig|7tEfOcA7||optional|optional|0.6.8|N,L,M,H|MezzConfig
+
+
+# ----------------------------- SERVER-SIDE  (server install only; client optional or not needed) ---
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+mod|SERVER|curseforge|fast-leaf-decay||230976|unsupported|required|n/a|S|Fast Leaf Decay
+
+
+# ----------------------------- CLIENT-SIDE  (client install only; do not add to a dedicated server) ---
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+#
+#   (none in this category)
+
+
+# =============================================================================
+#  COUNT: BOTH 8  |  SERVER 1  |  CLIENT 0  |  total 9
+# =============================================================================

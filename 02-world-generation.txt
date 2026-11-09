@@ -1,0 +1,55 @@
+# =============================================================================
+#  RUNE MODPACK  --  WORLD GENERATION
+#  Category 2 of 5  |  split by install side: SERVER vs CLIENT
+#  Minecraft 1.20.1 / Forge 47.4.10  |  generated 2026-11-09 (UTC)
+#
+#  Terrain/worldgen overhaul and the library it needs. Server-side: seed of the world is generated server-side.
+#
+#  Format (one record per line, pipe separated):
+#    kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+#
+#    kind    mod | datapack | resourcepack | shader
+#    side    SERVER | CLIENT | BOTH        (rule below)
+#    source  curseforge | modrinth         project host used for the download
+#    slug    project slug / label
+#    mr_id   Modrinth project id (blank = not published on Modrinth,
+#            '?' suffix = cross-link not confirmed by author or API)
+#    cf_id   numeric CurseForge project id (blank = not on CurseForge)
+#    client  required | optional | unsupported   (can the mod run without a client copy)
+#    server  required | optional | unsupported   (can the mod run without a server copy)
+#    version version pinned by the source documents (n/a = not pinned)
+#    packs   S = server mod list, N = no-shaders, L = low, M = mid, H = high
+#
+#  SIDE RULE used to sort every record into exactly one bucket:
+#    BOTH    client=required AND server=required, or usable/recommended on both
+#    SERVER  server=required, client optional or unsupported
+#    CLIENT  client=required, server optional or unsupported
+#
+#  client/server values come from the Modrinth project API (client_side /
+#  server_side) and, for CurseForge-only projects, from the CurseForge project
+#  description. See AUDIT-NOTES.txt for every value that differs from the
+#  env fields printed in the source documents.
+# =============================================================================
+
+
+# ----------------------------- BOTH SIDES  (install on client AND server) ---
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+#
+#   (none in this category)
+
+
+# ----------------------------- SERVER-SIDE  (server install only; client optional or not needed) ---
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+mod|SERVER|modrinth|lithostitched|XaDC71GB||unsupported|required|1.4.11|N,L,M,H|Lithostitched
+mod|SERVER|modrinth|tectonic|lWDHr9jE||optional|required|3.0.17|S,N,L,M,H|Tectonic
+
+
+# ----------------------------- CLIENT-SIDE  (client install only; do not add to a dedicated server) ---
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+#
+#   (none in this category)
+
+
+# =============================================================================
+#  COUNT: BOTH 0  |  SERVER 2  |  CLIENT 0  |  total 2
+# =============================================================================
