@@ -25,9 +25,14 @@ A. AUTOMATED CONSISTENCY CHECKS ON THE FINAL DATA
       -> low/mid/high    30 files    / 28 mods claimed (+ shader pack +
                                       resource pack = 30 entries)
       -> unique files across tiers 32 / 32 claimed        OK
+      -> after the 4 post-audit additions (section G) the counts move to
+         server list 50, no-shaders 32, low/mid/high 34 each; those 4 records
+         are the ONLY difference from the source documents.
   A6  de-duplication across the two documents
       -> 46 server records + 12 client-only records = 58 unique records, no
          duplicates left; the 4 shader tiers differ only in engine/shader pack.
+      -> plus 4 post-audit additions (section G) = 62 unique records, still no
+         duplicate slugs.
 
 
 B. FINDINGS THAT CHANGE A PACK
@@ -153,6 +158,8 @@ E. OPEN DECISIONS FOR THE AUDITOR
   E4  Delete or correct the "Krypton Reforged ... were omitted" note (B4).
   E5  Confirm the ImmediatelyFast 1.20.4 artefact on 1.20.1 (D1).
   E6  Decide whether Cloth Config / MezzConfig belong on the server (B7).
+  E7  Run the Vanilla Backport x Tectonic x Lithostitched smoke test (G6).
+  E8  Confirm Better Horses and Donkeys really needs no client copy (G5).
 
 
 F. WHERE EACH VERDICT CAME FROM
@@ -175,6 +182,8 @@ F. WHERE EACH VERDICT CAME FROM
     complementary-reimagined HVnmMxH1, bsl-shaders Q1vvjJYV, anti-cords-leaker
     EqJJebCO, chunky fALzjamp, ultimateantiseedcracker 4PxXKlFu,
     beautified-chat-server C00Y5Ci9, combatlog nNnLt4Jb, tpa 6h6n9XJ9.
+    Post-audit additions (section G): vanillabackport 6xwxDTgf, platform
+    i6fiqm5y, darcenos-minecarts RZw0JtqY.
   CurseForge projects resolved by numeric id (title/summary/description
   read): 523860 Villager Recruits, 509041 Epic Knights, 303441 Just
   Player Heads, 245755 Waystones, 419699 Architectury API, 531761 Balm, 342584
@@ -183,7 +192,69 @@ F. WHERE EACH VERDICT CAME FROM
   514796 Beautified Chat [Server], 665658 Canary, 361579 spark, 570017 Radium
   Reforged, 582327 Smooth Chunk Save, 951499 Fast Async World Save, 831663 Chunk
   Sending, 366140 Dynamic View and Simulation Distances, 549394 Krypton Reforged.
+  Post-audit additions: 968867 Better Horses and Donkeys
+  (slug faster-horses-donkeys-and-mules, file betterhorses-1.1.jar).
   Web-search second opinions were used only for 1516730 ("server sided mod ...
   No client install required"), 549394, 582327, 951499, 831663 and 366140.
+
+
+G. POST-AUDIT ADDITIONS  (requested 2026-11-09, after the lists were delivered)
+---------------------------------------------------------------------------
+  Request: vein mining, "faster minecarts and horses", and "a mod to backport
+  everything from future versions". Every project below was resolved through
+  the Modrinth project/version API or the CurseForge project record and has a
+  Forge 1.20.1 build. All four new records are in packs S,N,L,M,H.
+
+  G1  Vein mining - NO new record needed
+      ChainVein (modrinth QAajHeqM, 4.4.0) is already in the pack (category 1,
+      BOTH, packs S,N,L,M,H) and IS the pack's vein-mining implementation
+      ("Mine connected blocks and ores"). Adding a second vein miner
+      (VeinMiner OhduvhIc, Vein Mining bRAPbNyF, QuickMine YyIGSTNM) would
+      handle the same block-break event twice and risk duplicated drops and
+      clashing keybinds, so the request is met by the existing record.
+
+  G2  Vanilla Backport  ->  01-content-and-gameplay.txt, BOTH, 1.2.2
+      modrinth 6xwxDTgf, jar VanillaBackport-forge-1.20.1-1.2.2.jar,
+      client_side=required, server_side=required (Modrinth project API).
+      Backports modern vanilla content (mobs, blocks, items) to 1.20.1 - the
+      "everything from future versions" request.
+      It declares one REQUIRED dependency: Platform (G3).
+
+  G3  Platform  ->  03-utilities-qol-libraries.txt, BOTH, 1.4.2
+      modrinth i6fiqm5y, jar Platform-forge-1.20.1-1.4.2.jar,
+      client_side=optional, server_side=optional (Modrinth project API).
+      Author metadata says optional, but it is a hard dependency of Vanilla
+      Backport, so treat it as required wherever G2 is installed. Adding it
+      with G2 avoids repeating B1 (Tectonic shipped without Lithostitched).
+      Name trap: slug `platform` is ItsBlackGear's cross-platform library.
+
+  G4  Darceno's Minecarts  ->  01-content-and-gameplay.txt, SERVER, 1.3+mod
+      modrinth RZw0JtqY, jar darcenos-minecarts-1.3.jar,
+      client_side=optional, server_side=required (Modrinth project API).
+      Ridden minecarts and minecarts-with-chest move far faster than vanilla;
+      the mod also chunk-loads carts that are travelling. The speed change is
+      server-authoritative, so a vanilla client still rides the fast cart -
+      which is why the record is filed SERVER with client=optional.
+      Caveat: pin the `1.3+mod` build exactly, NOT the `slower.1.3+mod` variant.
+      Lighter CurseForge alternative if elytra-speed carts are too much:
+      Faster Minecarts Forgified, curseforge 1398875 (twice vanilla speed).
+
+  G5  Better Horses and Donkeys  ->  01-content-and-gameplay.txt, SERVER, 1.1
+      curseforge 968867 (slug faster-horses-donkeys-and-mules), artefact
+      betterhorses-1.1.jar (file 8551421, tagged 1.20.1 / Forge / Server).
+      "Configurable improvement of Horse speed, jump height, and more!" -
+      horses, mules, donkeys and modded saddled creatures. Not published on
+      Modrinth, so client/server is read from the CurseForge file tags and
+      description: client=optional, server=required (the changes are entity
+      attribute changes, i.e. server-side).
+      Modrinth alternatives considered and rejected: Horseman qIv5FhAA (QOL,
+      no speed change) and Icy's Better Horses XlUm5I57 (full overhaul, needs
+      GeckoLib + Patchouli, i.e. two more libraries).
+
+  G6  Smoke test still owed
+      Vanilla Backport adds registry content and worldgen. Boot a copied world
+      once with Vanilla Backport + Tectonic 3.0.17 + Lithostitched before
+      release, and watch the log for registry id clashes with Waystones /
+      Recruits / Darceno's Minecarts.
 
 ===============================================================================

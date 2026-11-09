@@ -5,7 +5,9 @@
 #  Source documents (verbatim, in ./source/):
 #    source/modlist-server.txt            server mod list, 46 records
 #    source/rune-modpack-filelist.txt     client .mrpack file list, 4 tiers, 32 files
-#  Unique records after de-duplication: 58
+#  Unique records from the source documents after de-duplication: 58
+#  Post-audit additions (requested after delivery; AUDIT-NOTES section G): 4
+#  Unique records now in the lists: 62
 #
 #  5 categories, each split into BOTH / SERVER / CLIENT sections.
 # =============================================================================
@@ -13,27 +15,36 @@
 CATEGORY BREAKDOWN
 ------------------------------------------------------------------------------
 FILE                                        BOTH SERVER  CLIENT  TOTAL
-01-content-and-gameplay.txt                    9      2       0     11
+01-content-and-gameplay.txt                   10      4       0     14
 02-world-generation.txt                        0      2       0      2
-03-utilities-qol-libraries.txt                 8      1       0      9
+03-utilities-qol-libraries.txt                 9      1       0     10
 04-performance-rendering-visuals.txt          12      8      10     30
 05-server-management-security.txt              1      5       0      6
 ------------------------------------------------------------------------------
-TOTAL                                         30     18      10     58
+TOTAL                                         32     20      10     62
+
+POST-AUDIT ADDITIONS  (requested after the audit; not in the two source documents)
+------------------------------------------------------------------------------
+  MOD                               SIDE    SOURCE      PROJ ID    VERSION
+  Vanilla Backport                  BOTH    modrinth    6xwxDTgf   1.2.2
+  Platform                          BOTH    modrinth    i6fiqm5y   1.4.2    (Vanilla Backport dependency)
+  Better Horses and Donkeys         SERVER  curseforge  968867     1.1
+  Darceno's Minecarts               SERVER  modrinth    RZw0JtqY   1.3+mod
+  -> vein mining needed no new record: ChainVein (QAajHeqM) already covers it (see section G)
 
 PACK MEMBERSHIP  (an entry can be in several packs)
 ------------------------------------------------------------------------------
 PACK                                 ALL  BOTH SERVER  CLIENT  FILES
-server mod list (Forge server)        46    28     17       1     46
-RUNE no-shaders                       28    20      2       6     28
-RUNE low-end shaders                  30    20      2       8     30
-RUNE mid-tier shaders                 30    20      2       8     30
-RUNE high-end shaders                 30    20      2       8     30
+server mod list (Forge server)        50    30     19       1     50
+RUNE no-shaders                       32    22      4       6     32
+RUNE low-end shaders                  34    22      4       8     34
+RUNE mid-tier shaders                 34    22      4       8     34
+RUNE high-end shaders                 34    22      4       8     34
 ------------------------------------------------------------------------------
 
 KIND BREAKDOWN
 ------------------------------------------------------------------------------
-  mod             53
+  mod             57
   datapack         1
   resourcepack     1
   shader           3

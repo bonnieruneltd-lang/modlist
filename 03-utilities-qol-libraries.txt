@@ -42,6 +42,7 @@ mod|BOTH|curseforge|collective|e0M1UDsY|342584|optional|optional|n/a|S|Collectiv
 mod|BOTH|curseforge|jade|nvQzSEkH|324717|optional|optional|11.13.3+forge|S,N,L,M,H|Jade
 mod|BOTH|curseforge|jei|u6dRKJwZ|238222|optional|optional|15.62.0.219|S,N,L,M,H|Just Enough Items (JEI)
 mod|BOTH|modrinth|mezzconfig|7tEfOcA7||optional|optional|0.6.8|N,L,M,H|MezzConfig
+mod|BOTH|modrinth|platform|i6fiqm5y||optional|optional|1.4.2|S,N,L,M,H|Platform
 
 
 # ----------------------------- SERVER-SIDE  (server install only; client optional or not needed) ---
@@ -56,5 +57,5 @@ mod|SERVER|curseforge|fast-leaf-decay||230976|unsupported|required|n/a|S|Fast Le
 
 
 # =============================================================================
-#  COUNT: BOTH 8  |  SERVER 1  |  CLIENT 0  |  total 9
+#  COUNT: BOTH 9  |  SERVER 1  |  CLIENT 0  |  total 10
 # =============================================================================

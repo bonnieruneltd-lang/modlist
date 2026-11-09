@@ -25,16 +25,20 @@ source/rune-modpack-filelist.txt     original .mrpack file list (4 tiers, 32 fil
 
 | | BOTH | SERVER | CLIENT | total |
 |---|---:|---:|---:|---:|
-| content & gameplay | 9 | 2 | 0 | 11 |
+| content & gameplay | 10 | 4 | 0 | 14 |
 | world generation | 0 | 2 | 0 | 2 |
-| utilities, QoL & libraries | 8 | 1 | 0 | 9 |
+| utilities, QoL & libraries | 9 | 1 | 0 | 10 |
 | performance, rendering & visuals | 12 | 8 | 10 | 30 |
 | server management & security | 1 | 5 | 0 | 6 |
-| **total** | **30** | **18** | **10** | **58** |
+| **total** | **32** | **20** | **10** | **62** |
 
-58 unique records = 46 from the server mod list + 12 that only exist in the four
-client `.mrpack` tiers. Pack membership reproduces the source documents exactly
-(27 core mods; 28 files in no-shaders; 30 files in each shader tier).
+62 unique records = 46 from the server mod list + 12 that only exist in the four
+client `.mrpack` tiers + 4 added after the audit (Vanilla Backport, Platform,
+Better Horses and Donkeys, Darceno's Minecarts - section G of
+`AUDIT-NOTES.txt`). Pack membership reproduces the source documents exactly
+(27 core mods from the sources, 31 with the four additions; 32 files in
+no-shaders; 34 files in each shader tier). Vein mining needed no new record:
+ChainVein was already in the pack.
 
 ## Record format
 
@@ -90,4 +94,7 @@ awk -F'|' '$9=="n/a"{print $11}' *.txt # records with no pinned version
 
 `SUMMARY.txt` holds the same counts in one place; `AUDIT-NOTES.txt` lists the 20
 open questions (mis-filed mods, a missing dependency on the server list, a
-client-only mod shipped on the server, stale labels and version caveats).
+client-only mod shipped on the server, stale labels and version caveats) plus
+section G, which documents the four mods added after the audit (Vanilla
+Backport, Platform, Darceno's Minecarts, Better Horses and Donkeys) and why
+vein mining needed no new record (ChainVein already covers it).
