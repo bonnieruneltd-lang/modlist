@@ -10,7 +10,10 @@
 #
 #    kind    mod | datapack | resourcepack | shader
 #    side    SERVER | CLIENT | BOTH        (rule below)
-#    source  curseforge | modrinth         project host used for the download
+#    source  modrinth                     project host used for the download
+#                                         (.mrpack build: EVERY record is Modrinth-
+#                                          hosted; the cf_id column is kept only as
+#                                          a cross-link to the original CF listing)
 #    slug    project slug / label
 #    mr_id   Modrinth project id (blank = not published on Modrinth,
 #            '?' suffix = cross-link not confirmed by author or API)
@@ -26,9 +29,8 @@
 #    CLIENT  client=required, server optional or unsupported
 #
 #  client/server values come from the Modrinth project API (client_side /
-#  server_side) and, for CurseForge-only projects, from the CurseForge project
-#  description. See AUDIT-NOTES.txt for every value that differs from the
-#  env fields printed in the source documents.
+#  server_side) for every record. See AUDIT-NOTES.txt for every value that
+#  differs from the env fields printed in the source documents.
 # =============================================================================
 
 
@@ -40,7 +42,7 @@
 
 # ----------------------------- SERVER-SIDE  (server install only; client optional or not needed) ---
 # kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
-mod|SERVER|modrinth|lithostitched|XaDC71GB||unsupported|required|1.4.11|N,L,M,H|Lithostitched
+mod|SERVER|modrinth|lithostitched|XaDC71GB||unsupported|required|1.4.11-forge-1.20|N,L,M,H|Lithostitched
 mod|SERVER|modrinth|tectonic|lWDHr9jE||optional|required|3.0.17|S,N,L,M,H|Tectonic
 
 

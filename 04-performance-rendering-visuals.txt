@@ -10,7 +10,10 @@
 #
 #    kind    mod | datapack | resourcepack | shader
 #    side    SERVER | CLIENT | BOTH        (rule below)
-#    source  curseforge | modrinth         project host used for the download
+#    source  modrinth                     project host used for the download
+#                                         (.mrpack build: EVERY record is Modrinth-
+#                                          hosted; the cf_id column is kept only as
+#                                          a cross-link to the original CF listing)
 #    slug    project slug / label
 #    mr_id   Modrinth project id (blank = not published on Modrinth,
 #            '?' suffix = cross-link not confirmed by author or API)
@@ -26,38 +29,34 @@
 #    CLIENT  client=required, server optional or unsupported
 #
 #  client/server values come from the Modrinth project API (client_side /
-#  server_side) and, for CurseForge-only projects, from the CurseForge project
-#  description. See AUDIT-NOTES.txt for every value that differs from the
-#  env fields printed in the source documents.
+#  server_side) for every record. See AUDIT-NOTES.txt for every value that
+#  differs from the env fields printed in the source documents.
 # =============================================================================
 
 
 # ----------------------------- BOTH SIDES  (install on client AND server) ---
 # kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
-mod|BOTH|curseforge|canary|qa2H4BS9|665658|optional|optional|n/a|S|Canary
+mod|BOTH|modrinth|canary|qa2H4BS9|665658|optional|optional|n/a|S|Canary
 mod|BOTH|modrinth|clumps|Wnxd13zP||optional|optional|n/a|S|Clumps
 mod|BOTH|modrinth|ferrite-core|uXXizFIs||optional|optional|6.0.1|S,N,L,M,H|FerriteCore
-mod|BOTH|curseforge|krypton-reforged||549394|optional|optional|n/a|S|Krypton Reforged
+mod|BOTH|modrinth|krypton-fnp|JkxWVYwU|1269169|optional|optional|26.1.1-1.20.1|S|Krypton Reno
 mod|BOTH|modrinth|memoryleakfix|NRjRiSSD||optional|optional|v1.1.5|S,N,L,M,H|Memory Leak Fix
 mod|BOTH|modrinth|mobtimizations|Kbz7UydC||required|required|n/a|S|Mobtimizations
 mod|BOTH|modrinth|modernfix|nmDcB62a||optional|optional|5.27.85+mc1.20.1|S,N,L,M,H|ModernFix
 mod|BOTH|modrinth|packet-fixer|c7m1mi73||optional|optional|n/a|S|Packet Fixer
-mod|BOTH|curseforge|radium-reforged||570017|optional|optional|n/a|S|Radium Reforged
 mod|BOTH|modrinth|saturn|2eT495vq||optional|optional|n/a|S|Saturn
-mod|BOTH|curseforge|spark|l6YH9Als|361579|optional|optional|n/a|S|Spark
+mod|BOTH|modrinth|spark|l6YH9Als|361579|optional|optional|n/a|S|Spark
 mod|BOTH|modrinth|starlight-forge|iRfIGC1s||optional|optional|1.1.2+1.20|S,N,L,M,H|Starlight (Forge)
 
 
 # ----------------------------- SERVER-SIDE  (server install only; client optional or not needed) ---
 # kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
 mod|SERVER|modrinth|ai-improvements|DSVgwcji||unsupported|required|n/a|S|AI Improvements
-mod|SERVER|curseforge|chunk-sending-forge-fabric||831663|unsupported|required|n/a|S|Chunk Sending
-mod|SERVER|curseforge|dynamic-view||366140|optional|required|n/a|S|Dynamic View and Simulation Distances
-mod|SERVER|curseforge|fast-async-world-save-forge-fabric||951499|unsupported|required|n/a|S|Fast Async World Save
 mod|SERVER|modrinth|get-it-together-drops|T0OUgf8P||unsupported|required|n/a|S|Get It Together, Drops!
 mod|SERVER|modrinth|noisium|KuNKN7d2||unsupported|required|n/a|S|Noisium
+mod|SERVER|modrinth|radium|2gvRmQXx|570017|unsupported|required|0.12.4|S|Radium
 mod|SERVER|modrinth|servercore|4WWQxlQP||unsupported|required|n/a|S|ServerCore
-mod|SERVER|curseforge|smooth-chunk-save||582327|unsupported|required|n/a|S|Smooth Chunk Save
+mod|SERVER|modrinth|shinoyuki-betterautosave|WAXR3mM5||unsupported|required|0.20.2-forge|S|Shinoyuki-BetterAutoSave
 
 
 # ----------------------------- CLIENT-SIDE  (client install only; do not add to a dedicated server) ---
@@ -66,14 +65,14 @@ resourcepack|CLIENT|modrinth|anti-cords-leaker|EqJJebCO||required|unsupported|n/
 mod|CLIENT|modrinth|badoptimizations|g96Z4WVZ||required|unsupported|2.4.1|S,N,L,M,H|BadOptimizations
 shader|CLIENT|modrinth|bsl-shaders|Q1vvjJYV||required|unsupported|10.1.8|H|BSL Shaders
 shader|CLIENT|modrinth|complementary-reimagined|HVnmMxH1||required|unsupported|r5.9.3|M|Complementary Shaders - Reimagined
-mod|CLIENT|modrinth|dynamic-fps|LQ3K71Q1||required|unsupported|3.11.4+minecraft-1.20.0-forge|N,L,M,H|Dynamic FPS
+mod|CLIENT|modrinth|dynamic-fps|LQ3K71Q1||required|unsupported|3.11.4|N,L,M,H|Dynamic FPS
 mod|CLIENT|modrinth|embeddium|sk9rgfiA||required|unsupported|0.3.31+mc1.20.1|N,L,M,H|Embeddium
 mod|CLIENT|modrinth|entity-culling|NNAgCjsB||required|unsupported|1.11.2|N,L,M,H|Entity Culling
-mod|CLIENT|modrinth|immediatelyfast|5ZwdcRci||required|unsupported|1.5.5+1.20.4|N,L,M,H|ImmediatelyFast
+mod|CLIENT|modrinth|immediatelyfast|5ZwdcRci||required|unsupported|1.5.5+1.20.4-forge|N,L,M,H|ImmediatelyFast
 mod|CLIENT|modrinth|oculus|GchcoXML||required|unsupported|1.20.1-1.8.0|L,M,H|Oculus (shader engine)
-shader|CLIENT|modrinth|sildurs-vibrant-shaders|z8EjLYqN||required|unsupported|2.02 Lite|L|Sildur's Vibrant Shaders (Lite)
+shader|CLIENT|modrinth|sildurs-vibrant-shaders|z8EjLYqN||required|unsupported|2.02|L|Sildur's Vibrant Shaders (Lite)
 
 
 # =============================================================================
-#  COUNT: BOTH 12  |  SERVER 8  |  CLIENT 10  |  total 30
+#  COUNT: BOTH 11  |  SERVER 6  |  CLIENT 10  |  total 27
 # =============================================================================

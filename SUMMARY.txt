@@ -6,45 +6,63 @@
 #    source/modlist-server.txt            server mod list, 46 records
 #    source/rune-modpack-filelist.txt     client .mrpack file list, 4 tiers, 32 files
 #  Unique records from the source documents after de-duplication: 58
-#  Post-audit additions (requested after delivery; AUDIT-NOTES section G): 4
-#  Unique records now in the lists: 62
+#  Additions requested after delivery (AUDIT-NOTES section G) and the
+#  Modrinth-only migration (section H): 0 net - 9 records were substituted or
+#  dropped so that EVERY remaining record is Modrinth-hosted.
+#  ALL 58 records now resolve to a Modrinth project + Forge 1.20.1 file.
+#  Unique records now in the lists: 58
 #
 #  5 categories, each split into BOTH / SERVER / CLIENT sections.
+#
+#  MRPACK-MANIFEST.txt (built by tools/build_manifest.py) resolves every file in
+#  every tier to a Modrinth version id + sha1 + CDN url: 180/180 urls answered
+#  HTTP 200 with the recorded file size.
 # =============================================================================
 
 CATEGORY BREAKDOWN
 ------------------------------------------------------------------------------
 FILE                                        BOTH SERVER  CLIENT  TOTAL
-01-content-and-gameplay.txt                   10      4       0     14
+01-content-and-gameplay.txt                   11      3       0     14
 02-world-generation.txt                        0      2       0      2
 03-utilities-qol-libraries.txt                 9      1       0     10
-04-performance-rendering-visuals.txt          12      8      10     30
-05-server-management-security.txt              1      5       0      6
+04-performance-rendering-visuals.txt          11      6      10     27
+05-server-management-security.txt              1      4       0      5
 ------------------------------------------------------------------------------
-TOTAL                                         32     20      10     62
+TOTAL                                         32     16      10     58
 
-POST-AUDIT ADDITIONS  (requested after the audit; not in the two source documents)
+MODRINTH-ONLY MIGRATION  (every link is now a Modrinth project; see section H)
 ------------------------------------------------------------------------------
-  MOD                               SIDE    SOURCE      PROJ ID    VERSION
-  Vanilla Backport                  BOTH    modrinth    6xwxDTgf   1.2.2
-  Platform                          BOTH    modrinth    i6fiqm5y   1.4.2    (Vanilla Backport dependency)
-  Better Horses and Donkeys         SERVER  curseforge  968867     1.1
-  Darceno's Minecarts               SERVER  modrinth    RZw0JtqY   1.3+mod
-  -> vein mining needed no new record: ChainVein (QAajHeqM) already covers it (see section G)
+  CF -> MODRINTH, SAME PROJECT  (source flipped, cf_id kept as cross-link)
+    AppleSkin, Architectury API, Balm, Beautified Chat [Server], Canary, Chunky,
+    Collective, Combatlog, Epic Knights, Jade, JEI, Just Player Heads, Recruits,
+    Spark, Waystones                                              (15 records)
+  CF -> MODRINTH, DIFFERENT PROJECT  (substitution, cf_id cleared)
+    Fast Leaf Decay    CF 230976 -> fastleafdecay         FnE6S0Zk  2.0.0
+    Krypton Reforged   CF 549394 -> Krypton Reno          JkxWVYwU  26.1.1-1.20.1
+    Radium Reforged    CF 570017 -> Radium                2gvRmQXx  0.12.4
+    TPA (WereF0X)      CF 939167 -> TPA Teleport          D6SzkjIt  1.0.0
+    Better Horses...   CF 968867 -> Walking Horses        yUENhALc  1.0.0
+    Fast Async World Save CF 951499 + Smooth Chunk Save CF 582327 -> one record
+                                 Shinoyuki-BetterAutoSave  WAXR3mM5  0.20.2-forge
+  DROPPED - no Modrinth project exists (re-add off-platform if ever needed)
+    Chunk Sending                    CF 831663
+    Dynamic View and Sim Distances   CF 366140
+    Creative Guard                   CF 1516730
+  net: 62 -> 58 records (5 dropped, 1 added, 2 merged into 1)
 
 PACK MEMBERSHIP  (an entry can be in several packs)
 ------------------------------------------------------------------------------
 PACK                                 ALL  BOTH SERVER  CLIENT  FILES
-server mod list (Forge server)        50    30     19       1     50
-RUNE no-shaders                       32    22      4       6     32
-RUNE low-end shaders                  34    22      4       8     34
-RUNE mid-tier shaders                 34    22      4       8     34
-RUNE high-end shaders                 34    22      4       8     34
+server mod list (Forge server)        46    30     15       1     46
+RUNE no-shaders                       32    23      3       6     32
+RUNE low-end shaders                  34    23      3       8     34
+RUNE mid-tier shaders                 34    23      3       8     34
+RUNE high-end shaders                 34    23      3       8     34
 ------------------------------------------------------------------------------
 
 KIND BREAKDOWN
 ------------------------------------------------------------------------------
-  mod             57
+  mod             53
   datapack         1
   resourcepack     1
   shader           3
@@ -52,30 +70,26 @@ KIND BREAKDOWN
 SERVER-PACK ONLY  (in source/modlist-server.txt but not in any RUNE tier)
 ------------------------------------------------------------------------------
   AI Improvements                                SERVER  modrinth
-  Beautified Chat [Server]                       SERVER  curseforge
-  Canary                                         BOTH    curseforge
-  Chunk Sending                                  SERVER  curseforge
-  Chunky (Pregenerator)                          BOTH    curseforge
+  Beautified Chat [Server]                       SERVER  modrinth
+  Canary                                         BOTH    modrinth
+  Chunky (Pregenerator)                          BOTH    modrinth
   Clumps                                         BOTH    modrinth
-  Collective                                     BOTH    curseforge
-  Combatlog                                      SERVER  curseforge
-  Creative Guard                                 SERVER  curseforge
-  Dynamic View and Simulation Distances          SERVER  curseforge
-  Fast Async World Save                          SERVER  curseforge
-  Fast Leaf Decay                                SERVER  curseforge
+  Collective                                     BOTH    modrinth
+  Combatlog                                      SERVER  modrinth
+  Fast Leaf Decay                                SERVER  modrinth
   Get It Together, Drops!                        SERVER  modrinth
-  Just Player Heads                              SERVER  curseforge
-  Krypton Reforged                               BOTH    curseforge
+  Just Player Heads                              SERVER  modrinth
+  Krypton Reno                                   BOTH    modrinth
   Mobtimizations                                 BOTH    modrinth
   Noisium                                        SERVER  modrinth
   Packet Fixer                                   BOTH    modrinth
-  Radium Reforged                                BOTH    curseforge
+  Radium                                         SERVER  modrinth
   Saturn                                         BOTH    modrinth
   ServerCore                                     SERVER  modrinth
-  Smooth Chunk Save                              SERVER  curseforge
-  Spark                                          BOTH    curseforge
+  Shinoyuki-BetterAutoSave                       SERVER  modrinth
+  Spark                                          BOTH    modrinth
   Timber Strike                                  SERVER  modrinth
-  TPA (by WereF0X)                               SERVER  curseforge
+  TPA Teleport                                   SERVER  modrinth
   UltimateAntiSeedCracker                        SERVER  modrinth
 
 CLIENT-ONLY ENTRIES  (must never be installed on the dedicated server)

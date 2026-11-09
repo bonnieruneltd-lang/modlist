@@ -10,7 +10,10 @@
 #
 #    kind    mod | datapack | resourcepack | shader
 #    side    SERVER | CLIENT | BOTH        (rule below)
-#    source  curseforge | modrinth         project host used for the download
+#    source  modrinth                     project host used for the download
+#                                         (.mrpack build: EVERY record is Modrinth-
+#                                          hosted; the cf_id column is kept only as
+#                                          a cross-link to the original CF listing)
 #    slug    project slug / label
 #    mr_id   Modrinth project id (blank = not published on Modrinth,
 #            '?' suffix = cross-link not confirmed by author or API)
@@ -26,23 +29,21 @@
 #    CLIENT  client=required, server optional or unsupported
 #
 #  client/server values come from the Modrinth project API (client_side /
-#  server_side) and, for CurseForge-only projects, from the CurseForge project
-#  description. See AUDIT-NOTES.txt for every value that differs from the
-#  env fields printed in the source documents.
+#  server_side) for every record. See AUDIT-NOTES.txt for every value that
+#  differs from the env fields printed in the source documents.
 # =============================================================================
 
 
 # ----------------------------- BOTH SIDES  (install on client AND server) ---
 # kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
-mod|BOTH|curseforge|chunky-pregenerator-forge|fALzjamp|485681|optional|optional|n/a|S|Chunky (Pregenerator)
+mod|BOTH|modrinth|chunky|fALzjamp|485681|optional|optional|n/a|S|Chunky (Pregenerator)
 
 
 # ----------------------------- SERVER-SIDE  (server install only; client optional or not needed) ---
 # kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
-mod|SERVER|curseforge|beautified-chat-server|C00Y5Ci9|514796|unsupported|required|n/a|S|Beautified Chat [Server]
-mod|SERVER|curseforge|combatlog|nNnLt4Jb?|665758|unsupported|required|n/a|S|Combatlog
-mod|SERVER|curseforge|creative-guard||1516730|unsupported|required|n/a|S|Creative Guard
-mod|SERVER|curseforge|tpa|6h6n9XJ9?|939167|optional|required|n/a|S|TPA (by WereF0X)
+mod|SERVER|modrinth|beautified-chat-server|C00Y5Ci9|514796|unsupported|required|n/a|S|Beautified Chat [Server]
+mod|SERVER|modrinth|combatlog|nNnLt4Jb|665758|unsupported|required|2.8.5-forge+1.20.1|S|Combatlog
+mod|SERVER|modrinth|tpa-teleport|D6SzkjIt||unsupported|required|1.0.0|S|TPA Teleport
 datapack|SERVER|modrinth|ultimateantiseedcracker|4PxXKlFu||optional|required|n/a|S|UltimateAntiSeedCracker
 
 
@@ -53,5 +54,5 @@ datapack|SERVER|modrinth|ultimateantiseedcracker|4PxXKlFu||optional|required|n/a
 
 
 # =============================================================================
-#  COUNT: BOTH 1  |  SERVER 5  |  CLIENT 0  |  total 6
+#  COUNT: BOTH 1  |  SERVER 4  |  CLIENT 0  |  total 5
 # =============================================================================

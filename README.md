@@ -12,6 +12,7 @@ Target: **Minecraft 1.20.1, Forge 47.4.10**
 README.md                            this file
 SUMMARY.txt                          counts per category, per side, per pack
 AUDIT-NOTES.txt                      every discrepancy found + what still needs a human decision
+MRPACK-MANIFEST.txt                  per tier: every file resolved on Modrinth (version id + sha1 + URL)
 01-content-and-gameplay.txt          category 1 of 5
 02-world-generation.txt              category 2 of 5
 03-utilities-qol-libraries.txt       category 3 of 5
@@ -25,20 +26,23 @@ source/rune-modpack-filelist.txt     original .mrpack file list (4 tiers, 32 fil
 
 | | BOTH | SERVER | CLIENT | total |
 |---|---:|---:|---:|---:|
-| content & gameplay | 10 | 4 | 0 | 14 |
+| content & gameplay | 11 | 3 | 0 | 14 |
 | world generation | 0 | 2 | 0 | 2 |
 | utilities, QoL & libraries | 9 | 1 | 0 | 10 |
-| performance, rendering & visuals | 12 | 8 | 10 | 30 |
-| server management & security | 1 | 5 | 0 | 6 |
-| **total** | **32** | **20** | **10** | **62** |
+| performance, rendering & visuals | 11 | 6 | 10 | 27 |
+| server management & security | 1 | 4 | 0 | 5 |
+| **total** | **32** | **16** | **10** | **58** |
 
-62 unique records = 46 from the server mod list + 12 that only exist in the four
-client `.mrpack` tiers + 4 added after the audit (Vanilla Backport, Platform,
-Better Horses and Donkeys, Darceno's Minecarts - section G of
-`AUDIT-NOTES.txt`). Pack membership reproduces the source documents exactly
-(27 core mods from the sources, 31 with the four additions; 32 files in
-no-shaders; 34 files in each shader tier). Vein mining needed no new record:
-ChainVein was already in the pack.
+**Every record is Modrinth-hosted** (project id + Forge 1.20.1 file), so each of
+the five buckets can be exported straight to a `.mrpack` without a single
+CurseForge download. 58 records = 46 from the server mod list + 12 that only
+exist in the four client `.mrpack` tiers, after the Modrinth-only migration
+(15 CurseForge projects already had a Modrinth listing, 5 were substituted for a
+Modrinth equivalent, 5 were dropped because no Modrinth build exists, and the two
+world-save mods were merged into one). Additions and substitutions are itemised
+in `AUDIT-NOTES.txt` sections G and H; pack membership now reads 31 core mods,
+32 files in no-shaders, 34 files in each shader tier. Vein mining needs no
+record of its own: ChainVein is already in the pack.
 
 ## Record format
 
@@ -52,13 +56,13 @@ kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
 |---|---|
 | `kind` | `mod`, `datapack`, `resourcepack` or `shader` |
 | `side` | `BOTH`, `SERVER` or `CLIENT` - the bucket the record is filed under |
-| `source` | `modrinth` or `curseforge` - the host the download comes from |
-| `slug` | project slug / label as used by the source documents |
-| `mr_id` | Modrinth project id. Blank = not published on Modrinth. A trailing `?` = cross-link that could not be confirmed from the author or the API |
-| `cf_id` | numeric CurseForge project id. Blank = not on CurseForge |
+| `source` | always `modrinth` - every download comes from Modrinth so the tiers can be packed as `.mrpack` |
+| `slug` | Modrinth project slug (the label used by the source documents is quoted in `AUDIT-NOTES.txt` when it differed) |
+| `mr_id` | Modrinth project id - required for every record (blank = cannot be packed) |
+| `cf_id` | numeric CurseForge id **cross-link only** - kept so the original source-list id stays traceable; nothing is downloaded from CurseForge. Blank = the project has no CurseForge page (or the record is a substitution, see section H) |
 | `client` | `required` / `optional` / `unsupported` - can the game run *without* a client copy |
 | `server` | `required` / `optional` / `unsupported` - can the game run *without* a server copy |
-| `version` | version pinned by the source documents (`n/a` = the document only lists the record, no version) |
+| `version` | the exact Modrinth `version_number` to pin (`n/a` = the source documents pinned nothing; take the newest 1.20.1 Forge file) |
 | `packs` | `S` = server mod list, `N` = no-shaders, `L` = low, `M` = mid, `H` = high |
 
 Side rule applied to every record:
@@ -68,19 +72,45 @@ Side rule applied to every record:
 * **SERVER** - `server=required`, client `optional`/`unsupported`.
 * **CLIENT** - `client=required`, server `optional`/`unsupported`.
 
-## How the client/server values were verified
+## How the records were verified
 
-1. **Modrinth project API** (`/v2/project/<slug|id>`) for every project that is
-   published on Modrinth - the `client_side` / `server_side` fields are set by
-   the mod authors, so they are used as the authority.
-2. **CurseForge project metadata** (title, summary, description) for the 9
-   projects that are CurseForge-only, so the numeric id in the source list is
-   resolved to a real project and the install side is read from its own
-   description ("Only required on serverside", "Server-side anti-cheat", ...).
-3. **Web search** as a second opinion on the handful of descriptions that are
+1. **Modrinth project API** (`/v2/project/<slug|id>`) for every record - the
+   `client_side` / `server_side` fields are set by the mod authors, so they are
+   used as the authority. All 58 records have a Modrinth project id.
+2. **Modrinth version API** (`/v2/project/<id>/version?loaders=["forge"]&game_versions=["1.20.1"]`)
+   for every record: each pinned `version` string was matched against the real
+   `version_number` list, which is what a `.mrpack` has to resolve. Six pins that
+   only existed as file names on the source side were rewritten to the Modrinth
+   string (section H3).
+3. **CurseForge metadata** (title, summary, description, file tags) is now used
+   only to cross-check identity and the install side of a project that is listed
+   on both platforms, and to record the legacy `cf_id`.
+4. **Web search** as a second opinion on the handful of descriptions that are
    ambiguous (results recorded in `AUDIT-NOTES.txt`).
 
 No API keys or credentials are stored in this repository.
+
+## Building the five `.mrpack` tiers
+
+`MRPACK-MANIFEST.txt` is the machine-readable output of the lists: one section
+per tier (`S`, `N`, `L`, `M`, `H`), one line per file, already resolved through
+the Modrinth API.
+
+```
+kind|side|slug|mr_id|version_id|version_number|file name|size|sha1|url
+```
+
+Every `url` is the Modrinth CDN link for that exact file (checked with HTTP 200
+and a size match), so a pack builder can emit the `files` array of each
+`.mrpack` without touching CurseForge: `path` = `mods/<file name>` (or
+`shaderpacks/`, `resourcepacks/`, `datapacks/` for those kinds), `hashes.sha1`
+and `hashes.sha512` from `/v2/version/<version_id>`, `downloads[0]` = `url`,
+`fileSize` = `size`, and `env.client` / `env.server` from the `side` +
+`client`/`server` columns of the category files.
+
+Tier sizes: S 46, N 32, L 34, M 34, H 34 files (180 lines in total). Lines whose
+`version_number` is `latest` come from records where the source documents pinned
+no version - pin those before publishing (AUDIT-NOTES D7).
 
 ## Auditing
 
@@ -90,11 +120,16 @@ grep -h '^mod|CLIENT' *.txt            # client-only jars
 grep -h '|S|' *.txt | cut -d'|' -f11   # records in the server mod list
 grep -h '^datapack' *.txt              # datapacks (not jars)
 awk -F'|' '$9=="n/a"{print $11}' *.txt # records with no pinned version
+awk -F'|' '!/^#/ && NF==11 && $3!="modrinth"{print}' *.txt  # must print nothing
+awk -F'|' '!/^#/ && NF==11 && $5==""{print}' *.txt          # must print nothing
 ```
 
-`SUMMARY.txt` holds the same counts in one place; `AUDIT-NOTES.txt` lists the 20
+`SUMMARY.txt` holds the same counts in one place; `AUDIT-NOTES.txt` lists the
 open questions (mis-filed mods, a missing dependency on the server list, a
-client-only mod shipped on the server, stale labels and version caveats) plus
-section G, which documents the four mods added after the audit (Vanilla
-Backport, Platform, Darceno's Minecarts, Better Horses and Donkeys) and why
-vein mining needed no new record (ChainVein already covers it).
+client-only mod shipped on the server, stale labels and version caveats), plus
+section G (the post-audit feature additions: Vanilla Backport, Platform,
+Darceno's Minecarts, Walking Horses) and section H (the Modrinth-only migration:
+which CurseForge projects already existed on Modrinth, which five were
+substituted, which five had to be dropped because they have no Modrinth build,
+and the six version strings that had to be re-pinned to a real Modrinth
+`version_number` before an `.mrpack` could resolve them).

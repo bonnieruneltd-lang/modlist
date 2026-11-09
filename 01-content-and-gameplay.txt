@@ -10,7 +10,10 @@
 #
 #    kind    mod | datapack | resourcepack | shader
 #    side    SERVER | CLIENT | BOTH        (rule below)
-#    source  curseforge | modrinth         project host used for the download
+#    source  modrinth                     project host used for the download
+#                                         (.mrpack build: EVERY record is Modrinth-
+#                                          hosted; the cf_id column is kept only as
+#                                          a cross-link to the original CF listing)
 #    slug    project slug / label
 #    mr_id   Modrinth project id (blank = not published on Modrinth,
 #            '?' suffix = cross-link not confirmed by author or API)
@@ -26,31 +29,30 @@
 #    CLIENT  client=required, server optional or unsupported
 #
 #  client/server values come from the Modrinth project API (client_side /
-#  server_side) and, for CurseForge-only projects, from the CurseForge project
-#  description. See AUDIT-NOTES.txt for every value that differs from the
-#  env fields printed in the source documents.
+#  server_side) for every record. See AUDIT-NOTES.txt for every value that
+#  differs from the env fields printed in the source documents.
 # =============================================================================
 
 
 # ----------------------------- BOTH SIDES  (install on client AND server) ---
 # kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
 mod|BOTH|modrinth|talhanations-banners|jp6Yu6Es||required|required|1.0.1|S,N,L,M,H|Banners (Talhanations Banners)
-mod|BOTH|modrinth|chainvein|QAajHeqM||required|required|4.4.0|S,N,L,M,H|ChainVein
-mod|BOTH|curseforge|epic-knights-armor-and-weapons|L6jvzao4|509041|required|required|10.15|S,N,L,M,H|Epic Knights: Armor and Weapons
+mod|BOTH|modrinth|chainvein|QAajHeqM||required|required|4.3.0|S,N,L,M,H|ChainVein
+mod|BOTH|modrinth|epic-knights-shields-armor-and-weapons|L6jvzao4|509041|required|required|10.15|S,N,L,M,H|Epic Knights: Armor and Weapons
 mod|BOTH|modrinth|siegeweapons|d4elsJgD||required|required|0.2.5|S,N,L,M,H|Siege Weapons
 mod|BOTH|modrinth|simple-voice-chat|9eGKb6K1||optional|optional|forge-1.20.1-2.6.24|S,N,L,M,H|Simple Voice Chat
-mod|BOTH|modrinth|small-ships|rGWEHQrP||required|required|2.0.0|S,N,L,M,H|Small Ships
+mod|BOTH|modrinth|small-ships|rGWEHQrP||required|required|2.0.0-forge-1.20.1|S,N,L,M,H|Small Ships
 mod|BOTH|modrinth|vanillabackport|6xwxDTgf||required|required|1.2.2|S,N,L,M,H|Vanilla Backport
-mod|BOTH|curseforge|recruits|WOg9lm4u|523860|required|required|1.15.2|S,N,L,M,H|Villager Recruits
+mod|BOTH|modrinth|villager-recruits|WOg9lm4u|523860|required|required|1.15.2|S,N,L,M,H|Villager Recruits
 mod|BOTH|modrinth|villager-workers|Pqlv7VM3||required|required|2.0.3|S,N,L,M,H|Villager Workers
-mod|BOTH|curseforge|waystones|LOpKHB2A|245755|required|required|14.1.21+forge-1.20.1|S,N,L,M,H|Waystones
+mod|BOTH|modrinth|walking-horses|yUENhALc|1362821|required|required|1.0.0|S,N,L,M,H|Walking Horses
+mod|BOTH|modrinth|waystones|LOpKHB2A|245755|required|required|14.1.21+forge-1.20.1|S,N,L,M,H|Waystones
 
 
 # ----------------------------- SERVER-SIDE  (server install only; client optional or not needed) ---
 # kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
-mod|SERVER|curseforge|faster-horses-donkeys-and-mules||968867|optional|required|1.1|S,N,L,M,H|Better Horses and Donkeys
 mod|SERVER|modrinth|darcenos-minecarts|RZw0JtqY||optional|required|1.3+mod|S,N,L,M,H|Darceno's Minecarts
-mod|SERVER|curseforge|just-player-heads|YdVBZMNR|303441|unsupported|required|n/a|S|Just Player Heads
+mod|SERVER|modrinth|just-player-heads|YdVBZMNR|303441|unsupported|required|n/a|S|Just Player Heads
 mod|SERVER|modrinth|timber-strike|dLucfkDg||optional|required|n/a|S|Timber Strike
 
 
@@ -61,5 +63,5 @@ mod|SERVER|modrinth|timber-strike|dLucfkDg||optional|required|n/a|S|Timber Strik
 
 
 # =============================================================================
-#  COUNT: BOTH 10  |  SERVER 4  |  CLIENT 0  |  total 14
+#  COUNT: BOTH 11  |  SERVER 3  |  CLIENT 0  |  total 14
 # =============================================================================

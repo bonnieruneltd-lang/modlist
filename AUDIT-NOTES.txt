@@ -1,6 +1,8 @@
 ===============================================================================
  AUDIT NOTES  --  RUNE MODPACK MOD LISTS (5 categories, server vs client)
  Minecraft 1.20.1 / Forge 47.4.10  |  prepared 2026-11-09
+ rev 2 (same day): all records migrated to Modrinth hosting for the .mrpack
+                   builds - see section H. Counts in section A updated.
 ===============================================================================
 
 Everything in this file was checked against the two source documents in ./source/
@@ -25,14 +27,22 @@ A. AUTOMATED CONSISTENCY CHECKS ON THE FINAL DATA
       -> low/mid/high    30 files    / 28 mods claimed (+ shader pack +
                                       resource pack = 30 entries)
       -> unique files across tiers 32 / 32 claimed        OK
-      -> after the 4 post-audit additions (section G) the counts move to
-         server list 50, no-shaders 32, low/mid/high 34 each; those 4 records
-         are the ONLY difference from the source documents.
+      -> after the Modrinth-only migration (section H): server list 46,
+         no-shaders 32, low/mid/high 34 each, 58 unique records. The 5 records
+         that had no Modrinth project are gone, so these numbers no longer
+         match the source documents 1:1 - section H lists every difference.
   A6  de-duplication across the two documents
       -> 46 server records + 12 client-only records = 58 unique records, no
          duplicates left; the 4 shader tiers differ only in engine/shader pack.
-      -> plus 4 post-audit additions (section G) = 62 unique records, still no
-         duplicate slugs.
+      -> after the migration: still 58 unique records, still no duplicate slugs
+         (5 CF-only records dropped, 1 Modrinth record added, 2 save mods
+         merged into 1, 5 records substituted 1:1).
+  A7  every record is download-able from Modrinth (new requirement, rev 2)
+      -> 58/58 records have source=modrinth + a project id                OK
+      -> 53/53 mod records resolve to a Forge 1.20.1 `version_number`:
+           38 pinned exactly, 15 unpinned (version=n/a -> newest 1.20.1 file)
+      -> datapack / resourcepack / shader records resolve too (1.20.1 files
+         present on the same project ids)                                  OK
 
 
 B. FINDINGS THAT CHANGE A PACK
@@ -65,6 +75,9 @@ B. FINDINGS THAT CHANGE A PACK
       1.20.1 build exists)", but the server list ships Krypton Reforged
       (curseforge 549394, Forge 1.20.1). Either the note is stale or the server
       list is wrong. More Culling is genuinely absent from both lists.
+      -> RESOLVED rev 2 (H2): the RUNE note was right - Krypton Reforged 549394
+         has no Modrinth page at all. The record now uses Krypton Reno
+         (Modrinth JkxWVYwU, CF 1269169), which does ship Forge 1.20.1.
 
   B5  MEDIUM  Krypton Reforged advertises a required client install
       CurseForge description: "Krypton optimizes the Minecraft networking stack,
@@ -73,6 +86,9 @@ B. FINDINGS THAT CHANGE A PACK
       Filed as BOTH (client=optional, server=optional); if the Forge port really
       needs the client half, clients will log handshake/channel warnings.
       Needs a smoke test with a client that does not have Krypton Reforged.
+      -> SUPERSEDED rev 2 (H2): the record is now Krypton Reno, whose Modrinth
+         metadata is client_side=optional / server_side=optional, so this CF
+         description no longer drives the flag. Same smoke test still applies.
 
   B6  MEDIUM  env fields in the .mrpack manifests do not match mod capability
       12 RUNE entries declare client=required where Modrinth reports
@@ -113,13 +129,16 @@ C. NAMING / CROSS-LINK TRAPS  (metadata only, no pack change)
       `workers` is a DIFFERENT mod ("Hired Workers"). Do not let an automated
       re-download resolve `workers`.
   C4  Chunky: the server list label "Chunky (Pregenerator)" is stale - CF 485681
-      is now titled "Chunky (Forge/NeoForge)" by pop4959. The Modrinth mirror is
-      `chunky` (fALzjamp), which is the project the record cross-links to.
+      is now titled "Chunky (Forge/NeoForge)" by pop4959. The record now
+      downloads from the Modrinth listing `chunky` (fALzjamp, same pop4959
+      project); the stale label is kept only as the display name.
   C5  "Dynamic View" in the server list is CurseForge 366140 = "Dynamic View and
       Simulation Distances" (someaddon), a SERVER utility that shrinks/grows
       view+simulation distance from the TPS. Modrinth also hosts an unrelated
       client-side mod named "Dynamic View" (y0WU2zGY, FPS reducer). The record
-      is deliberately NOT cross-linked to that Modrinth project.
+      is deliberately NOT cross-linked to that Modrinth project - and since
+      someaddon's project is not on Modrinth at all, the record was REMOVED in
+      rev 2 (H4). Do not "fix" this by pointing it at y0WU2zGY.
   C6  Just Player Heads: CF 303441 and Modrinth just-player-heads (YdVBZMNR) are
       the same Serilum project (identical summary). Server-side only, so it is
       filed SERVER even though it lives in a "content" section upstream.
@@ -128,6 +147,16 @@ C. NAMING / CROSS-LINK TRAPS  (metadata only, no pack change)
       names and descriptions match, but the author/API link was not confirmed.
       Their SIDE does not depend on the link - it comes from the CurseForge
       description ("You only need the mod on the server").
+      -> rev 2: combatlog CONFIRMED (same title, same "2.8.5-forge+1.20.1"
+         build, unsupported/required) - the `?` is gone. `tpa` 6h6n9XJ9 turned
+         out to have NO Forge 1.20.1 build, so it is not the CF project's mirror;
+         the record is now TPA Teleport (D6SzkjIt) - see H2.
+  C8  Modrinth "Radium" (2gvRmQXx) and CurseForge "Radium Reforged" (570017) are
+      the SAME project: identical summary and the Modrinth team owner is Asek3,
+      the CurseForge owner. Verified in rev 2, so cf_id 570017 is a true
+      cross-link. Modrinth reports client_side=unsupported / server_side=required
+      (the old record said optional/optional), so the record moved from BOTH to
+      SERVER.
 
 
 D. VERSION / FILE CAVEATS
@@ -148,6 +177,24 @@ D. VERSION / FILE CAVEATS
       Cloth Config, Jade, JEI, MezzConfig, FerriteCore, Memory Leak Fix,
       ModernFix, Starlight) - i.e. the packs are more tightly coupled than
       necessary. Nothing to fix.
+  D6  Six pins in the source documents are FILE NAMES, not Modrinth
+      `version_number` strings, so a naive .mrpack build cannot resolve them.
+      Re-pinned in rev 2 to the real value (old -> new):
+        ChainVein           4.4.0                          -> 4.3.0
+                            (Modrinth's 1.20.1 version_number is 4.3.0; the jar
+                             just happens to be named ChainVein-4.4.0.jar)
+        Small Ships         2.0.0                          -> 2.0.0-forge-1.20.1
+        Lithostitched       1.4.11                         -> 1.4.11-forge-1.20
+        Dynamic FPS         3.11.4+minecraft-1.20.0-forge  -> 3.11.4
+        ImmediatelyFast     1.5.5+1.20.4                   -> 1.5.5+1.20.4-forge
+        Sildur's (Lite)     2.02 Lite                      -> 2.02
+                            (each variant is its own version entry with the same
+                             version_number "2.02"; the Lite one is identified by
+                             its file name "Sildur's Vibrant Shaders v2.02 Lite.zip")
+  D7  AutoModpack / matching by "latest" is unsafe for the 15 records with
+      version=n/a: Modrinth keeps publishing new 1.20.1 builds (e.g. JEI is at
+      15.74.0.234 while the source pinned 15.62.0.219). Re-pin them before a
+      release build so the tiers are reproducible.
 
 
 E. OPEN DECISIONS FOR THE AUDITOR
@@ -160,6 +207,19 @@ E. OPEN DECISIONS FOR THE AUDITOR
   E6  Decide whether Cloth Config / MezzConfig belong on the server (B7).
   E7  Run the Vanilla Backport x Tectonic x Lithostitched smoke test (G6).
   E8  Confirm Better Horses and Donkeys really needs no client copy (G5).
+  E9  Approve the Krypton Reforged -> Krypton Reno swap (H2) - different author
+      (Txni vs the Reno team), same job (network stack). Revert if you would
+      rather ship no Krypton at all than a fork.
+  E10 Approve Shinoyuki-BetterAutoSave as the replacement for Fast Async World
+      Save + Smooth Chunk Save (H2). It is a young (0.20.x), 32k-download mod
+      whose description says parts of the code were AI-generated - it is the
+      only Modrinth option that moves chunk/entity saving off the main thread,
+      but load-test it on a copied world before release.
+  E11 Accept the loss of Chunk Sending, Dynamic View and Creative Guard (H2) or
+      move those three to an off-platform add-on pack.
+  E12 Approve Walking Horses (1.9k downloads) as the Modrinth stand-in for
+      Better Horses and Donkeys (H2); the alternative is Icy's Better Horses
+      (XlUm5I57) which needs two extra libraries (GeckoLib + Patchouli).
 
 
 F. WHERE EACH VERDICT CAME FROM
@@ -196,6 +256,11 @@ F. WHERE EACH VERDICT CAME FROM
   (slug faster-horses-donkeys-and-mules, file betterhorses-1.1.jar).
   Web-search second opinions were used only for 1516730 ("server sided mod ...
   No client install required"), 549394, 582327, 951499, 831663 and 366140.
+  Rev 2 (Modrinth-only migration) added: krypton-fnp JkxWVYwU (CF cross-link
+  1269169), radium 2gvRmQXx (CF 570017, owner Asek3 - identity confirmed),
+  fastleafdecay FnE6S0Zk, tpa-teleport D6SzkjIt, walking-horses yUENhALc
+  (CF cross-link 1362821), shinoyuki-betterautosave WAXR3mM5,
+  vanillabackport 6xwxDTgf, platform i6fiqm5y, darcenos-minecarts RZw0JtqY.
 
 
 G. POST-AUDIT ADDITIONS  (requested 2026-11-09, after the lists were delivered)
@@ -239,22 +304,102 @@ G. POST-AUDIT ADDITIONS  (requested 2026-11-09, after the lists were delivered)
       Lighter CurseForge alternative if elytra-speed carts are too much:
       Faster Minecarts Forgified, curseforge 1398875 (twice vanilla speed).
 
-  G5  Better Horses and Donkeys  ->  01-content-and-gameplay.txt, SERVER, 1.1
-      curseforge 968867 (slug faster-horses-donkeys-and-mules), artefact
-      betterhorses-1.1.jar (file 8551421, tagged 1.20.1 / Forge / Server).
-      "Configurable improvement of Horse speed, jump height, and more!" -
-      horses, mules, donkeys and modded saddled creatures. Not published on
-      Modrinth, so client/server is read from the CurseForge file tags and
-      description: client=optional, server=required (the changes are entity
-      attribute changes, i.e. server-side).
-      Modrinth alternatives considered and rejected: Horseman qIv5FhAA (QOL,
-      no speed change) and Icy's Better Horses XlUm5I57 (full overhaul, needs
-      GeckoLib + Patchouli, i.e. two more libraries).
+  G5  Better Horses and Donkeys  ->  SUPERSEDED by H2 (Walking Horses)
+      Kept for the record: curseforge 968867 (slug
+      faster-horses-donkeys-and-mules), artefact betterhorses-1.1.jar
+      (file 8551421, tagged 1.20.1 / Forge / Server). Not on Modrinth, so once
+      the tiers became .mrpack builds it had to be replaced - see H2/E12.
 
   G6  Smoke test still owed
       Vanilla Backport adds registry content and worldgen. Boot a copied world
       once with Vanilla Backport + Tectonic 3.0.17 + Lithostitched before
       release, and watch the log for registry id clashes with Waystones /
       Recruits / Darceno's Minecarts.
+
+
+H. MODRINTH-ONLY MIGRATION  (rev 2 - the tiers ship as .mrpack, so every file
+   must be downloadable from Modrinth; a published Modrinth modpack may not pull
+   jars from CurseForge)
+---------------------------------------------------------------------------
+  H1  fifteen records only carried a "curseforge" source label because the
+      source documents listed the CurseForge id - the SAME project is published
+      on Modrinth. `source` was flipped to modrinth, the slug replaced by the
+      Modrinth slug, and cf_id kept as a cross-link:
+        AppleSkin EsAfCjCV (248787)         Architectury API lhGA9TYQ (419699)
+        Balm MBAkmtvl (531761)              Beautified Chat [Server] C00Y5Ci9
+        Canary qa2H4BS9 (665658)            Chunky fALzjamp (485681)
+        Collective e0M1UDsY (342584)        Combatlog nNnLt4Jb (665758)
+        Epic Knights L6jvzao4 (509041)      Jade nvQzSEkH (324717)
+        JEI u6dRKJwZ (238222)               Just Player Heads YdVBZMNR (303441)
+        Villager Recruits WOg9lm4u (523860) Spark l6YH9Als (361579)
+        Waystones LOpKHB2A (245755)
+      Epic Knights' Modrinth slug is epic-knights-shields-armor-and-weapons; the
+      old label epic-knights-armor-and-weapons is the CurseForge slug.
+
+  H2  five records had NO Modrinth page at all and were replaced 1:1 by a
+      Modrinth-hosted mod doing the same job on Forge 1.20.1. cf_id is cleared
+      in those records (it would point at a different project); the displaced
+      CurseForge ids are recorded here.
+
+      Krypton Reforged (CF 549394, Txni) -> Krypton Reno (JkxWVYwU, CF 1269169)
+        optional/optional, 6.2M downloads, jar
+        Krypton Reno-forge-1.20.1-26.1.1-1.20.1.jar. Same purpose (network stack
+        optimisation), DIFFERENT author, so it is a fork - approve or drop (E9).
+
+      Radium Reforged (CF 570017) -> Radium (2gvRmQXx)
+        Not really a substitution: Asek3 owns both listings and the summaries
+        are identical, so this is the same project (C8). Modrinth reports
+        client=unsupported / server=required, so the record moved BOTH -> SERVER.
+
+      Fast Leaf Decay (CF 230976) -> FastLeafDecay (FnE6S0Zk, 1mN1kO)
+        Forge 1.20.1 build "2.0.0" (fastleafdecay-forge-1.20-26.3.jar). The
+        project's environment tag is "dedicated_server_only"/unknown, so the
+        record keeps the CurseForge verdict (client=unsupported,
+        server=required) instead of inventing one. The Modrinth project named
+        `fast-leaf-decay` (PcKMtamx) is a Bukkit/Fabric plugin with no Forge
+        build - do not confuse the two.
+
+      TPA by WereF0X (CF 939167) -> TPA Teleport (D6SzkjIt)
+        The Modrinth project `tpa` (6h6n9XJ9) has NO Forge 1.20.1 build, so the
+        old cross-link was wrong. D6SzkjIt ships tpateleport-1.0.0.jar,
+        unsupported/required - the same server-side /tpa + /tpahere shape.
+        Alternative: easy-tpa pbGzLSUN (140k downloads) is required/required,
+        which would push a client copy into all four tiers.
+
+      Better Horses and Donkeys (CF 968867) -> Walking Horses (yUENhALc, CF 1362821)
+        Supersedes G5. 1.0.0 walkinghorse-1.0.0.jar, required/required: horses
+        move at -70% by default and get +30% over vanilla while you hold sprint,
+        configurable - the Modrinth answer to "faster horses". Only 1.9k
+        downloads, so it is an E12 decision.
+
+  H3  six version strings re-pinned (see D6). Without this the tiers cannot be
+      generated: a .mrpack references Modrinth version ids / file hashes, not
+      the jar names the old file list used.
+
+  H4  five records removed - no Modrinth project exists for any of them, and a
+      published Modrinth pack cannot download from CurseForge:
+        Chunk Sending                    CF 831663  (someaddon)
+        Dynamic View and Sim Distances   CF 366140  (someaddon)
+        Creative Guard                   CF 1516730 (server anti-cheat)
+        Fast Async World Save            CF 951499  (someaddon)
+        Smooth Chunk Save                CF 582327  (someaddon)
+      The two save mods are replaced by ONE Modrinth mod:
+        Shinoyuki-BetterAutoSave (WAXR3mM5) 0.20.2-forge, unsupported/required -
+        async chunk/entity/saved-data serialisation, off the main thread.
+        Load-test it (E10).
+      Chunk Sending's job (pacing chunk packets) is now covered only indirectly
+      by Krypton Reno + Canary; Dynamic View and Creative Guard have no Modrinth
+      equivalent (E11). Probed by slug and by 1.20.1-Forge search:
+      chunk-sending, fast-async-world-save, smooth-chunk-save,
+      dynamic-view-and-simulation-distances and creative-guard all 404, and the
+      Modrinth project called "Dynamic View" (y0WU2zGY) is an unrelated client
+      camera mod.
+
+  H5  counts after the migration (machine-checked against the data lines):
+        58 records; server list 46 (30 BOTH, 15 SERVER, 1 CLIENT),
+        no-shaders 32 (23/3/6), low|mid|high 34 (23/3/8) each.
+      Every one of the 58 has source=modrinth plus a project id, and all 53 mod
+      records resolve to a real Forge 1.20.1 build (38 pinned exactly, 15
+      unpinned). A7 in section A re-runs this check.
 
 ===============================================================================
