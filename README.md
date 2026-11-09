@@ -30,19 +30,21 @@ source/rune-modpack-filelist.txt     original .mrpack file list (4 tiers, 32 fil
 | world generation | 0 | 2 | 0 | 2 |
 | utilities, QoL & libraries | 9 | 1 | 0 | 10 |
 | performance, rendering & visuals | 11 | 6 | 10 | 27 |
-| server management & security | 1 | 4 | 0 | 5 |
-| **total** | **32** | **16** | **10** | **58** |
+| server management & security | 1 | 5 | 0 | 6 |
+| **total** | **32** | **17** | **10** | **59** |
 
 **Every record is Modrinth-hosted** (project id + Forge 1.20.1 file), so each of
 the five buckets can be exported straight to a `.mrpack` without a single
-CurseForge download. 58 records = 46 from the server mod list + 12 that only
-exist in the four client `.mrpack` tiers, after the Modrinth-only migration
-(15 CurseForge projects already had a Modrinth listing, 5 were substituted for a
-Modrinth equivalent, 5 were dropped because no Modrinth build exists, and the two
-world-save mods were merged into one). Additions and substitutions are itemised
-in `AUDIT-NOTES.txt` sections G and H; pack membership now reads 31 core mods,
-32 files in no-shaders, 34 files in each shader tier. Vein mining needs no
-record of its own: ChainVein is already in the pack.
+CurseForge download. 59 records = 58 from the two source documents (46
+server-list + 12 client-only) after the Modrinth-only migration, plus 1
+anti-xray mod added on request. During the migration 15 CurseForge projects
+already had a Modrinth listing, 5 were substituted for a Modrinth equivalent, 5
+were dropped because no Modrinth build exists, and the two world-save mods were
+merged into one. Additions and substitutions are itemised in `AUDIT-NOTES.txt`
+sections G, H and I; pack membership now reads 31 core mods, 32 files in
+no-shaders, 34 files in each shader tier, 47 in the server list. Vein mining,
+seed-cracking protection and combat-log prevention needed no new record of their
+own - ChainVein, UltimateAntiSeedCracker and Combatlog already cover them.
 
 ## Record format
 
@@ -108,7 +110,7 @@ and `hashes.sha512` from `/v2/version/<version_id>`, `downloads[0]` = `url`,
 `fileSize` = `size`, and `env.client` / `env.server` from the `side` +
 `client`/`server` columns of the category files.
 
-Tier sizes: S 46, N 32, L 34, M 34, H 34 files (180 lines in total). Lines whose
+Tier sizes: S 47, N 32, L 34, M 34, H 34 files (181 lines in total). Lines whose
 `version_number` is `latest` come from records where the source documents pinned
 no version - pin those before publishing (AUDIT-NOTES D7).
 
@@ -128,8 +130,10 @@ awk -F'|' '!/^#/ && NF==11 && $5==""{print}' *.txt          # must print nothing
 open questions (mis-filed mods, a missing dependency on the server list, a
 client-only mod shipped on the server, stale labels and version caveats), plus
 section G (the post-audit feature additions: Vanilla Backport, Platform,
-Darceno's Minecarts, Walking Horses) and section H (the Modrinth-only migration:
+Darceno's Minecarts, Walking Horses), section H (the Modrinth-only migration:
 which CurseForge projects already existed on Modrinth, which five were
 substituted, which five had to be dropped because they have no Modrinth build,
 and the six version strings that had to be re-pinned to a real Modrinth
-`version_number` before an `.mrpack` could resolve them).
+`version_number` before an `.mrpack` could resolve them) and section I (the
+anti-xray / seed-cracking / combat-logging request: one mod added, two requests
+already satisfied by records that were in the list).

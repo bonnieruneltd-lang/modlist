@@ -15,9 +15,10 @@
 #  AUDIT-NOTES D7): the newest 1.20.1 build was taken, pin it for releases.
 # =============================================================================
 
-## TIER S -- server mod list (Forge dedicated server)  (46 files)
+## TIER S -- server mod list (Forge dedicated server)  (47 files)
 # kind|side|slug|mr_id|version_id|version_number|file name|size|sha1|url
 mod|SERVER|ai-improvements|DSVgwcji|eJihmpNQ|latest|AI-Improvements-1.20-0.5.2.jar|29553|11ad483d1fd1f7ebd84b4940b1dc0926b3e9daa8|https://cdn.modrinth.com/data/DSVgwcji/versions/eJihmpNQ/AI-Improvements-1.20-0.5.2.jar
+mod|SERVER|anti-xray|sml2FMaA|ruAUEszF|1.4.6+1.20.1|antixray-forge-1.4.6+1.20.1.jar|304769|06d5dad3c1c96bdb8e3498d1330ac59c01eb744e|https://cdn.modrinth.com/data/sml2FMaA/versions/ruAUEszF/antixray-forge-1.4.6%2B1.20.1.jar
 mod|BOTH|appleskin|EsAfCjCV|XdXDExVF|2.5.1+mc1.20.1|appleskin-forge-mc1.20.1-2.5.1.jar|47428|81919356f84eab14258db98924b66c3c38e372b1|https://cdn.modrinth.com/data/EsAfCjCV/versions/XdXDExVF/appleskin-forge-mc1.20.1-2.5.1.jar
 mod|BOTH|architectury-api|lhGA9TYQ|1MKTLiiG|9.2.14+forge|architectury-9.2.14-forge.jar|580602|a52918a500ff421180a1cbd1a0cabee712134ec4|https://cdn.modrinth.com/data/lhGA9TYQ/versions/1MKTLiiG/architectury-9.2.14-forge.jar
 mod|CLIENT|badoptimizations|g96Z4WVZ|DIugITgU|2.4.1|BadOptimizations-2.4.1-1.20.1.jar|460234|304007dcb0fb15ed1a1bc3771736470dafc5be0f|https://cdn.modrinth.com/data/g96Z4WVZ/versions/DIugITgU/BadOptimizations-2.4.1-1.20.1.jar

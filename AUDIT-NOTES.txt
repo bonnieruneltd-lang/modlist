@@ -27,20 +27,23 @@ A. AUTOMATED CONSISTENCY CHECKS ON THE FINAL DATA
       -> low/mid/high    30 files    / 28 mods claimed (+ shader pack +
                                       resource pack = 30 entries)
       -> unique files across tiers 32 / 32 claimed        OK
-      -> after the Modrinth-only migration (section H): server list 46,
-         no-shaders 32, low/mid/high 34 each, 58 unique records. The 5 records
+      -> after the Modrinth-only migration (section H): server list 47,
+         no-shaders 32, low/mid/high 34 each, 59 unique records. The 5 records
          that had no Modrinth project are gone, so these numbers no longer
-         match the source documents 1:1 - section H lists every difference.
+         match the source documents 1:1 - section H lists every difference;
+         section I adds the one anti-xray record.
   A6  de-duplication across the two documents
       -> 46 server records + 12 client-only records = 58 unique records, no
          duplicates left; the 4 shader tiers differ only in engine/shader pack.
       -> after the migration: still 58 unique records, still no duplicate slugs
          (5 CF-only records dropped, 1 Modrinth record added, 2 save mods
          merged into 1, 5 records substituted 1:1).
+      -> rev 3 adds AntiXray (section I) = 59 unique records, still no
+         duplicate slugs.
   A7  every record is download-able from Modrinth (new requirement, rev 2)
-      -> 58/58 records have source=modrinth + a project id                OK
-      -> 53/53 mod records resolve to a Forge 1.20.1 `version_number`:
-           38 pinned exactly, 15 unpinned (version=n/a -> newest 1.20.1 file)
+      -> 59/59 records have source=modrinth + a project id                OK
+      -> 54/54 mod records resolve to a Forge 1.20.1 `version_number`:
+           39 pinned exactly, 15 unpinned (version=n/a -> newest 1.20.1 file)
       -> datapack / resourcepack / shader records resolve too (1.20.1 files
          present on the same project ids)                                  OK
 
@@ -220,6 +223,13 @@ E. OPEN DECISIONS FOR THE AUDITOR
   E12 Approve Walking Horses (1.9k downloads) as the Modrinth stand-in for
       Better Horses and Donkeys (H2); the alternative is Icy's Better Horses
       (XlUm5I57) which needs two extra libraries (GeckoLib + Patchouli).
+  E13 Pick the AntiXray engineMode (I1). 3 = strongest obfuscation, 2 = solid,
+      1 = cheap; benchmark on the real player count, it runs on every chunk
+      update packet.
+  E14 Decide whether UltimateAntiSeedCracker (I2) is actually shipped: it only
+      works on a world generated AFTER the datapack is installed, so it must go
+      into the world template / overrides, and existing RUNE worlds would need
+      a fresh world to benefit.
 
 
 F. WHERE EACH VERDICT CAME FROM
@@ -261,6 +271,9 @@ F. WHERE EACH VERDICT CAME FROM
   fastleafdecay FnE6S0Zk, tpa-teleport D6SzkjIt, walking-horses yUENhALc
   (CF cross-link 1362821), shinoyuki-betterautosave WAXR3mM5,
   vanillabackport 6xwxDTgf, platform i6fiqm5y, darcenos-minecarts RZw0JtqY.
+  Rev 3 request added: anti-xray sml2FMaA (DrexHD, MIT, client_side=unsupported,
+  server_side=required, 1.20.1 build 1.4.6+1.20.1); seed-cracking and
+  combat-logging were already covered by 4PxXKlFu and nNnLt4Jb (section I).
 
 
 G. POST-AUDIT ADDITIONS  (requested 2026-11-09, after the lists were delivered)
@@ -401,5 +414,64 @@ H. MODRINTH-ONLY MIGRATION  (rev 2 - the tiers ship as .mrpack, so every file
       Every one of the 58 has source=modrinth plus a project id, and all 53 mod
       records resolve to a real Forge 1.20.1 build (38 pinned exactly, 15
       unpinned). A7 in section A re-runs this check.
+
+
+I. REV 3 REQUEST  (harder seed cracking + anti-xray + combat logging)
+---------------------------------------------------------------------------
+  Three things were asked for. Only one needed a new record: the other two were
+  already in the pack, which is why the record count went 58 -> 59 and not
+  +3. Everything below is Modrinth-hosted Forge 1.20.1 (the .mrpack rule from
+  section H still holds).
+
+  I1  ANTI-XRAY  ->  ADDED
+      05: mod|SERVER|modrinth|anti-xray|sml2FMaA||unsupported|required|
+          1.4.6+1.20.1|S|AntiXray
+      Modrinth sml2FMaA `anti-xray` (DrexHD), MIT, 625k downloads,
+      client_side=unsupported / server_side=required, jar
+      antixray-forge-1.4.6+1.20.1.jar, no dependencies.
+      It obfuscates ores in the packets the server sends (engineMode 1/2/3),
+      so a texture-pack or mod xray sees stone instead of the real blocks.
+      Server-only, so packs=S - clients must NOT get it (A4 stays green).
+      Ops note: the root `enabled = false` default plus per-world blocks means
+      you must switch it on per world (`[overworld] enabled = true`,
+      engineMode 3 for the strongest setting) or it does nothing.
+
+  I2  HARDER SEED CRACKING  ->  ALREADY COVERED, no new record
+      UltimateAntiSeedCracker (modrinth 4PxXKlFu, datapack, optional/required,
+      packs=S) is in category 5 and is exactly this feature: it shifts
+      structure spacing/frequency so a SeedCracker-style attack can match
+      structures to the wrong seed.
+      There is no Forge *mod* for this on Modrinth, so nothing better can be
+      added under the Modrinth-only rule. Probed by slug and by search:
+        anti-seed-cracker / seedguard / seed-protection / world-seed-protection
+        / seed-obfuscator / structure-obfuscator -> all 404
+        1.20.1-Forge search "seed cracker" / "anti seed" / "seedcracker" -> 0 hits
+        the projects that do exist are Paper/Spigot plugins or datapacks:
+          gQUW81Bf AntiSeedCracker        (paper/folia plugin)
+          2AqaPuy5 Seed protector         (paper/purpur plugin)
+          3SKbV2A2 BuildMC-SeedGuard      (spigot/paper plugin)
+          4PxXKlFu UltimateAntiSeedCracker(datapack - already installed)
+      Two conditions come with it and are easy to miss:
+        * it must be present BEFORE the world is generated - it does nothing on
+          an already-generated world (project description);
+        * in an .mrpack it has to ship through overrides (world/datapacks or the
+          server's datapacks folder), not mods/ - kind=datapack keeps that
+          unambiguous for the packer.
+      AntiXray (I1) is a useful second layer: ore-based verification of a seed
+      guess gets much harder when the client never receives the real ores.
+
+  I3  COMBAT LOGGING  ->  ALREADY COVERED, no new record
+      Combatlog (modrinth nNnLt4Jb, 2.8.5-forge+1.20.1, unsupported/required,
+      packs=S) is in category 5: "An attempt to prevent people from logging out
+      while in combat". Same project as the CurseForge 665758 the source list
+      named (confirmed in C7), so the feature has been in the pack since rev 1.
+      If you want harsher behaviour than "block the logout", that is a config
+      call on the mod, not an extra jar.
+
+  I4  bookkeeping
+      counts move to 59 records, server list 47, no-shaders 32,
+      low|mid|high 34 each; 54 mod records all resolve (39 pinned exactly,
+      15 unpinned). MRPACK-MANIFEST.txt regenerated: 181 file lines,
+      181/181 Modrinth CDN urls answered HTTP 200 with the recorded size.
 
 ===============================================================================

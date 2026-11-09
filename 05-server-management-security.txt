@@ -3,7 +3,7 @@
 #  Category 5 of 5  |  split by install side: SERVER vs CLIENT
 #  Minecraft 1.20.1 / Forge 47.4.10  |  generated 2026-11-09 (UTC)
 #
-#  Admin tools, anti-cheat / anti-seed-crack / combat-log protection, pre-generation and chat formatting.
+#  Admin tools, anti-cheat / anti-seed-crack / anti-xray / combat-log protection, pre-generation and chat formatting.
 #
 #  Format (one record per line, pipe separated):
 #    kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
@@ -41,6 +41,7 @@ mod|BOTH|modrinth|chunky|fALzjamp|485681|optional|optional|n/a|S|Chunky (Pregene
 
 # ----------------------------- SERVER-SIDE  (server install only; client optional or not needed) ---
 # kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+mod|SERVER|modrinth|anti-xray|sml2FMaA||unsupported|required|1.4.6+1.20.1|S|AntiXray
 mod|SERVER|modrinth|beautified-chat-server|C00Y5Ci9|514796|unsupported|required|n/a|S|Beautified Chat [Server]
 mod|SERVER|modrinth|combatlog|nNnLt4Jb|665758|unsupported|required|2.8.5-forge+1.20.1|S|Combatlog
 mod|SERVER|modrinth|tpa-teleport|D6SzkjIt||unsupported|required|1.0.0|S|TPA Teleport
@@ -54,5 +55,5 @@ datapack|SERVER|modrinth|ultimateantiseedcracker|4PxXKlFu||optional|required|n/a
 
 
 # =============================================================================
-#  COUNT: BOTH 1  |  SERVER 4  |  CLIENT 0  |  total 5
+#  COUNT: BOTH 1  |  SERVER 5  |  CLIENT 0  |  total 6
 # =============================================================================
