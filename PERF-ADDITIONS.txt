@@ -1,0 +1,466 @@
+# =============================================================================
+#  RUNE MODPACK  --  PERFORMANCE ADDITIONS  (rev 4 proposal)
+#  Category 4 supplement  |  Minecraft 1.20.1 / Forge 47.4.10
+#  researched 2026-11-10 (UTC)
+#
+#  Question asked: "is there any way to add extra optimisation / performance
+#  on the client and on the server?"
+#
+#  Answer: yes, but only at the margin. 04-performance-rendering-visuals.txt
+#  already carries 27 records - on 1.20.1 Forge that is essentially every
+#  "big" optimisation project with a Modrinth build - so what is left is nine
+#  small tick / IO / network / renderer patches, six optional ones, and a lot
+#  of config work that no jar can do for you.
+#
+#     P1  add now              9 mods + 3 libraries = 12 records
+#     P2  optional per tier    6 mods + 2 libraries =  8 records
+#     P3  evaluated, rejected  17 projects + 3 off-Modrinth, reason per row
+#
+#  STATUS: proposal. Nothing here is merged into 01-05: the five category
+#  files still hold 59 records and SUMMARY.txt still reads 59. Merging moves
+#  every tier count (table at the end) and has to land in the same commit as
+#  tools/build_manifest.py, so it is kept as a separate step on purpose.
+#
+#  Every record below is Modrinth-hosted, Forge 1.20.1, pinned to a
+#  version_number that really exists, resolved through the Modrinth API to a
+#  version_id + sha1 + size, and its CDN url was fetched: 20/20 answered
+#  HTTP 200 with the recorded size (evidence block at the end of this file).
+#  tools/check_perf_additions.py repeats the whole check on demand.
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+#  1. WHAT THE CURRENT 27 ALREADY COVER  (nothing below repeats these)
+# -----------------------------------------------------------------------------
+#  BOTTLENECK           ALREADY IN THE PACK
+#  renderer             Embeddium, Oculus, Entity Culling, ImmediatelyFast,
+#                       BadOptimizations, Memory Leak Fix, Dynamic FPS,
+#                       Anti Cords Leaker (RP), 3 shader packs
+#  server tick / AI     Canary, Radium, Saturn, AI Improvements, Mobtimizations,
+#                       Clumps, Get It Together Drops, ModernFix
+#  worldgen / lighting  Starlight, Noisium, Lithostitched, Tectonic
+#  network / IO         Krypton Reno, Packet Fixer, ServerCore,
+#                       Shinoyuki-BetterAutoSave, FerriteCore
+#  ops / measurement    Spark, Chunky
+#
+#  WHAT IS STILL UNTOUCHED - this is what P1/P2 buy:
+#    * every join syncs the full unlocked-recipe list and stores it in the
+#      player file                                    -> notenoughrecipebook
+#    * 1.20.1 keeps a 21x21 spawn-chunk area loaded for the whole life of the
+#      world (Extreme tier on this version)            -> ksyxis
+#    * /locate, explorer maps and dolphin treasure search run on the tick
+#      thread                                          -> async-locator
+#    * jigsaw structure layout tests every piece against every other piece
+#                                                      -> structure-layout-optimizer
+#    * every leaf block face is drawn                  -> cull-leaves
+#    * vanilla re-uploads each animated texture frame  -> kerria-opt
+#    * one draw call per visible block entity          -> obe
+#    * Embeddium only exposes a fraction of Sodium Extra's toggles
+#                                                      -> rubidium-extra
+#    * recipe matching for crafting tables / furnaces  -> fastsuite,
+#                                                          fastworkbench,
+#                                                          fastfurnace
+#    * equipment-carrying mobs never despawn           -> lmd
+#    * rail state updates scale with the network size  -> railoptimization
+#    * no internal-resolution scaling for weak GPUs    -> renderscale
+#    * resource reload always shows a blocking screen  -> rrls (UX, not TPS)
+
+
+# -----------------------------------------------------------------------------
+#  2. P1  --  ADD NOW  (12 records; every dependency is either already in the
+#            pack or added as a library record inside the same block)
+# -----------------------------------------------------------------------------
+#  slug                        side    packs      one line
+# -----------------------------------------------------------------------------
+#  notenoughrecipebook         BOTH    S,N,L,M,H  drops the recipe book and its
+#                                                 per-join data sync
+#  shatterbyte-lib             BOTH    S,N,L,M,H  library for NERB (needs
+#                                                 architectury-api - present)
+#  ksyxis                      SERVER  S          stops the 21x21 spawn-chunk
+#                                                 keep-alive
+#  async-locator               SERVER  S          /locate + explorer maps off
+#                                                 the tick thread
+#  structure-layout-optimizer  SERVER  S          BoxOctree jigsaw assembly
+#  resourceful-config          BOTH    S          library for SLO
+#  cull-leaves                 CLIENT  N,L,M,H    OptiFine "Smart Leaves"
+#  midnightlib                 BOTH    N,L,M,H    library for Cull Leaves
+#  rubidium-extra              CLIENT  N,L,M,H    Sodium Extra options, needs
+#                                                 Embeddium (present)
+#  kerria-opt                  CLIENT  N,L,M,H    animated-texture upload cache
+#  obe                         CLIENT  N,L,M,H    static block entities baked
+#                                                 into the terrain mesh
+#  rrls                        CLIENT  N,L,M,H    no blocking reload screen
+#
+#  Size cost: 3.6 MB of jars, 3 of them libraries. Nothing in P1 changes the
+#  world or the game rules except ksyxis (spawn chunks) and
+#  notenoughrecipebook (recipe book UI, and JEI - already in the pack - covers
+#  looking recipes up).
+#
+#  Side note on the two library rows filed as BOTH: Modrinth reports both
+#  midnightlib and resourceful-config as optional/optional (usable on both
+#  sides). They are filed BOTH per the documented side rule, but their packs
+#  column deliberately lists only the tiers that need them: resourceful-config
+#  ships with the server list only, midnightlib with the client tiers only.
+
+
+# -----------------------------------------------------------------------------
+#  3. P2  --  OPTIONAL, DECIDE PER TIER  (8 records)
+# -----------------------------------------------------------------------------
+#  slug              side    packs      why it is optional, not P1
+# -----------------------------------------------------------------------------
+#  fastsuite         BOTH    S,N,L,M,H  recipe-match cache; gain scales with
+#                                       the recipe count, and it has to be
+#                                       tested against mods that rewrite
+#                                       recipes at runtime (this pack has none)
+#  fastworkbench     BOTH    S,N,L,M,H  same, for the crafting table
+#  fastfurnace       BOTH    S,N,L,M,H  same, for furnaces - only worth it if
+#                                       players run furnace arrays
+#  placebo           BOTH    S,N,L,M,H  library for the three above
+#  lmd               SERVER  S          despawns equipment-carrying mobs; that
+#                                       is a gameplay rule change
+#  almanac           SERVER  S          library for LMD
+#  railoptimization  SERVER  S          only matters if rail networks exist
+#  renderscale       CLIENT  L,M        the honest fix for a GPU that cannot
+#                                       hold 60 FPS at native resolution;
+#                                       soft at 0.5x, so tier choice is taste
+#
+#  P2 adds another 2.2 MB and pulls Placebo + Almanac. If you want the
+#  smallest safe delta, ship P1 and leave P2 as a per-player toggle.
+
+
+# -----------------------------------------------------------------------------
+#  4. P3  --  EVALUATED AND REJECTED  (so they are not re-researched next rev)
+# -----------------------------------------------------------------------------
+#  project              mr_id     verdict
+# -----------------------------------------------------------------------------
+#  particle-core        RSeLon5O  works (particle culling + spawn reduction)
+#                                  but pulls Kotlin for Forge 4.12.0 (7.1 MB)
+#                                  and Fzzy Config (2.3 MB) for a client-only
+#                                  particle win. Opt-in only.
+#  asyncparticles       c3onkd5k  GPU / async particle path; the author says
+#                                  it stays in beta, and it patches the same
+#                                  renderer Oculus replaces.
+#  distanthorizons      uCdwusMi  LOD, 26.4 MB. Buys view distance, not tick
+#                                  rate, costs VRAM and only partly works with
+#                                  Oculus. Player choice, not a pack default.
+#  xenon-forge          aWDwN8NN  Embeddium fork with extras. It REPLACES
+#                                  Embeddium - exactly one of the two may be
+#                                  installed - and its own page says to keep
+#                                  Oculus for shaders. Needs a full shader-tier
+#                                  test before swapping it in.
+#  tt20                 YS3ZignI  re-scales tick-based timings when TPS drops:
+#                                  hides lag instead of removing it, and moves
+#                                  block-break timing. Symptom fix, not a fix.
+#  observable           VYRu7qmG  lag-spike profiler front-end. Diagnostic:
+#                                  install for the profiling session, remove
+#                                  afterwards (needs Kotlin as well).
+#  dsbg                 zv7fYVyQ  silences the "Detected setBlock in a far
+#                                  chunk" console spam. Log hygiene only.
+#  shut-up-gl-error     houIxdGF  silences GL error spam. Log hygiene only.
+#  vanillaicecreamfix   5HUqEye3  crash screen + a few vanilla bugfixes +
+#                                  particle culling; overlaps Particle Core and
+#                                  gives no tick gain.
+#  fast-items           H80QSt2v  renders items as 2D billboards - a visual
+#                                  change, not an optimisation.
+#  superresolution      Hf3Qz2H3  FSR / DLSS / XeSS upscaling: needs GL 4.3+,
+#                                  per-GPU testing, and it ships alpha builds.
+#  reflex-antilag       WTVzusYD  frame pacing / input latency, not throughput;
+#                                  overlaps driver-level settings.
+#  graphene             rmZ2S4Yi  a 1.20.1 forge file exists, but the project is
+#                                  a 1.12.2-era "replaces many mods" bundle -
+#                                  stacking it on Radium + Canary + ModernFix
+#                                  invites two mods doing the same patch.
+#  fastevent            LauZQ6kM  abandoned by its author and reported broken on
+#                                  1.18.2+ on that same page.
+#  concentration        QyvWSZ5S  borderless fullscreen. QoL, no TPS and no FPS.
+#  threadtweak          vSEH1ERy  no Forge 1.20.1 file at all - cannot be added
+#                                  under the Forge-only rule.
+#  no-rollback          K4Ytaql5  stops block-placement rollbacks. Bugfix, not
+#                                  performance.
+#  farsight / connectivity / despawn-tweaker
+#                                 all three 404 on the Modrinth API, i.e.
+#                                 CurseForge-only. The Modrinth-only rule
+#                                 (AUDIT-NOTES H) blocks them, exactly as it
+#                                 blocked Chunk Sending, Dynamic View and
+#                                 Creative Guard. If that rule is ever relaxed,
+#                                 Chunk Sending (CF 831663) is still the single
+#                                 biggest server-side hole left: it paces chunk
+#                                 packets so one fast client cannot starve the
+#                                 tick loop.
+
+
+# -----------------------------------------------------------------------------
+#  5. MERGE-READY RECORDS  (same 11 fields as 01-05 - paste them in as they are)
+#     cf_id is blank on every row: none of these has a CurseForge cross-link
+#     worth recording, and nothing is downloaded from CurseForge anyway (H).
+# -----------------------------------------------------------------------------
+# ----------------------------- P1  RECORDS  (recommended) -----------------------------
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+
+# -- BOTH
+mod|BOTH|modrinth|notenoughrecipebook|bQh7xzFq||required|required|0.4.1|S,N,L,M,H|Not Enough Recipe Book [NERB]
+mod|BOTH|modrinth|shatterbyte-lib|RH2KUdKJ||required|required|0.5.0.1|S,N,L,M,H|ShatterLib / OctoLib
+mod|BOTH|modrinth|resourceful-config|M1953qlQ||optional|optional|2.1.3|S|Resourceful Config
+mod|BOTH|modrinth|midnightlib|codAaoxh||optional|optional|1.9.2+1.20.1-forge|N,L,M,H|MidnightLib
+
+# -- SERVER
+mod|SERVER|modrinth|ksyxis|2ecVyZ49||unsupported|required|1.4.6|S|Ksyxis
+mod|SERVER|modrinth|async-locator|rkN8aqci||unsupported|required|1.20-1.3.0|S|Async Locator
+mod|SERVER|modrinth|structure-layout-optimizer|ayPU0OHc||unsupported|required|1.0.11+1.20.1-forge|S|Structure Layout Optimizer
+
+# -- CLIENT
+mod|CLIENT|modrinth|cull-leaves|GNxdLCoP||required|unsupported|4.1.1+1.20.1-forge|N,L,M,H|Cull Leaves
+mod|CLIENT|modrinth|rubidium-extra|oY2B1pjg||required|unsupported|0.5.4.4+mc1.20.1-build.131|N,L,M,H|Embeddium (Rubidium) Extra
+mod|CLIENT|modrinth|kerria-opt|f0ruQTF7||required|unsupported|1.3.2+1.20.1-forge|N,L,M,H|Kerria
+mod|CLIENT|modrinth|obe|AtOSAunf||required|unsupported|1.2.1-patch.3|N,L,M,H|Optimized Block Entities [OBE]
+mod|CLIENT|modrinth|rrls|ZP7xHXtw||required|unsupported|4.0.6.1+mc1.20.1-forge|N,L,M,H|Remove Reloading Screen
+
+# ----------------------------- P2  RECORDS  (optional) -----------------------------
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+
+# -- BOTH
+mod|BOTH|modrinth|fastsuite|roccmqou||required|required|5.1.2|S,N,L,M,H|FastSuite
+mod|BOTH|modrinth|fastworkbench|5NYPwQRn||required|required|8.0.4|S,N,L,M,H|FastWorkbench
+mod|BOTH|modrinth|fastfurnace|9X0318ev||required|required|8.0.2|S,N,L,M,H|FastFurnace
+mod|BOTH|modrinth|placebo|tCkE8p2N||optional|optional|8.6.3|S,N,L,M,H|Placebo
+
+# -- SERVER
+mod|SERVER|modrinth|lmd|vE2FN5qn||unsupported|required|1.26.11.1|S|Let Me Despawn
+mod|SERVER|modrinth|almanac|Gi02250Z||unsupported|required|1.26.11.1|S|Almanac
+mod|SERVER|modrinth|railoptimization|QSvN5pBU||unsupported|required|2.0|S|RailOptimization
+
+# -- CLIENT
+mod|CLIENT|modrinth|renderscale|Va8PJBFX||required|unsupported|2.0.0-beta.1-forge+1.20.1|L,M|RenderScale
+
+# -----------------------------------------------------------------------------
+#  6. WHY EACH RECORD IS HERE  (mechanism, then the caveat that matters)
+# -----------------------------------------------------------------------------
+#  P1.1  notenoughrecipebook  (BOTH)
+#        1.20.1 syncs every unlocked recipe name to the client on join and keeps
+#        the list in the player file. In a pack with 30+ mods that blob is the
+#        single largest per-player packet burst. NERB removes the feature
+#        instead of hiding the button, so join time and player-data size drop.
+#        Caveat: the recipe book UI is gone for good - JEI stays. The jar is
+#        21 KB but needs ShatterLib/OctoLib, which in turn needs
+#        architectury-api (already a BOTH record in category 3).
+#
+#  P1.2  ksyxis  (SERVER)
+#        On 1.8-1.20.4 Ksyxis removes the permanently loaded 21x21 spawn-chunk
+#        area - its own table rates 1.20.1 "Extreme". That is RAM and tick work
+#        the server pays for from boot to shutdown on a world that is mostly
+#        empty at spawn. Caveat: farms or contraptions that rely on spawn
+#        chunks stop running; deleting the jar restores them.
+#
+#  P1.3  async-locator  (SERVER)
+#        Moves vanilla structure search off the tick thread for /locate, villager
+#        explorer-map trades, dolphin treasure and chest exploration maps. One
+#        /locate in a Tectonic-shaped world can stall a tick for seconds; this
+#        turns that into a background task. Caveat: it only covers vanilla
+#        feature lookups - modded /locate implementations have to opt in - and
+#        the 1.20.1 build is from 2023 and still the newest one.
+#
+#  P1.4  structure-layout-optimizer  (SERVER)
+#        Vanilla stores jigsaw piece bounds in a VoxelShape and tests every new
+#        piece against all of them. SLO swaps that for a BoxOctree so only
+#        nearby pieces are compared, and the author's stated goal is zero visual
+#        change. It is the structure-generation counterpart to Starlight and
+#        Noisium, which already cover lighting and biome noise, and it matters
+#        here because Tectonic makes the overworld considerably heavier to
+#        generate than vanilla. Caveat: new-ish project, no config beyond its
+#        Resourceful Config file.
+#
+#  P1.5  cull-leaves  (CLIENT)
+#        Drops leaf-block faces that cannot be seen - the OptiFine "Smart
+#        Leaves" feature reimplemented for the Sodium/Embeddium renderer. In a
+#        forest/jungle this is the biggest cheap FPS win left on the client.
+#        Caveat: needs MidnightLib; pairs with a Better Leaves style resource
+#        pack, which the pack does not ship.
+#
+#  P1.6  rubidium-extra  (CLIENT)
+#        Sodium Extra ported to Embeddium: per-category particle, entity, fog
+#        and animation toggles plus a few renderer bugfixes Embeddium itself does
+#        not expose. This is the cheapest FPS that does not need new hardware -
+#        and the only way to cut, say, "all block-break particles" without
+#        installing a second particle mod. Caveat: it is an unofficial fork, so
+#        keep it pinned to the recorded build and re-test after Embeddium bumps.
+#
+#  P1.7  kerria-opt  (CLIENT)
+#        Vanilla re-uploads every frame of every animated texture through
+#        glTexSubImage2D, i.e. CPU to GPU traffic per frame plus a possible
+#        pipeline stall. Kerria caches a non-interpolated animation once and
+#        uses PBO-style uploads afterwards; it scales with the number of
+#        animated textures in view (water, lava, fire, modded tanks). Caveat:
+#        it hooks Embeddium's video settings screen, so it is client-tier only
+#        and should be re-tested whenever Embeddium is updated.
+#
+#  P1.8  obe  (CLIENT)
+#        Optimized Block Entities bakes static block entities (chests, signs,
+#        banners, spawners) into the terrain mesh, which is the batched path
+#        Embeddium already optimises, and falls back to the vanilla renderer for
+#        animated ones. Dense bases are where this shows. Caveat: newest project
+#        in P1 (2026) and it touches terrain batching, i.e. exactly what shaders
+#        hook - test all three shader tiers and drop the record from the H tier
+#        first if anything glitches.
+#
+#  P1.9  rrls  (CLIENT)
+#        Removes the blocking "Reloading resources" screen when a resource pack
+#        or shader pack is switched. Pure UX: zero TPS, but it is the difference
+#        between a 20 s freeze and none on a pack this size.
+
+#  P2.1  fastsuite  /  P2.2 fastworkbench  /  P2.3 fastfurnace  (BOTH)
+#        All three by Shadows_of_Fire, all three need Placebo. Vanilla matches
+#        recipes by walking a list; FastSuite caches the match per inventory,
+#        FastWorkbench caches the crafting-grid result (shift-click spam is the
+#        worst case) and FastFurnace caches furnace/smoker/blast-furnace
+#        lookups. Caveat: they cache, so anything that rewrites recipes at
+#        runtime (CraftTweaker, KubeJS) can show stale results - this pack has
+#        neither, and JEI is unaffected.
+#
+#  P2.4  lmd  (SERVER)
+#        Vanilla never despawns a mob that picked up or equipped an item, so
+#        every zombie that grabs a sword is permanent. LMD restores normal
+#        despawning while keeping the drops, with a config exclusion list for
+#        pets/named mobs. Caveat: gameplay change - vote on it before shipping.
+#
+#  P2.5  railoptimization  (SERVER)
+#        Powered/activator rail state changes are re-computed along the whole
+#        network in vanilla; this makes them up to ~20x faster by the author's
+#        benchmark table. Caveat: only measurable if players build rail lines -
+#        this pack has Small Ships and Minecarts, not Create-scale rail spam.
+#
+#  P2.6  renderscale  (CLIENT, L/M)
+#        Renders the world at 0.5-1x of the window resolution and upscales,
+#        leaving the UI sharp (fork of ResolutionControl++). This is the correct
+#        answer for a 1080p + shaders GPU that sits at 40 FPS, where dropping
+#        render distance costs more visually. Caveat: the 1.20.1 build is a beta
+#        and it fights shader packs that own the framebuffer - test with Oculus
+#        enabled and disabled.
+
+# -----------------------------------------------------------------------------
+#  7. CONFIG AND JVM WORK  (the part that beats every jar on this list)
+# -----------------------------------------------------------------------------
+#  7.1  SERVER JVM FLAGS  (Aikar's, G1GC, Java 17 - Forge 47 does not run 21)
+#       -Xms8G -Xmx8G -XX:+UseG1GC -XX:+ParallelRefProcEnabled
+#       -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions
+#       -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30
+#       -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M
+#       -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5
+#       -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15
+#       -XX:G1MixedGCLiveThresholdPercent=90
+#       -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32
+#       -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1
+#       Rules: -Xms and -Xmx identical; 6-10 GB for this pack size; region size
+#       8M for heaps up to ~16 GB; drop to a plain -XX:+UseG1GC set if the host
+#       already passes its own GC flags. Flag set cross-checked against
+#       crafty.gg/tools/server-flags and berrybyte.net/wiki (Aikar's flags).
+#
+#  7.2  SERVER.PROPERTIES  (the ones that actually move tick time)
+#       sync-chunk-writes=false      chunk IO off the main thread; Paper forces
+#                                    it, Forge has to be told. Re-test against
+#                                    Shinoyuki-BetterAutoSave.
+#       view-distance=6..8           server-side render distance; 10 is the
+#                                    default and is too much for 30+ mods
+#       simulation-distance=4..6     entity/AI radius - the single biggest
+#                                    entity-tick lever after Mobtimizations
+#       entity-broadcast-range-percentage=75   fewer entity packets
+#       network-compression-threshold  256 default; 512 on a CPU-bound box with
+#                                    good upstream; -1 ONLY for a proxy on the
+#                                    same host
+#       max-tick-time=60000 default; -1 disables the watchdog - only do that if
+#                                    the host restarts a frozen process itself
+#       max-chained-neighbor-updates=10000   bounds redstone cascades (changes
+#                                    behaviour, so it is a decision, not a fix)
+#       use-native-transport=true     Linux hosts, on by default
+#
+#  7.3  CONFIGS OF MODS ALREADY IN THE PACK  (zero download)
+#       ModernFix      leave every patch on; if one mod misbehaves, disable the
+#                      single patch in its config instead of dropping the mod
+#       FerriteCore    memory only, defaults are the right defaults
+#       Krypton Reno   networking, no user config worth touching
+#       ServerCore     per-patch toggles - bisect by turning one patch off
+#       Embeddium      render distance, chunk builder threads, entity distance,
+#                      cloud/weather quality: tune these before adding a jar
+#       Entity Culling block-entity culling + async culling on; it is the most
+#                      aggressive entity culler and stacks with Embeddium
+#       ImmediatelyFast HUD batching on; disable only the batching a mod breaks
+#       Dynamic FPS    set the unfocused cap to 5-10 FPS - that is free CPU on
+#                      every alt-tabbed client
+#       Spark          /spark tps, /spark health, /spark profiler start
+#                      --timeout 60: measure, do not guess
+#       Chunky         pre-generate before opening the doors: /chunky radius
+#                      2000, /chunky start, /chunky pause when players are on.
+#                      A pregenerated world removes the biggest source of tick
+#                      spikes and is what makes Starlight + Noisium pay off
+#
+#  7.4  HYGIENE
+#       * no OptiFine on any tier - Embeddium + Oculus replace it and the pack
+#         is built around that
+#       * client 6-8 GB with -Xms == -Xmx; the launcher default of 2 GB will
+#         stutter with three shader packs installed no matter what you add
+#       * one renderer per side: Embeddium today, Xenon only if you swap it out
+#       * keep every jar pinned (MRPACK-MANIFEST.txt already does this)
+#
+#  7.5  MEASURING, so the next revision is not guesswork
+#       Change one thing per run, stand in the same spot at the same time of
+#       day, log F3 (client) and /spark tps + a 60 s profiler (server) before
+#       and after. Numbers on a project page are the author's hardware, not this
+#       pack's; the only figure that counts is the one measured here.
+
+
+# -----------------------------------------------------------------------------
+#  8. HOW TO MERGE THIS FILE  (and why it is not merged already)
+# -----------------------------------------------------------------------------
+#  1. Paste the records in section 5 into 04-performance-rendering-visuals.txt
+#     in the matching BOTH / SERVER / CLIENT block (same 11 fields, same order)
+#     and update that file's COUNT footer.
+#  2. Run tools/build_manifest.py. It globs 0*-*.txt, so this file is ignored
+#     on purpose until the records are merged; afterwards the tier sizes are:
+#
+#         TIER     now    +P1    +P1+P2
+#         S         47     53       60
+#         N         32     40       44
+#         L         34     42       47
+#         M         34     42       47
+#         H         34     42       46
+#         records   59    +12      +20
+#
+#  3. Run tools/check_perf_additions.py. It re-resolves all 20 records against
+#     the live Modrinth API, compares version_id / sha1 / size / url with the
+#     evidence block, checks that every required dependency is either already in
+#     01-05 or proposed here, and exits non-zero on any drift.
+#  4. Update SUMMARY.txt (record + tier counts), add a section J to
+#     AUDIT-NOTES.txt saying which P1/P2 rows were taken, and mention the
+#     script run in the commit message.
+
+
+# -----------------------------------------------------------------------------
+#  9. EVIDENCE  (live Modrinth API + CDN, 2026-11-10; same 10-field shape as
+#     MRPACK-MANIFEST.txt so the rows can be pasted straight into it)
+# -----------------------------------------------------------------------------
+# kind|side|slug|mr_id|version_id|version_number|file name|size|sha1|url
+mod|BOTH|notenoughrecipebook|bQh7xzFq|xXV9YBzF|0.4.1|Not Enough Recipe Book-FORGE-0.4.1+1.20.1.jar|21667|c0806369f4257149664904db44efc60bd1785c17|https://cdn.modrinth.com/data/bQh7xzFq/versions/xXV9YBzF/Not%20Enough%20Recipe%20Book-FORGE-0.4.1%2B1.20.1.jar
+mod|BOTH|shatterbyte-lib|RH2KUdKJ|HZ7KmyXp|0.5.0.1|OctoLib-FORGE-0.5.0.1+1.20.1.jar|424035|9eab28baff36942e1c924489e34753df10f40208|https://cdn.modrinth.com/data/RH2KUdKJ/versions/HZ7KmyXp/OctoLib-FORGE-0.5.0.1%2B1.20.1.jar
+mod|SERVER|ksyxis|2ecVyZ49|kzLBJQLn|1.4.6|Ksyxis-1.4.6.jar|23873|6de6271329e0c83e3ccc0512a0d3cfcc3e790d3f|https://cdn.modrinth.com/data/2ecVyZ49/versions/kzLBJQLn/Ksyxis-1.4.6.jar
+mod|SERVER|async-locator|rkN8aqci|Eip0qUwF|1.20-1.3.0|async-locator-forge-1.20-1.3.0.jar|264951|fa8e3d65644e5bf1ea62f1ba3c94b0982dfb7357|https://cdn.modrinth.com/data/rkN8aqci/versions/Eip0qUwF/async-locator-forge-1.20-1.3.0.jar
+mod|SERVER|structure-layout-optimizer|ayPU0OHc|EazfspJH|1.0.11+1.20.1-forge|structure_layout_optimizer-forge-1.0.11.jar|246413|c2f2d42c987a611c6a14769ec02099e3439dc0f3|https://cdn.modrinth.com/data/ayPU0OHc/versions/EazfspJH/structure_layout_optimizer-forge-1.0.11.jar
+mod|BOTH|resourceful-config|M1953qlQ|DERs8u7v|2.1.3|resourcefulconfig-forge-1.20.1-2.1.3.jar|136923|597d40920dcc935f963842c817dcc4901862ab14|https://cdn.modrinth.com/data/M1953qlQ/versions/DERs8u7v/resourcefulconfig-forge-1.20.1-2.1.3.jar
+mod|CLIENT|cull-leaves|GNxdLCoP|yFZM1Bsc|4.1.1+1.20.1-forge|cullleaves-forge-4.1.1+1.20.1.jar|97480|610b92837c4233c5c1f22ed495728c5ad0c78050|https://cdn.modrinth.com/data/GNxdLCoP/versions/yFZM1Bsc/cullleaves-forge-4.1.1%2B1.20.1.jar
+mod|BOTH|midnightlib|codAaoxh|EVVb5nP3|1.9.2+1.20.1-forge|midnightlib-forge-1.9.2+1.20.1.jar|61987|ff01aa718b71249012c41d9926d3fd2982809fdb|https://cdn.modrinth.com/data/codAaoxh/versions/EVVb5nP3/midnightlib-forge-1.9.2%2B1.20.1.jar
+mod|CLIENT|rubidium-extra|oY2B1pjg|F06DXCMX|0.5.4.4+mc1.20.1-build.131|rubidium-extra-0.5.4.4+mc1.20.1-build.131.jar|568608|bb422d5626bf69841e444a3e545c8e71b6928cf8|https://cdn.modrinth.com/data/oY2B1pjg/versions/F06DXCMX/rubidium-extra-0.5.4.4%2Bmc1.20.1-build.131.jar
+mod|CLIENT|kerria-opt|f0ruQTF7|SaAPsP1U|1.3.2+1.20.1-forge|Kerria-1.3.2+1.20.1-forge.jar|811090|faee7d876ba5ba0b83e34d022a83575b1229829e|https://cdn.modrinth.com/data/f0ruQTF7/versions/SaAPsP1U/Kerria-1.3.2%2B1.20.1-forge.jar
+mod|CLIENT|obe|AtOSAunf|GaDC0iZn|1.2.1-patch.3|obe+1.20.1-forge-1.2.1-patch.3-srg.jar|880726|6d5c646838674166a85445c5375ea66af0dc95a5|https://cdn.modrinth.com/data/AtOSAunf/versions/GaDC0iZn/obe%2B1.20.1-forge-1.2.1-patch.3-srg.jar
+mod|CLIENT|rrls|ZP7xHXtw|DMHJY7vL|4.0.6.1+mc1.20.1-forge|rrls-4.0.6.1+mc1.20.1-forge.jar|277896|c8f154b0b03dde15c5e901fc7c0c7c701466211d|https://cdn.modrinth.com/data/ZP7xHXtw/versions/DMHJY7vL/rrls-4.0.6.1%2Bmc1.20.1-forge.jar
+mod|BOTH|fastsuite|roccmqou|nhk4VpGm|5.1.2|FastSuite-1.20.1-5.1.2.jar|26600|32ea4495b0e646f8f060e4e97d17044dd9fdefbd|https://cdn.modrinth.com/data/roccmqou/versions/nhk4VpGm/FastSuite-1.20.1-5.1.2.jar
+mod|BOTH|fastworkbench|5NYPwQRn|ymC5ORfn|8.0.4|FastWorkbench-1.20.1-8.0.4.jar|28188|1a322a85e7c7024b8a0715c12d27b5ed0930d729|https://cdn.modrinth.com/data/5NYPwQRn/versions/ymC5ORfn/FastWorkbench-1.20.1-8.0.4.jar
+mod|BOTH|fastfurnace|9X0318ev|EYjcGdw1|8.0.2|FastFurnace-1.20.1-8.0.2.jar|6170|b144b8599acd3fac3f8f9d31fa217a4a5b942f61|https://cdn.modrinth.com/data/9X0318ev/versions/EYjcGdw1/FastFurnace-1.20.1-8.0.2.jar
+mod|BOTH|placebo|tCkE8p2N|6SkuAGoz|8.6.3|Placebo-1.20.1-8.6.3.jar|282474|e85f53de2e582a79ce25ff1df1e7b5b5fc08440f|https://cdn.modrinth.com/data/tCkE8p2N/versions/6SkuAGoz/Placebo-1.20.1-8.6.3.jar
+mod|SERVER|lmd|vE2FN5qn|rNM9DINj|1.26.11.1|letmedespawn-forge-1.20.1-1.26.11.1.jar|27743|131866d694899a5c53222aa922719f42145f08dc|https://cdn.modrinth.com/data/vE2FN5qn/versions/rNM9DINj/letmedespawn-forge-1.20.1-1.26.11.1.jar
+mod|SERVER|almanac|Gi02250Z|7h7oaMZz|1.26.11.1|almanac-forge-1.20.1-1.26.11.1.jar|418235|b969a44446e2a4acbed231520682fc6037ce372c|https://cdn.modrinth.com/data/Gi02250Z/versions/7h7oaMZz/almanac-forge-1.20.1-1.26.11.1.jar
+mod|SERVER|railoptimization|QSvN5pBU|38JIaD9F|2.0|railoptimization-2.0+mc1.20.1-forge.jar|750223|d91359ddad0d5fafa88cb1ae24753d1341f7610f|https://cdn.modrinth.com/data/QSvN5pBU/versions/38JIaD9F/railoptimization-2.0%2Bmc1.20.1-forge.jar
+mod|CLIENT|renderscale|Va8PJBFX|E7lWEtXn|2.0.0-beta.1-forge+1.20.1|renderscale-2.0.0-beta.1-forge+1.20.1.jar|810928|12b5c402029e05558939987a8353d20b8ee6f139|https://cdn.modrinth.com/data/Va8PJBFX/versions/E7lWEtXn/renderscale-2.0.0-beta.1-forge%2B1.20.1.jar
+
+
+# =============================================================================
+#  END  |  20 records (P1 12, P2 8)  |  20/20 CDN urls HTTP 200 with a size
+#  match  |  re-check with: python3 tools/check_perf_additions.py
+# =============================================================================

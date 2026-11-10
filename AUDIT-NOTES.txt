@@ -474,4 +474,61 @@ I. REV 3 REQUEST  (harder seed cracking + anti-xray + combat logging)
       15 unpinned). MRPACK-MANIFEST.txt regenerated: 181 file lines,
       181/181 Modrinth CDN urls answered HTTP 200 with the recorded size.
 
+J. REV 4 REQUEST  (extra client + server optimisation)  --  PROPOSAL ONLY
+---------------------------------------------------------------------------
+  Asked: is there anything left to add for performance on either side? The
+  full answer is PERF-ADDITIONS.txt; this section records what it found and
+  the decisions it needs, so they can be taken once.
+
+  J1  WHAT WAS FOUND  ->  20 records, all verified
+      Every record is Modrinth-hosted, Forge 1.20.1, pinned to a real
+      version_number, resolved to version_id + sha1 + size, CDN url fetched
+      (20/20 HTTP 200 with a size match). Re-check with
+      tools/check_perf_additions.py.
+        P1 (add now, 12 records)
+          notenoughrecipebook (bQh7xzFq) + shatterbyte-lib (RH2KUdKJ)
+          ksyxis (2ecVyZ49), async-locator (rkN8aqci),
+          structure-layout-optimizer (ayPU0OHc) + resourceful-config
+          (M1953qlQ), cull-leaves (GNxdLCoP) + midnightlib (codAaoxh),
+          rubidium-extra (oY2B1pjg), kerria-opt (f0ruQTF7), obe (AtOSAunf),
+          rrls (ZP7xHXtw)
+        P2 (optional, 8 records)
+          fastsuite (roccmqou), fastworkbench (5NYPwQRn), fastfurnace
+          (9X0318ev) + placebo (tCkE8p2N), lmd (vE2FN5qn) + almanac
+          (Gi02250Z), railoptimization (QSvN5pBU), renderscale (Va8PJBFX)
+      Seventeen further projects were evaluated and rejected with a reason in
+      PERF-ADDITIONS.txt section 4 - among them particle-core (works, but
+      pulls Kotlin for Forge 7.1 MB), xenon-forge (a fork of Embeddium, so it
+      cannot stack with it), tt20 (symptom-only), fastevent (abandoned by its
+      author) and threadtweak (no Forge 1.20.1 file).
+
+  J2  DECISIONS NEEDED
+      E12 Take P1 only, or P1 + P2?  P1 = 12 records, +3.6 MB, and moves the
+          tier counts to S 53 / N 40 / L 42 / M 42 / H 42. With P2 they go to
+          S 60 / N 44 / L 47 / M 47 / H 46.
+      E13 ksyxis unloads the 21x21 spawn-chunk area on 1.20.1 (its own table
+          rates that version "Extreme"). If anything at spawn has to keep
+          ticking, drop this record.
+      E14 lmd changes despawn rules for equipment-carrying mobs (drops are
+          kept, exclusion list available). Gameplay call, not a technical one.
+      E15 obe is the only P1 entry that touches terrain batching, i.e. exactly
+          the path shaders hook. Test all three shader tiers; if H glitches,
+          ship it in N/L/M only.
+      E16 The P2 recipe trio (FastSuite / FastWorkbench / FastFurnace) caches
+          recipe matches. It is safe with the current pack (no CraftTweaker,
+          no KubeJS) but must be re-tested the day one is added.
+
+  J3  WHY THERE IS NOTHING ELSE  (checked, not assumed)
+      No Forge 1.20.1 build exists for c2me-fabric VSNURh3q, vmp-fabric
+      wnEe9KBa, moreculling 51shyZVL (fabric/neoforge/quilt), nvidium
+      SfMw2IZN and threadtweak vSEH1ERy (fabric/quilt) - all 0 versions for
+      loaders=["forge"] + game_versions=["1.20.1"]. farsight, connectivity,
+      despawn-tweaker and chunk-sending return 404 on the Modrinth API, so
+      they are CurseForge-only and blocked by the Modrinth-only rule (H2),
+      together with Dynamic View and Creative Guard. That makes P1/P2 close
+      to the ceiling for jars; the remaining upside is config and JVM work,
+      which PERF-ADDITIONS.txt section 7 spells out (Aikar flags,
+      sync-chunk-writes=false, simulation-distance, Chunky pre-generation,
+      /spark profiling before and after each change).
+
 ===============================================================================

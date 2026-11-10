@@ -18,6 +18,7 @@ MRPACK-MANIFEST.txt                  per tier: every file resolved on Modrinth (
 03-utilities-qol-libraries.txt       category 3 of 5
 04-performance-rendering-visuals.txt category 4 of 5
 05-server-management-security.txt    category 5 of 5
+PERF-ADDITIONS.txt                   rev 4 proposal: 20 extra records + config work (not merged)
 source/modlist-server.txt            original server mod list (46 records, verbatim)
 source/rune-modpack-filelist.txt     original .mrpack file list (4 tiers, 32 files, verbatim)
 ```
@@ -114,16 +115,34 @@ Tier sizes: S 47, N 32, L 34, M 34, H 34 files (181 lines in total). Lines whose
 `version_number` is `latest` come from records where the source documents pinned
 no version - pin those before publishing (AUDIT-NOTES D7).
 
+## Extra performance (rev 4 proposal)
+
+`PERF-ADDITIONS.txt` is the answer to "is there anything left to add for client
+or server performance?": 12 P1 records (9 mods + 3 libraries) that are safe to
+merge, 8 P2 records that are per-tier decisions, 17 evaluated-then-rejected
+projects with the reason, and the config/JVM work that beats every remaining
+jar (Aikar flags, `sync-chunk-writes`, simulation distance, Chunky
+pre-generation, Spark profiling). Every record is Modrinth-hosted Forge 1.20.1,
+resolved to a pinned `version_number`, and checked live - `python3
+tools/check_perf_additions.py` re-runs the whole check (20/20 passing). Nothing
+in it is merged, so the headline numbers above still read 59 records; the tier
+delta a merge would produce is tabulated in that file.
+
 ## Auditing
 
+`PERF-ADDITIONS.txt` uses the same 11-field record format, so the greps below
+are scoped to the five category files (`0*-*.txt`) to keep "what ships" and
+"what is proposed" apart.
+
 ```bash
-grep -h '^mod|SERVER' *.txt            # everything that must be on the server
-grep -h '^mod|CLIENT' *.txt            # client-only jars
-grep -h '|S|' *.txt | cut -d'|' -f11   # records in the server mod list
-grep -h '^datapack' *.txt              # datapacks (not jars)
-awk -F'|' '$9=="n/a"{print $11}' *.txt # records with no pinned version
-awk -F'|' '!/^#/ && NF==11 && $3!="modrinth"{print}' *.txt  # must print nothing
-awk -F'|' '!/^#/ && NF==11 && $5==""{print}' *.txt          # must print nothing
+grep -h '^mod|SERVER' 0*-*.txt            # everything that must be on the server
+grep -h '^mod|CLIENT' 0*-*.txt            # client-only jars
+grep -h '|S|' 0*-*.txt | cut -d'|' -f11   # records in the server mod list
+grep -h '^datapack' 0*-*.txt              # datapacks (not jars)
+awk -F'|' '$9=="n/a"{print $11}' 0*-*.txt # records with no pinned version
+awk -F'|' '!/^#/ && NF==11 && $3!="modrinth"{print}' 0*-*.txt  # must print nothing
+awk -F'|' '!/^#/ && NF==11 && $5==""{print}' 0*-*.txt          # must print nothing
+python3 tools/check_perf_additions.py     # re-verify the PERF-ADDITIONS proposal
 ```
 
 `SUMMARY.txt` holds the same counts in one place; `AUDIT-NOTES.txt` lists the
