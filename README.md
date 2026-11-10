@@ -19,6 +19,8 @@ MRPACK-MANIFEST.txt                  per tier: every file resolved on Modrinth (
 04-performance-rendering-visuals.txt category 4 of 5
 05-server-management-security.txt    category 5 of 5
 PERF-ADDITIONS.txt                   rev 4: P1 merged (12 records), P2 still open + config/JVM guide
+SERVER-CUSTOM-MODS.txt               the one in-house server jar (not a Modrinth record)
+server-overrides/                    drop-in overrides/ tree for the server tier (mods/*.jar)
 source/modlist-server.txt            original server mod list (46 records, verbatim)
 source/rune-modpack-filelist.txt     original .mrpack file list (4 tiers, 32 files, verbatim)
 ```
@@ -132,6 +134,34 @@ H 46. The file also carries 17 evaluated-then-rejected projects with the reason
 and the config/JVM work that beats every remaining jar (Aikar flags,
 `sync-chunk-writes`, simulation distance, Chunky pre-generation, Spark
 profiling). P2 is re-checked live by `python3 tools/check_perf_additions.py`.
+
+## Custom server-side jar (non-Modrinth)
+
+The server install also carries one jar that is **not** one of the 71 Modrinth
+records: `Royal Court Redeemer` (`royalcourt-redeem-1.0.0.jar`, modId
+`royalcourt`), the in-house Forge 1.20.1 mod that redeems `RC-XXXXXX-XXXXXX`
+shop keys against the bot API. It is built on the bot host (`/forge-mod`) and
+was retrieved from there on 2026-11-10 — provenance, sha1/sha512 and the
+verification steps are in [`SERVER-CUSTOM-MODS.txt`](SERVER-CUSTOM-MODS.txt).
+
+```
+server-overrides/mods/royalcourt-redeem-1.0.0.jar   19,403 B   SERVER, tier S
+```
+
+It ships through `server-overrides/`, which is laid out like the root of an
+`.mrpack` `overrides/` folder, so nothing in the five category files or in
+`MRPACK-MANIFEST.txt` changes: copy `server-overrides/mods/*.jar` into the
+server's `mods/`, or zip the contents of `server-overrides/` as `overrides/`
+when building the S tier. That makes the server install 54 files (the 53
+Modrinth files of tier S plus this jar) and it never appears in a client tier.
+
+Why it cannot be a record: every record in `0*-*.txt` must be Modrinth-hosted
+with a resolvable `mr_id`, and this jar has no published project and no API
+version to pin. `SERVER-CUSTOM-MODS.txt` uses the same 11-field format but is
+named so `tools/build_manifest.py` and the audit greps in this file (which all
+glob `0*-*.txt`) never pick it up. The `config/royalcourt-common.toml` the mod
+writes on first launch needs the bot's `API_TOKEN`, so that file is documented
+there and deliberately not committed — as is the SFTP password.
 
 ## Auditing
 

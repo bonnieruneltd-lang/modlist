@@ -1,0 +1,118 @@
+# =============================================================================
+#  RUNE MODPACK  --  CUSTOM SERVER-SIDE JARS  (not Modrinth records)
+#  Minecraft 1.20.1 / Forge 47.4.10  |  retrieved 2026-11-10 (UTC)
+#
+#  WHY THIS FILE IS NOT CALLED 0*-*.txt
+#    tools/build_manifest.py and every audit grep in README.md glob only
+#    0*-*.txt, and they require source == modrinth + a resolvable mr_id. A jar
+#    that is built in-house has no Modrinth project and no API version to pin,
+#    so it can never live in a category file without breaking that contract.
+#    It ships as an .mrpack OVERRIDE instead ("HOW IT SHIPS" below), and this
+#    file is the record of it: same 11 fields as the category files, so the
+#    same grep/awk tooling can read it, but outside the 71-record count.
+#
+#  Format (one record per line, pipe separated):
+#    kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+#
+#    source  sftp      custom build pulled from the Royal Court bot host
+#                      (NOT modrinth: no project id, no API, no CDN hash)
+#    mr_id   blank     nothing to resolve - the sha1/sha512 below are the pin
+#    packs   S         server mod list only; never in a client tier
+# =============================================================================
+
+
+# ----------------------------- SERVER-SIDE  (server install only) ---
+# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
+mod|SERVER|sftp|royalcourt-redeem|||unsupported|required|1.0.0|S|Royal Court Redeemer
+
+
+# =============================================================================
+#  r1  royalcourt-redeem-1.0.0.jar
+# =============================================================================
+#
+#  FILE IN THIS REPO
+#    server-overrides/mods/royalcourt-redeem-1.0.0.jar
+#    size     19,403 bytes
+#    sha1     007069de76935b791a353f8f0ee442c4eefaad96
+#    sha512   2a5e5c1bedf7602562ffe9c94f82ae166d91cf3ef4fd756804e1fe89a5bd9459
+#             e0fafc26d719d0912f3af513484fc957b1f08163c8dcd30e18bafcd7b269ac0a
+#    built    2026-11-07T21:03:55Z   (mtime of build/libs on the host)
+#
+#  RETRIEVED FROM  (SFTP, port 2022)
+#    bl_7746.e75c1364@15.235.11.50
+#      /forge-mod/build/libs/royalcourt-redeem-1.0.0.jar   <- the copy taken
+#      /forge-mod/royalcourt-redeem-1.0.0.jar             <- same sha1, identical
+#    The account password is NOT recorded here or anywhere in this repository.
+#    Source project: /forge-mod (Gradle + ForgeGradle 6, JDK 17 toolchain,
+#    gradle.properties -> minecraft_version 1.20.1, forge_version 47.2.0).
+#
+#  WHAT THE JAR DECLARES  (META-INF/mods.toml read out of the jar itself)
+#    modId        royalcourt
+#    version      1.0.0
+#    modLoader    javafml, loaderVersion "[47,)"
+#    depends      forge      mandatory, "[47,)"            side = SERVER
+#    depends      minecraft  mandatory, "[1.20.1,1.21)"    side = SERVER
+#    displayTest  IGNORE_ALL_VERSION  -> a client without the jar is not
+#                 warned about a missing mod, so it is safe to keep it off
+#                 the client tiers
+#    contents     7 classes under com/royalcourt/redeem/ (RedeemConfig,
+#                 RoyalCourtRedeem, api/{ApiResult,RedemptionApi},
+#                 command/RedeemCommand, item/{GrantReport,ItemGranting})
+#                 + pack.mcmeta, no assets/ and no client code
+#    => server-side only. Clients do not need it and must not be given it.
+#
+#  CHECKS RUN BEFORE COMMITTING  (2026-11-10)
+#    1  sha1 + sha512 of the downloaded file == hashes computed on the host   OK
+#    2  unzip -t: every CRC verified, "No errors detected"                   OK
+#    3  all 7 .class files are class major version 61 = Java 17              OK
+#    4  28 SRG marker refs (m_/f_) in the bytecode => reobfJar ran, so this
+#       is the production-mapped jar and not a dev jar                        OK
+#    5  built against Forge 47.2.0 but the ranges are [47,) / [1.20.1,1.21),
+#       so it loads unchanged on the pack's 47.4.10 - no re-pin needed        OK
+#    6  server side of the split: server=required, client=unsupported,
+#       packs=S only - matches the "SERVER-PACK ONLY" section of SUMMARY.txt  OK
+#
+#  HOW IT SHIPS
+#    server-overrides/ is laid out exactly like the root of an .mrpack
+#    "overrides/" folder (which is also the dedicated server's game directory):
+#
+#      server-overrides/
+#        mods/royalcourt-redeem-1.0.0.jar
+#
+#    * dedicated server : copy server-overrides/mods/*.jar into <server>/mods/
+#    * S-tier .mrpack   : zip the CONTENTS of server-overrides/ as overrides/
+#                         (overrides/mods/royalcourt-redeem-1.0.0.jar)
+#    * client tiers     : nothing - this jar is S only
+#
+#    The 53 Modrinth files of tier S are unchanged, so the server install is
+#    54 files once the override is dropped in (52 mods + 1 datapack + this
+#    jar). No entry in MRPACK-MANIFEST.txt changes; overrides carry no hashes.
+#
+#  FIRST-RUN CONFIG   (<server>/config/royalcourt-common.toml, written on the
+#  first launch - the file below is the documented shape, not shipped, because
+#  the token is a secret and a placeholder would silently fail every redeem)
+#
+#    [api]
+#        # Base URL of the bot API host - no /api suffix.
+#        baseUrl = "https://your-panel-host:8080"
+#        # The same value as API_TOKEN in the bot's environment. Never commit it.
+#        token = "paste-the-shared-token-here"
+#        timeoutSeconds = 15
+#        # Optional, for logs only; the bot checks the real connecting IP.
+#        serverIp = "203.0.113.7"
+#
+#  OPERATIONAL PREREQUISITES  (enforced by the bot, not by the jar)
+#    * an admin must run /server setip ip:<public-ip> in Discord, otherwise
+#      every redeem answers 403 server_not_registered and the key stays pending
+#    * a request from any other address answers 403 ip_not_allowed
+#    * 409 = the key was already claimed
+#    * the bot's API host must be reachable from the server on API_PORT
+#
+#  REFRESHING IT  (when the mod is rebuilt on the host)
+#    1  cd forge-mod && ./gradlew build        (JDK 17; jar lands in build/libs)
+#    2  retrieve the new build/libs/*.jar into server-overrides/mods/
+#    3  recompute sha1/sha512, update the version field + this block, and
+#       delete the superseded jar so the server never carries two copies
+#    4  the old jar must be removed from <server>/mods/ on upgrade - Forge
+#       loads both copies and the duplicate modId is a hard load error
+# =============================================================================

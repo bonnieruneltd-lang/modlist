@@ -86,6 +86,14 @@ RUNE low-end shaders                  42    26      3      13     42
 RUNE mid-tier shaders                 42    26      3      13     42
 RUNE high-end shaders                 42    26      3      13     42
 ------------------------------------------------------------------------------
+CUSTOM SERVER-SIDE JAR  (SERVER-CUSTOM-MODS.txt - outside the 71 Modrinth records)
+------------------------------------------------------------------------------
+  royalcourt-redeem-1.0.0.jar    mod    SERVER    sftp(custom)   1.0.0    S
+    Royal Court Redeemer (modId `royalcourt`), built in-house on the bot host
+    (/forge-mod) and retrieved 2026-11-10; sha1 007069de76935b791a353f8f0e
+    e442c4eefaad96. It cannot be a Modrinth record, so it ships as an .mrpack
+    override: server-overrides/mods/ -> overrides/mods/ (or <server>/mods/).
+    -> the server-side install is 54 files: 53 Modrinth + this one jar.
 
 KIND BREAKDOWN
 ------------------------------------------------------------------------------
