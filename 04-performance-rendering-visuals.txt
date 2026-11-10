@@ -41,10 +41,14 @@ mod|BOTH|modrinth|clumps|Wnxd13zP||optional|optional|n/a|S|Clumps
 mod|BOTH|modrinth|ferrite-core|uXXizFIs||optional|optional|6.0.1|S,N,L,M,H|FerriteCore
 mod|BOTH|modrinth|krypton-fnp|JkxWVYwU|1269169|optional|optional|26.1.1-1.20.1|S|Krypton Reno
 mod|BOTH|modrinth|memoryleakfix|NRjRiSSD||optional|optional|v1.1.5|S,N,L,M,H|Memory Leak Fix
+mod|BOTH|modrinth|midnightlib|codAaoxh||optional|optional|1.9.2+1.20.1-forge|N,L,M,H|MidnightLib
 mod|BOTH|modrinth|mobtimizations|Kbz7UydC||required|required|n/a|S|Mobtimizations
 mod|BOTH|modrinth|modernfix|nmDcB62a||optional|optional|5.27.85+mc1.20.1|S,N,L,M,H|ModernFix
+mod|BOTH|modrinth|notenoughrecipebook|bQh7xzFq||required|required|0.4.1|S,N,L,M,H|Not Enough Recipe Book [NERB]
 mod|BOTH|modrinth|packet-fixer|c7m1mi73||optional|optional|n/a|S|Packet Fixer
+mod|BOTH|modrinth|resourceful-config|M1953qlQ||optional|optional|2.1.3|S|Resourceful Config
 mod|BOTH|modrinth|saturn|2eT495vq||optional|optional|n/a|S|Saturn
+mod|BOTH|modrinth|shatterbyte-lib|RH2KUdKJ||required|required|0.5.0.1|S,N,L,M,H|ShatterLib / OctoLib
 mod|BOTH|modrinth|spark|l6YH9Als|361579|optional|optional|n/a|S|Spark
 mod|BOTH|modrinth|starlight-forge|iRfIGC1s||optional|optional|1.1.2+1.20|S,N,L,M,H|Starlight (Forge)
 
@@ -52,11 +56,14 @@ mod|BOTH|modrinth|starlight-forge|iRfIGC1s||optional|optional|1.1.2+1.20|S,N,L,M
 # ----------------------------- SERVER-SIDE  (server install only; client optional or not needed) ---
 # kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
 mod|SERVER|modrinth|ai-improvements|DSVgwcji||unsupported|required|n/a|S|AI Improvements
+mod|SERVER|modrinth|async-locator|rkN8aqci||unsupported|required|1.20-1.3.0|S|Async Locator
 mod|SERVER|modrinth|get-it-together-drops|T0OUgf8P||unsupported|required|n/a|S|Get It Together, Drops!
+mod|SERVER|modrinth|ksyxis|2ecVyZ49||unsupported|required|1.4.6|S|Ksyxis
 mod|SERVER|modrinth|noisium|KuNKN7d2||unsupported|required|n/a|S|Noisium
 mod|SERVER|modrinth|radium|2gvRmQXx|570017|unsupported|required|0.12.4|S|Radium
 mod|SERVER|modrinth|servercore|4WWQxlQP||unsupported|required|n/a|S|ServerCore
 mod|SERVER|modrinth|shinoyuki-betterautosave|WAXR3mM5||unsupported|required|0.20.2-forge|S|Shinoyuki-BetterAutoSave
+mod|SERVER|modrinth|structure-layout-optimizer|ayPU0OHc||unsupported|required|1.0.11+1.20.1-forge|S|Structure Layout Optimizer
 
 
 # ----------------------------- CLIENT-SIDE  (client install only; do not add to a dedicated server) ---
@@ -65,14 +72,19 @@ resourcepack|CLIENT|modrinth|anti-cords-leaker|EqJJebCO||required|unsupported|n/
 mod|CLIENT|modrinth|badoptimizations|g96Z4WVZ||required|unsupported|2.4.1|S,N,L,M,H|BadOptimizations
 shader|CLIENT|modrinth|bsl-shaders|Q1vvjJYV||required|unsupported|10.1.8|H|BSL Shaders
 shader|CLIENT|modrinth|complementary-reimagined|HVnmMxH1||required|unsupported|r5.9.3|M|Complementary Shaders - Reimagined
+mod|CLIENT|modrinth|cull-leaves|GNxdLCoP||required|unsupported|4.1.1+1.20.1-forge|N,L,M,H|Cull Leaves
 mod|CLIENT|modrinth|dynamic-fps|LQ3K71Q1||required|unsupported|3.11.4|N,L,M,H|Dynamic FPS
 mod|CLIENT|modrinth|embeddium|sk9rgfiA||required|unsupported|0.3.31+mc1.20.1|N,L,M,H|Embeddium
 mod|CLIENT|modrinth|entity-culling|NNAgCjsB||required|unsupported|1.11.2|N,L,M,H|Entity Culling
 mod|CLIENT|modrinth|immediatelyfast|5ZwdcRci||required|unsupported|1.5.5+1.20.4-forge|N,L,M,H|ImmediatelyFast
+mod|CLIENT|modrinth|kerria-opt|f0ruQTF7||required|unsupported|1.3.2+1.20.1-forge|N,L,M,H|Kerria
+mod|CLIENT|modrinth|obe|AtOSAunf||required|unsupported|1.2.1-patch.3|N,L,M,H|Optimized Block Entities [OBE]
 mod|CLIENT|modrinth|oculus|GchcoXML||required|unsupported|1.20.1-1.8.0|L,M,H|Oculus (shader engine)
+mod|CLIENT|modrinth|rrls|ZP7xHXtw||required|unsupported|4.0.6.1+mc1.20.1-forge|N,L,M,H|Remove Reloading Screen
+mod|CLIENT|modrinth|rubidium-extra|oY2B1pjg||required|unsupported|0.5.4.4+mc1.20.1-build.131|N,L,M,H|Embeddium (Rubidium) Extra
 shader|CLIENT|modrinth|sildurs-vibrant-shaders|z8EjLYqN||required|unsupported|2.02|L|Sildur's Vibrant Shaders (Lite)
 
 
 # =============================================================================
-#  COUNT: BOTH 11  |  SERVER 6  |  CLIENT 10  |  total 27
+#  COUNT: BOTH 15  |  SERVER 9  |  CLIENT 15  |  total 39
 # =============================================================================

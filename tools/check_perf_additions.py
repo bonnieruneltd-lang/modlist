@@ -265,7 +265,9 @@ def main():
         print("  FAIL dependency %s" % line)
 
     shipped = shipped_tier_counts()
-    print("\nP1 %d records, P2 %d records" % (groups.get("P1", 0), groups.get("P2", 0)))
+    print("\nby group: " + ", ".join(
+        "%s %d" % (k, v) for k, v in sorted(groups.items()) if v
+    ))
     print("tier   now  ->  merged")
     for t in TIERS:
         print("  %s   %4d  ->  %4d" % (t, shipped[t], shipped[t] + counts[t]))

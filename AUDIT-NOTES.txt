@@ -474,13 +474,13 @@ I. REV 3 REQUEST  (harder seed cracking + anti-xray + combat logging)
       15 unpinned). MRPACK-MANIFEST.txt regenerated: 181 file lines,
       181/181 Modrinth CDN urls answered HTTP 200 with the recorded size.
 
-J. REV 4 REQUEST  (extra client + server optimisation)  --  PROPOSAL ONLY
+J. REV 4 REQUEST  (extra client + server optimisation)  --  P1 MERGED, P2 OPEN
 ---------------------------------------------------------------------------
   Asked: is there anything left to add for performance on either side? The
   full answer is PERF-ADDITIONS.txt; this section records what it found and
   the decisions it needs, so they can be taken once.
 
-  J1  WHAT WAS FOUND  ->  20 records, all verified
+  J1  WHAT WAS FOUND  ->  20 records verified; 12 merged, 8 still open
       Every record is Modrinth-hosted, Forge 1.20.1, pinned to a real
       version_number, resolved to version_id + sha1 + size, CDN url fetched
       (20/20 HTTP 200 with a size match). Re-check with
@@ -503,9 +503,9 @@ J. REV 4 REQUEST  (extra client + server optimisation)  --  PROPOSAL ONLY
       author) and threadtweak (no Forge 1.20.1 file).
 
   J2  DECISIONS NEEDED
-      E12 Take P1 only, or P1 + P2?  P1 = 12 records, +3.6 MB, and moves the
-          tier counts to S 53 / N 40 / L 42 / M 42 / H 42. With P2 they go to
-          S 60 / N 44 / L 47 / M 47 / H 46.
+      E12 Take P1 only, or P1 + P2?  ->  ANSWERED: P1 taken (J4).  Tier
+          counts moved to S 53 / N 40 / L 42 / M 42 / H 42 = 71 records. P2 is
+          still open and would take them to S 60 / N 44 / L 47 / M 47 / H 46.
       E13 ksyxis unloads the 21x21 spawn-chunk area on 1.20.1 (its own table
           rates that version "Extreme"). If anything at spawn has to keep
           ticking, drop this record.
@@ -530,5 +530,22 @@ J. REV 4 REQUEST  (extra client + server optimisation)  --  PROPOSAL ONLY
       which PERF-ADDITIONS.txt section 7 spells out (Aikar flags,
       sync-chunk-writes=false, simulation-distance, Chunky pre-generation,
       /spark profiling before and after each change).
+
+
+  J4  MERGED IN REV 4  ->  P1 is now live in category 4
+      The 12 P1 records were pasted into 04-performance-rendering-visuals.txt
+      at the alphabetical position of their side block; that file's footer now
+      reads BOTH 15 / SERVER 9 / CLIENT 15 / total 39. Bookkeeping:
+        * 59 -> 71 records, category 4 27 -> 39
+        * server list 47 -> 53, no-shaders 32 -> 40, low|mid|high 34 -> 42
+        * 54 -> 66 mods (1 datapack, 1 resourcepack, 3 shaders unchanged)
+        * MRPACK-MANIFEST.txt regenerated: 71 records, 219 file lines, all 71
+          distinct urls answered HTTP 200 with the recorded size
+        * the two BOTH libraries still ship only where they are needed:
+          resourceful-config in the server list, midnightlib in the client
+          tiers (the packs column, not the side column, decides that)
+      P2 is untouched. tools/check_perf_additions.py now validates only those
+      8 records, and because it refuses any slug that is already in 01-05 it
+      also guards against re-adding P1 by accident.
 
 ===============================================================================

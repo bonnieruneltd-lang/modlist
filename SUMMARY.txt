@@ -9,14 +9,15 @@
 #  Additions requested after delivery (AUDIT-NOTES section G) and the
 #  Modrinth-only migration (section H): 0 net - 9 records were substituted or
 #  dropped so that EVERY remaining record is Modrinth-hosted.
-#  ALL 59 records now resolve to a Modrinth project + Forge 1.20.1 file.
-#  Unique records now in the lists: 59
+#  Additions from the rev 4 performance proposal (AUDIT-NOTES J, P1): +12
+#  ALL 71 records now resolve to a Modrinth project + Forge 1.20.1 file.
+#  Unique records now in the lists: 71
 #
 #  5 categories, each split into BOTH / SERVER / CLIENT sections.
 #
 #  MRPACK-MANIFEST.txt (built by tools/build_manifest.py) resolves every file in
-#  every tier to a Modrinth version id + sha1 + CDN url: 181/181 urls answered
-#  HTTP 200 with the recorded file size.
+#  every tier to a Modrinth version id + sha1 + CDN url: 219 file lines, 71
+#  distinct urls, 71/71 answered HTTP 200 with the recorded file size.
 # =============================================================================
 
 CATEGORY BREAKDOWN
@@ -25,10 +26,10 @@ FILE                                        BOTH SERVER  CLIENT  TOTAL
 01-content-and-gameplay.txt                   11      3       0     14
 02-world-generation.txt                        0      2       0      2
 03-utilities-qol-libraries.txt                 9      1       0     10
-04-performance-rendering-visuals.txt          11      6      10     27
+04-performance-rendering-visuals.txt          15      9      15     39
 05-server-management-security.txt              1      5       0      6
 ------------------------------------------------------------------------------
-TOTAL                                         32     17      10     59
+TOTAL                                         36     20      15     71
 
 MODRINTH-ONLY MIGRATION  (every link is now a Modrinth project; see section H)
 ------------------------------------------------------------------------------
@@ -58,26 +59,45 @@ REV 3 REQUEST  (anti-xray / seed-cracking / combat logging - see section I)
   =0 combat logging: Combatlog (nNnLt4Jb) was already in the list
   total now 59 records
 
+REV 4 REQUEST  (extra client + server optimisation - AUDIT-NOTES J)
+------------------------------------------------------------------------------
+  P1 of the proposal in PERF-ADDITIONS.txt was accepted: 12 records merged
+  into category 4 (9 mods + 3 libraries), every one Modrinth-hosted Forge
+  1.20.1 with a pinned version_number.
+    BOTH    notenoughrecipebook bQh7xzFq, shatterbyte-lib RH2KUdKJ,
+            resourceful-config M1953qlQ, midnightlib codAaoxh
+    SERVER  ksyxis 2ecVyZ49, async-locator rkN8aqci,
+            structure-layout-optimizer ayPU0OHc
+    CLIENT  cull-leaves GNxdLCoP, rubidium-extra oY2B1pjg,
+            kerria-opt f0ruQTF7, obe AtOSAunf, rrls ZP7xHXtw
+  Those libraries only ship where they are needed: resourceful-config in the
+  server list alone, midnightlib in the client tiers alone.
+  P2 (8 records: FastSuite / FastWorkbench / FastFurnace + Placebo, LMD +
+  Almanac, RailOptimization, RenderScale) stays a proposal - it changes
+  gameplay rules (despawn, rail behaviour) and needs the E13/E14 sign-off.
+  tools/check_perf_additions.py re-verifies P2 against the live API.
+
 PACK MEMBERSHIP  (an entry can be in several packs)
 ------------------------------------------------------------------------------
 PACK                                 ALL  BOTH SERVER  CLIENT  FILES
-server mod list (Forge server)        47    30     16       1     47
-RUNE no-shaders                       32    23      3       6     32
-RUNE low-end shaders                  34    23      3       8     34
-RUNE mid-tier shaders                 34    23      3       8     34
-RUNE high-end shaders                 34    23      3       8     34
+server mod list (Forge server)        53    33     19       1     53
+RUNE no-shaders                       40    26      3      11     40
+RUNE low-end shaders                  42    26      3      13     42
+RUNE mid-tier shaders                 42    26      3      13     42
+RUNE high-end shaders                 42    26      3      13     42
 ------------------------------------------------------------------------------
 
 KIND BREAKDOWN
 ------------------------------------------------------------------------------
-  mod             54
+  mod             66
   datapack         1
   resourcepack     1
   shader           3
 
-SERVER-PACK ONLY  (in source/modlist-server.txt but not in any RUNE tier)
+SERVER-PACK ONLY  (installed on the server, not in any RUNE client tier)
 ------------------------------------------------------------------------------
   AI Improvements                                SERVER  modrinth
+  Async Locator                                  SERVER  modrinth
   AntiXray                                       SERVER  modrinth
   Beautified Chat [Server]                       SERVER  modrinth
   Canary                                         BOTH    modrinth
@@ -89,6 +109,7 @@ SERVER-PACK ONLY  (in source/modlist-server.txt but not in any RUNE tier)
   Get It Together, Drops!                        SERVER  modrinth
   Just Player Heads                              SERVER  modrinth
   Krypton Reno                                   BOTH    modrinth
+  Ksyxis                                         SERVER  modrinth
   Mobtimizations                                 BOTH    modrinth
   Noisium                                        SERVER  modrinth
   Packet Fixer                                   BOTH    modrinth
@@ -97,6 +118,7 @@ SERVER-PACK ONLY  (in source/modlist-server.txt but not in any RUNE tier)
   ServerCore                                     SERVER  modrinth
   Shinoyuki-BetterAutoSave                       SERVER  modrinth
   Spark                                          BOTH    modrinth
+  Structure Layout Optimizer                     SERVER  modrinth
   Timber Strike                                  SERVER  modrinth
   TPA Teleport                                   SERVER  modrinth
   UltimateAntiSeedCracker                        SERVER  modrinth
@@ -105,12 +127,17 @@ CLIENT-ONLY ENTRIES  (must never be installed on the dedicated server)
 ------------------------------------------------------------------------------
   Anti Cords Leaker                              resourcepack N,L,M,H
   BadOptimizations                               mod          S,N,L,M,H
+  Cull Leaves                                    mod          N,L,M,H
   BSL Shaders                                    shader       H
   Complementary Shaders - Reimagined             shader       M
   Dynamic FPS                                    mod          N,L,M,H
   Embeddium                                      mod          N,L,M,H
   Entity Culling                                 mod          N,L,M,H
   ImmediatelyFast                                mod          N,L,M,H
+  Kerria                                         mod          N,L,M,H
   Oculus (shader engine)                         mod          L,M,H
+  Optimized Block Entities [OBE]                 mod          N,L,M,H
+  Remove Reloading Screen                        mod          N,L,M,H
+  Embeddium (Rubidium) Extra                     mod          N,L,M,H
   Sildur's Vibrant Shaders (Lite)                shader       L
 

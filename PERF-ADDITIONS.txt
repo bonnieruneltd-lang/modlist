@@ -1,5 +1,5 @@
 # =============================================================================
-#  RUNE MODPACK  --  PERFORMANCE ADDITIONS  (rev 4 proposal)
+#  RUNE MODPACK  --  PERFORMANCE ADDITIONS  (rev 4)
 #  Category 4 supplement  |  Minecraft 1.20.1 / Forge 47.4.10
 #  researched 2026-11-10 (UTC)
 #
@@ -7,30 +7,33 @@
 #  on the client and on the server?"
 #
 #  Answer: yes, but only at the margin. 04-performance-rendering-visuals.txt
-#  already carries 27 records - on 1.20.1 Forge that is essentially every
-#  "big" optimisation project with a Modrinth build - so what is left is nine
+#  already carried 27 records - on 1.20.1 Forge that is essentially every
+#  "big" optimisation project with a Modrinth build - so what was left is nine
 #  small tick / IO / network / renderer patches, six optional ones, and a lot
 #  of config work that no jar can do for you.
 #
-#     P1  add now              9 mods + 3 libraries = 12 records
-#     P2  optional per tier    6 mods + 2 libraries =  8 records
+#     P1  add now              9 mods + 3 libraries = 12 records   MERGED (J4)
+#     P2  optional per tier    6 mods + 2 libraries =  8 records   OPEN
 #     P3  evaluated, rejected  17 projects + 3 off-Modrinth, reason per row
 #
-#  STATUS: proposal. Nothing here is merged into 01-05: the five category
-#  files still hold 59 records and SUMMARY.txt still reads 59. Merging moves
-#  every tier count (table at the end) and has to land in the same commit as
-#  tools/build_manifest.py, so it is kept as a separate step on purpose.
+#  STATUS: P1 was accepted and now lives in 04-performance-rendering-visuals.txt
+#  (59 -> 71 records; tiers S 53 / N 40 / L 42 / M 42 / H 42). This file keeps
+#  the P1 rationale and the full evidence block, plus the P2 set that is still a
+#  proposal because it changes gameplay rules (despawn, rail behaviour) - P2
+#  needs the AUDIT-NOTES E13/E14 sign-off before it is merged.
 #
 #  Every record below is Modrinth-hosted, Forge 1.20.1, pinned to a
 #  version_number that really exists, resolved through the Modrinth API to a
 #  version_id + sha1 + size, and its CDN url was fetched: 20/20 answered
 #  HTTP 200 with the recorded size (evidence block at the end of this file).
-#  tools/check_perf_additions.py repeats the whole check on demand.
+#  tools/check_perf_additions.py re-checks the 8 open P2 records and refuses
+#  any slug that is already shipped, so P1 cannot be added twice by accident.
 # =============================================================================
 
 
 # -----------------------------------------------------------------------------
-#  1. WHAT THE CURRENT 27 ALREADY COVER  (nothing below repeats these)
+#  1. WHAT WAS ALREADY THERE BEFORE REV 4  (27 records, nothing below repeats
+#     them)
 # -----------------------------------------------------------------------------
 #  BOTTLENECK           ALREADY IN THE PACK
 #  renderer             Embeddium, Oculus, Entity Culling, ImmediatelyFast,
@@ -67,8 +70,8 @@
 
 
 # -----------------------------------------------------------------------------
-#  2. P1  --  ADD NOW  (12 records; every dependency is either already in the
-#            pack or added as a library record inside the same block)
+#  2. P1  --  ADDED IN REV 4  (12 records, now in category 4; kept here as the
+#            rationale - every dependency is already in the pack)
 # -----------------------------------------------------------------------------
 #  slug                        side    packs      one line
 # -----------------------------------------------------------------------------
@@ -191,31 +194,11 @@
 
 # -----------------------------------------------------------------------------
 #  5. MERGE-READY RECORDS  (same 11 fields as 01-05 - paste them in as they are)
-#     cf_id is blank on every row: none of these has a CurseForge cross-link
-#     worth recording, and nothing is downloaded from CurseForge anyway (H).
+#     Only P2 is left here: the 12 P1 rows now live in 04-performance-rendering-
+#     visuals.txt. cf_id is blank on every row - nothing is downloaded from
+#     CurseForge (rule H).
 # -----------------------------------------------------------------------------
-# ----------------------------- P1  RECORDS  (recommended) -----------------------------
-# kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
-
-# -- BOTH
-mod|BOTH|modrinth|notenoughrecipebook|bQh7xzFq||required|required|0.4.1|S,N,L,M,H|Not Enough Recipe Book [NERB]
-mod|BOTH|modrinth|shatterbyte-lib|RH2KUdKJ||required|required|0.5.0.1|S,N,L,M,H|ShatterLib / OctoLib
-mod|BOTH|modrinth|resourceful-config|M1953qlQ||optional|optional|2.1.3|S|Resourceful Config
-mod|BOTH|modrinth|midnightlib|codAaoxh||optional|optional|1.9.2+1.20.1-forge|N,L,M,H|MidnightLib
-
-# -- SERVER
-mod|SERVER|modrinth|ksyxis|2ecVyZ49||unsupported|required|1.4.6|S|Ksyxis
-mod|SERVER|modrinth|async-locator|rkN8aqci||unsupported|required|1.20-1.3.0|S|Async Locator
-mod|SERVER|modrinth|structure-layout-optimizer|ayPU0OHc||unsupported|required|1.0.11+1.20.1-forge|S|Structure Layout Optimizer
-
-# -- CLIENT
-mod|CLIENT|modrinth|cull-leaves|GNxdLCoP||required|unsupported|4.1.1+1.20.1-forge|N,L,M,H|Cull Leaves
-mod|CLIENT|modrinth|rubidium-extra|oY2B1pjg||required|unsupported|0.5.4.4+mc1.20.1-build.131|N,L,M,H|Embeddium (Rubidium) Extra
-mod|CLIENT|modrinth|kerria-opt|f0ruQTF7||required|unsupported|1.3.2+1.20.1-forge|N,L,M,H|Kerria
-mod|CLIENT|modrinth|obe|AtOSAunf||required|unsupported|1.2.1-patch.3|N,L,M,H|Optimized Block Entities [OBE]
-mod|CLIENT|modrinth|rrls|ZP7xHXtw||required|unsupported|4.0.6.1+mc1.20.1-forge|N,L,M,H|Remove Reloading Screen
-
-# ----------------------------- P2  RECORDS  (optional) -----------------------------
+# ----------------------------- P2  RECORDS  (still proposed) ------------------
 # kind|side|source|slug|mr_id|cf_id|client|server|version|packs|display name
 
 # -- BOTH
@@ -234,6 +217,8 @@ mod|CLIENT|modrinth|renderscale|Va8PJBFX||required|unsupported|2.0.0-beta.1-forg
 
 # -----------------------------------------------------------------------------
 #  6. WHY EACH RECORD IS HERE  (mechanism, then the caveat that matters)
+#     P1.x entries are shipped (rev 4) - their notes are kept because they are
+#     the reason those jars are in the pack; P2.x entries are still proposals.
 # -----------------------------------------------------------------------------
 #  P1.1  notenoughrecipebook  (BOTH)
 #        1.20.1 syncs every unlocked recipe name to the client on join and keeps
@@ -408,29 +393,29 @@ mod|CLIENT|modrinth|renderscale|Va8PJBFX||required|unsupported|2.0.0-beta.1-forg
 
 
 # -----------------------------------------------------------------------------
-#  8. HOW TO MERGE THIS FILE  (and why it is not merged already)
+#  8. HOW TO MERGE THE REST  (P1 done, P2 still open)
 # -----------------------------------------------------------------------------
+#  P1 is done (AUDIT-NOTES J4). What is left is P2:
 #  1. Paste the records in section 5 into 04-performance-rendering-visuals.txt
 #     in the matching BOTH / SERVER / CLIENT block (same 11 fields, same order)
 #     and update that file's COUNT footer.
-#  2. Run tools/build_manifest.py. It globs 0*-*.txt, so this file is ignored
-#     on purpose until the records are merged; afterwards the tier sizes are:
+#  2. Run tools/build_manifest.py (it globs 0*-*.txt, so this file stays out of
+#     the manifest). Tier sizes before and after a P2 merge:
 #
-#         TIER     now    +P1    +P1+P2
-#         S         47     53       60
-#         N         32     40       44
-#         L         34     42       47
-#         M         34     42       47
-#         H         34     42       46
-#         records   59    +12      +20
+#         TIER     now (P1)    +P2
+#         S           53        60
+#         N           40        44
+#         L           42        47
+#         M           42        47
+#         H           42        46
+#         records     71        79
 #
-#  3. Run tools/check_perf_additions.py. It re-resolves all 20 records against
-#     the live Modrinth API, compares version_id / sha1 / size / url with the
-#     evidence block, checks that every required dependency is either already in
-#     01-05 or proposed here, and exits non-zero on any drift.
-#  4. Update SUMMARY.txt (record + tier counts), add a section J to
-#     AUDIT-NOTES.txt saying which P1/P2 rows were taken, and mention the
-#     script run in the commit message.
+#  3. Run tools/check_perf_additions.py. It re-resolves the 8 open records
+#     against the live Modrinth API, compares version_id / sha1 / size / url
+#     with the evidence block, checks that every required dependency is either
+#     already in 01-05 or proposed here, and exits non-zero on any drift.
+#  4. Update SUMMARY.txt (record + tier counts) and extend AUDIT-NOTES section J
+#     with the rows that were taken, then mention the script run in the commit.
 
 
 # -----------------------------------------------------------------------------
@@ -461,6 +446,7 @@ mod|CLIENT|renderscale|Va8PJBFX|E7lWEtXn|2.0.0-beta.1-forge+1.20.1|renderscale-2
 
 
 # =============================================================================
-#  END  |  20 records (P1 12, P2 8)  |  20/20 CDN urls HTTP 200 with a size
-#  match  |  re-check with: python3 tools/check_perf_additions.py
+#  END  |  20 records verified: 12 merged in rev 4 (P1), 8 still proposed (P2)
+#  |  20/20 CDN urls HTTP 200 with a size match
+#  |  re-check the open set with: python3 tools/check_perf_additions.py
 # =============================================================================

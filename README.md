@@ -18,7 +18,7 @@ MRPACK-MANIFEST.txt                  per tier: every file resolved on Modrinth (
 03-utilities-qol-libraries.txt       category 3 of 5
 04-performance-rendering-visuals.txt category 4 of 5
 05-server-management-security.txt    category 5 of 5
-PERF-ADDITIONS.txt                   rev 4 proposal: 20 extra records + config work (not merged)
+PERF-ADDITIONS.txt                   rev 4: P1 merged (12 records), P2 still open + config/JVM guide
 source/modlist-server.txt            original server mod list (46 records, verbatim)
 source/rune-modpack-filelist.txt     original .mrpack file list (4 tiers, 32 files, verbatim)
 ```
@@ -30,20 +30,22 @@ source/rune-modpack-filelist.txt     original .mrpack file list (4 tiers, 32 fil
 | content & gameplay | 11 | 3 | 0 | 14 |
 | world generation | 0 | 2 | 0 | 2 |
 | utilities, QoL & libraries | 9 | 1 | 0 | 10 |
-| performance, rendering & visuals | 11 | 6 | 10 | 27 |
+| performance, rendering & visuals | 15 | 9 | 15 | 39 |
 | server management & security | 1 | 5 | 0 | 6 |
-| **total** | **32** | **17** | **10** | **59** |
+| **total** | **36** | **20** | **15** | **71** |
 
 **Every record is Modrinth-hosted** (project id + Forge 1.20.1 file), so each of
 the five buckets can be exported straight to a `.mrpack` without a single
-CurseForge download. 59 records = 58 from the two source documents (46
+CurseForge download. 71 records = 58 from the two source documents (46
 server-list + 12 client-only) after the Modrinth-only migration, plus 1
-anti-xray mod added on request. During the migration 15 CurseForge projects
+anti-xray mod added on request (rev 3) and 12 performance records from the
+accepted rev 4 proposal (9 mods + 3 libraries, see below). During the
+migration 15 CurseForge projects
 already had a Modrinth listing, 5 were substituted for a Modrinth equivalent, 5
 were dropped because no Modrinth build exists, and the two world-save mods were
 merged into one. Additions and substitutions are itemised in `AUDIT-NOTES.txt`
-sections G, H and I; pack membership now reads 31 core mods, 32 files in
-no-shaders, 34 files in each shader tier, 47 in the server list. Vein mining,
+sections G, H, I and J; pack membership now reads 36 BOTH records, 53 files
+in the server list, 40 in no-shaders and 42 in each shader tier. Vein mining,
 seed-cracking protection and combat-log prevention needed no new record of their
 own - ChainVein, UltimateAntiSeedCracker and Combatlog already cover them.
 
@@ -111,22 +113,25 @@ and `hashes.sha512` from `/v2/version/<version_id>`, `downloads[0]` = `url`,
 `fileSize` = `size`, and `env.client` / `env.server` from the `side` +
 `client`/`server` columns of the category files.
 
-Tier sizes: S 47, N 32, L 34, M 34, H 34 files (181 lines in total). Lines whose
+Tier sizes: S 53, N 40, L 42, M 42, H 42 files (219 lines in total). Lines whose
 `version_number` is `latest` come from records where the source documents pinned
 no version - pin those before publishing (AUDIT-NOTES D7).
 
-## Extra performance (rev 4 proposal)
+## Extra performance (rev 4)
 
 `PERF-ADDITIONS.txt` is the answer to "is there anything left to add for client
-or server performance?": 12 P1 records (9 mods + 3 libraries) that are safe to
-merge, 8 P2 records that are per-tier decisions, 17 evaluated-then-rejected
-projects with the reason, and the config/JVM work that beats every remaining
-jar (Aikar flags, `sync-chunk-writes`, simulation distance, Chunky
-pre-generation, Spark profiling). Every record is Modrinth-hosted Forge 1.20.1,
-resolved to a pinned `version_number`, and checked live - `python3
-tools/check_perf_additions.py` re-runs the whole check (20/20 passing). Nothing
-in it is merged, so the headline numbers above still read 59 records; the tier
-delta a merge would produce is tabulated in that file.
+or server performance?". Its **P1** set was accepted and is merged into
+`04-performance-rendering-visuals.txt` (12 records: notenoughrecipebook +
+shatterbyte-lib, ksyxis, async-locator, structure-layout-optimizer +
+resourceful-config, cull-leaves + midnightlib, rubidium-extra, kerria-opt, obe,
+rrls), which is where the 27 -> 39 and 59 -> 71 jumps come from. The **P2** set
+(FastSuite / FastWorkbench / FastFurnace + Placebo, LMD + Almanac,
+RailOptimization, RenderScale) is still open because it changes gameplay rules:
+8 records, +2.2 MB, and it would move the tiers to S 60 / N 44 / L 47 / M 47 /
+H 46. The file also carries 17 evaluated-then-rejected projects with the reason
+and the config/JVM work that beats every remaining jar (Aikar flags,
+`sync-chunk-writes`, simulation distance, Chunky pre-generation, Spark
+profiling). P2 is re-checked live by `python3 tools/check_perf_additions.py`.
 
 ## Auditing
 
